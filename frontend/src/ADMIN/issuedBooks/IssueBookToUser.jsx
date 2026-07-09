@@ -1,217 +1,208 @@
 import React, { useState } from 'react'
 import { backend_server } from '../../main'
 import axios from 'axios'
-import { FiCopy } from 'react-icons/fi'
-import { toast, Toaster } from 'react-hot-toast'
-import './issuebooktouser.css'
+import { toast } from 'react-hot-toast'
+import './issuedbooks.css'
+import {
+  HiOutlineArrowLeft,
+  HiOutlineMagnifyingGlass,
+  HiOutlineBookOpen,
+  HiOutlineClipboardDocumentCheck,
+  HiOutlineEnvelope,
+  HiOutlineIdentification,
+  HiOutlineDocumentDuplicate,
+} from 'react-icons/hi2'
+import { useNavigate } from 'react-router-dom'
 
 const IssueBookToUser = () => {
-  const API_URL = `${backend_server}/api/v1/filter`
+  const API_URL     = `${backend_server}/api/v1/filter`
   const IssueBOOK_URL = `${backend_server}/api/v1/requestBooks/issuebook`
+  const navigate    = useNavigate()
 
-  const empty_field = {
-    title: '',
-  }
+  const [searchTitle, setSearchTitle] = useState('')
+  const [allBooks, setAllBooks]       = useState([])
+  const [searching, setSearching]     = useState(false)
 
-  const [filterFields, setFilterFields] = useState(empty_field)
-  const [allBooks, setAllBooks] = useState([])
-
-  const handleOnChange = async (e) => {
-    const { name, value } = e.target
-    setFilterFields({ ...filterFields, [name]: value })
-
-    const { title } = filterFields
-    try {
-      const response = await axios.get(API_URL, {
-        params: {
-          title,
-        },
-      })
-
-      setAllBooks(response.data.data)
-    } catch (error) {
-      console.log(error)
-      console.log(error.response)
-    }
-  }
-
-  const handleSearchFormSubmit = async (e) => {
-    e.preventDefault()
-
-    // if empty field then dont search anything , (else all 40books will be fetched)
-    if (JSON.stringify(filterFields) !== JSON.stringify(empty_field)) {
-      const { title } = filterFields
-      try {
-        const response = await axios.get(API_URL, {
-          params: {
-            title,
-          },
-        })
-
-        setAllBooks(response.data.data)
-      } catch (error) {
-        console.log(error)
-        console.log(error.response)
-      }
-    }
-  }
-
-  // COPY to CLIPBOARD Function
-  const handleCopyId = (_id) => {
-    navigator.clipboard
-      .writeText(_id)
-      .then(() => {
-        toast('Book ID Copied to Clipboard', {
-          icon: 'ℹ️',
-        })
-      })
-      .catch((error) => {
-        console.error('Copy failed:', error)
-      })
-  }
-
-  // 2nd Form (Form to issue user a BOOK)
   const [bookId, setBookId] = useState('')
-  const [email, setEmail] = useState('')
+  const [email, setEmail]   = useState('')
+  const [issuing, setIssuing] = useState(false)
 
-  const handleBookIssueFormSubmit = async (e) => {
+  const handleSearch = async (e) => {
+    e?.preventDefault()
+    if (!searchTitle.trim()) return
+    setSearching(true)
     try {
-      e.preventDefault()
+      const response = await axios.get(API_URL, { params: { title: searchTitle } })
+      setAllBooks(response.data.data ?? [])
+    } catch (error) {
+      console.log(error.response)
+    } finally {
+      setSearching(false)
+    }
+  }
 
-      await axios.post(IssueBOOK_URL, {
-        bookId,
-        userEmail: email,
-      })
-      toast.success('Book Issue Success')
-      // Reset form fields
+  const handleCopyId = (id) => {
+    navigator.clipboard.writeText(id).then(() => {
+      setBookId(id)
+      toast('Book ID copied & pasted into form', { icon: '📋' })
+    }).catch(() => toast.error('Copy failed'))
+  }
+
+  const handleIssueSubmit = async (e) => {
+    e.preventDefault()
+    setIssuing(true)
+    try {
+      await axios.post(IssueBOOK_URL, { bookId, userEmail: email })
+      toast.success('Book issued successfully!')
       setBookId('')
       setEmail('')
     } catch (error) {
-      const x = error.response.data.message
-
-      // Check is object is empty , BookID find garena vane empty object hunxa 'x'
-      const isEmpty = Object.keys(x).length === 0
-      if (!isEmpty) {
-        toast.error(x)
-      }
-      if (isEmpty) {
-        toast.error('Invalid BOOK ID')
-      }
+      const msg = error.response?.data?.message
+      const isEmpty = !msg || Object.keys(msg).length === 0
+      toast.error(isEmpty ? 'Invalid Book ID' : msg)
+    } finally {
+      setIssuing(false)
     }
   }
 
   return (
-    <div className='container'>
-      <h1 className='h1 text-center my-3'>Issue a Book to User</h1>
+    <div className='page-content'>
+      <div className='ib-page'>
 
-      <div className='row'>
-        {/* BOOK SEARCH FORM */}
-        <p>Search Book</p>
-        <div className='col-md-7'>
-          <form
-            method='get'
-            className='form-inline d-flex justify-content-center'
-          >
-            {/* Search Filter */}
-            <input
-              type='text'
-              className='form-control mx-1'
-              autoComplete='off'
-              placeholder='Search by title . . .'
-              name='title'
-              required
-              value={filterFields.title}
-              onChange={handleOnChange}
-            />
-
-            <button
-              type='submit'
-              className='btn btn-success mx-1 my-1'
-              onClick={handleSearchFormSubmit}
-            >
-              search
+        {/* ── Header ──────────────────────────── */}
+        <div className='ib-header'>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem' }}>
+            <button className='ib-back-btn' onClick={() => navigate(-1)}>
+              <HiOutlineArrowLeft size={16} /> Back
             </button>
-          </form>
-
-          {allBooks.length > 0 ? (
-            <div className='row'>
-              <table className='table table-hover'>
-                <thead>
-                  <tr>
-                    <th scope='col'>#</th>
-                    <th scope='col'>Book ID</th>
-                    <th scope='col'>Title</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {allBooks.map((book, index) => {
-                    const { title, _id } = book
-                    return (
-                      <tr key={_id}>
-                        <th scope='row'>{index + 1}</th>
-                        <td
-                          onClick={() => handleCopyId(_id)}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <span className='d-flex align-items-center'>
-                            {_id}
-                            <FiCopy style={{ margin: '0px 10px' }} />
-                          </span>
-                        </td>
-                        <td>{title}</td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
+            <div>
+              <h1 className='ib-title'>Issue Book to User</h1>
+              <p className='ib-subtitle'>Search a book, copy its ID, then fill the form to issue it.</p>
             </div>
-          ) : (
-            <p className='p my-3'>No books to display</p>
-          )}
+          </div>
         </div>
 
-        {/* ISSUE BOOK FORM */}
-        <div className='col shadow mx-2 issue-book-form'>
-          <form onSubmit={handleBookIssueFormSubmit}>
-            <div className='mb-3 mt-3'>
-              <label htmlFor='bookId' className='form-label'>
-                Book ID
-              </label>
-              <input
-                type='text'
-                className='form-control'
-                id='bookId'
-                autoComplete='off'
-                placeholder='Enter Book ID'
-                value={bookId}
-                required
-                onChange={(e) => setBookId(e.target.value)}
-              />
-            </div>
+        {/* ── Two-panel layout ────────────────── */}
+        <div className='ibu-grid'>
 
-            <div className='mb-3'>
-              <label htmlFor='email' className='form-label'>
-                User's Email
-              </label>
-              <input
-                type='email'
-                required
-                autoComplete='off'
-                className='form-control'
-                id='email'
-                placeholder='Enter Email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+          {/* LEFT — Book search ─────────────── */}
+          <div className='ibu-panel'>
+            <div className='ibu-panel-header'>
+              <HiOutlineMagnifyingGlass size={16} />
+              <span>Search Book</span>
             </div>
-
-            <div className='text-center my-3'>
-              <button type='submit' className='btn btn-primary'>
-                Submit
+            <form className='ibu-search-row' onSubmit={handleSearch}>
+              <div className='ibu-search-wrap'>
+                <HiOutlineMagnifyingGlass className='ibu-search-icon' size={15} />
+                <input
+                  type='text'
+                  className='ibu-input ibu-search-input'
+                  placeholder='Search by title...'
+                  value={searchTitle}
+                  onChange={(e) => setSearchTitle(e.target.value)}
+                  autoComplete='off'
+                />
+              </div>
+              <button type='submit' className='ibu-search-btn' disabled={searching}>
+                {searching ? 'Searching…' : 'Search'}
               </button>
+            </form>
+
+            {allBooks.length > 0 ? (
+              <div className='ibu-results-table-wrap'>
+                <table className='ib-table'>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Title</th>
+                      <th>Copy ID</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allBooks.map((book, index) => (
+                      <tr key={book._id}>
+                        <td className='ib-td-num'>{index + 1}</td>
+                        <td className='ib-td-book'>
+                          <HiOutlineBookOpen size={13} className='ib-book-icon' />
+                          {book.title}
+                        </td>
+                        <td>
+                          <button
+                            type='button'
+                            className='ibu-copy-btn'
+                            onClick={() => handleCopyId(book._id)}
+                            title={book._id}
+                          >
+                            <HiOutlineDocumentDuplicate size={14} />
+                            Copy ID
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className='ibu-no-results'>
+                <HiOutlineBookOpen size={28} />
+                <p>Search for a book above to see results</p>
+              </div>
+            )}
+          </div>
+
+          {/* RIGHT — Issue form ─────────────── */}
+          <div className='ibu-panel'>
+            <div className='ibu-panel-header'>
+              <HiOutlineClipboardDocumentCheck size={16} />
+              <span>Issue Details</span>
             </div>
-          </form>
+            <form className='ibu-issue-form' onSubmit={handleIssueSubmit}>
+              <div className='ibu-field'>
+                <label className='ibu-label' htmlFor='ibu-bookId'>
+                  <HiOutlineIdentification size={14} /> Book ID
+                </label>
+                <input
+                  id='ibu-bookId'
+                  type='text'
+                  className='ibu-input'
+                  placeholder='Paste or copy Book ID from search'
+                  value={bookId}
+                  onChange={(e) => setBookId(e.target.value)}
+                  autoComplete='off'
+                  required
+                />
+                {bookId && (
+                  <span className='ibu-id-preview' title={bookId}>
+                    {bookId.slice(0, 24)}…
+                  </span>
+                )}
+              </div>
+
+              <div className='ibu-field'>
+                <label className='ibu-label' htmlFor='ibu-email'>
+                  <HiOutlineEnvelope size={14} /> User Email
+                </label>
+                <input
+                  id='ibu-email'
+                  type='email'
+                  className='ibu-input'
+                  placeholder='Enter user email address'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete='off'
+                  required
+                />
+              </div>
+
+              <div className='ibu-actions'>
+                <button type='submit' className='ibu-submit-btn' disabled={issuing}>
+                  <HiOutlineClipboardDocumentCheck size={17} />
+                  {issuing ? 'Issuing…' : 'Issue Book'}
+                </button>
+              </div>
+            </form>
+          </div>
+
         </div>
       </div>
     </div>

@@ -1,97 +1,154 @@
-* 
-{
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   DESIGN TOKENS — CDM Library Admin (Light)
+   ============================================ */
+:root {
+  /* Layout */
+  --topbar-height: 64px;
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 72px;
+  --transition-speed: 0.3s;
+
+  /* Colors — Light palette */
+  --bg-page: #f4f6fb;
+  --bg-sidebar: #ffffff;
+  --bg-topbar: rgba(255, 255, 255, 0.9);
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --bg-active: rgba(245, 158, 11, 0.10);
+
+  --accent: #d97706;
+  --accent-hover: #b45309;
+  --accent-glow: rgba(217, 119, 6, 0.2);
+
+  --text-primary: #0f172a;
+  --text-muted: #64748b;
+  --text-accent: #d97706;
+
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-accent: rgba(217, 119, 6, 0.4);
+
+  --shadow-topbar: 0 1px 16px rgba(0, 0, 0, 0.08);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.07);
+  --shadow-glow: 0 0 10px rgba(217, 119, 6, 0.2);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+/* ============================================
+   GLOBAL BASE
+   ============================================ */
+
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  h1 {
-  color: white !important;
+}
+
+html,
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+}
+
+h1 {
+  color: var(--text-primary) !important;
   margin-top: 2.5rem !important;
   margin-bottom: 1rem;
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
-  }
-  
-  h3 {
-  color: white !important;
-  margin-top: 1.5rem;
-  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
-  
-
 }
+
 h2 {
-  color: white;
+  color: var(--text-primary);
 }
+
+h3 {
+  color: var(--text-primary) !important;
+  margin-top: 1.5rem;
+}
+
 h5 {
-  color: white;
+  color: var(--text-primary);
 }
+
 label {
-  color: white !important;
+  color: var(--text-primary) !important;
 }
+
 p {
-  color: rgba(235, 130, 10, 0.597);
-} 
+  color: var(--text-muted);
+}
+
+/* ============================================
+   UTILITY
+   ============================================ */
 .logout-img {
-  margin-top: 80px !important
+  margin-top: 80px !important;
 }
+
+.clickable-category {
+  color: var(--accent) !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
 .page-link {
-  color: rgb(199, 132, 7) !important;  /* brown text */
-  background-color: white;
-  border-color: rgb(56, 37, 2);
+  color: var(--accent) !important;
+  background-color: #ffffff;
+  border-color: #e2e8f0;
 }
 
-/* Active page */
 .page-item.active .page-link {
-  background-color: rgb(57, 37, 1) !important;
-  border-color: rgb(199, 132, 7) !important;
-  color: white !important;
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
 }
 
-/* Hover effect */
 .page-link:hover {
-  color: rgb(7, 0, 0) !important;
-  background-color: rgb(160, 105, 5);
-  border-color: rgb(160, 105, 5);
-}
-.card-title {
-  color: rgb(42, 30, 2) !important;
+  color: var(--accent-hover) !important;
+  background-color: #fef3c7;
+  border-color: #e2e8f0;
 }
 
+/* ============================================
+   CARDS
+   ============================================ */
+.card-title {
+  color: var(--text-primary) !important;
+}
+
+.col-lg-4 {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-card);
+  padding: 20px;
+  color: var(--text-primary);
+}
+
+/* ============================================
+   BUTTONS (global fallback)
+   ============================================ */
 button {
-  background-color: #3e2f01!important;
+  background-color: var(--accent) !important;
   color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 8px 14px;
   cursor: pointer;
   transition: 0.3s ease;
 }
+
 button:hover {
-  background-color: #5a3a05;
-}
-}
-.clickable-category {
-  color: #ffffff !important;
-
-  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
-
-  cursor: pointer;
-
-  transition: all 0.3s ease;
-}
-.col-lg-4 {
-  background: rgba(244, 242, 242, 0.06);
-  
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  border: 1px solid rgba(255, 255, 255, 0.2);
-
-  border-radius: 12px;
-
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
-
-  padding: 20px;
-
-  color: #ffffff;
-
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  background-color: var(--accent-hover) !important;
 }

@@ -1,0 +1,81 @@
+/* ============================================
+   ADMIN SHELL LAYOUT
+   ============================================ */
+
+.admin-shell {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--bg-page);
+}
+
+/* ── Main content area ─────────────────────── */
+.admin-main {
+  flex: 1;
+  padding-top: var(--topbar-height);
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  margin-left: var(--sidebar-width);
+  height: 100vh;
+  overflow-y: auto;
+  transition: margin-left var(--transition-speed) ease;
+}
+
+/* Reusable inner wrapper for page padding */
+.page-content {
+  padding: 1.5rem;
+}
+
+/* Sidebar collapsed — shrink the margin */
+.admin-shell.sidebar-closed .admin-main {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+/* ── Mobile overlay backdrop ───────────────── */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: var(--topbar-height);
+  background: rgba(15, 23, 42, 0.3);
+  z-index: 850;
+  backdrop-filter: blur(2px);
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Tablet (≤ 1024px) — sidebar collapses by default */
+@media (max-width: 1024px) {
+  .admin-main {
+    margin-left: var(--sidebar-collapsed-width);
+  }
+
+  .admin-shell.sidebar-open .admin-main {
+    margin-left: var(--sidebar-width);
+  }
+}
+
+/* Mobile (≤ 768px) — sidebar slides off-screen, content takes full width */
+@media (max-width: 768px) {
+  .admin-main {
+    margin-left: 0 !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Show backdrop when sidebar is open on mobile */
+  .admin-shell.sidebar-open .sidebar-backdrop {
+    display: block;
+  }
+}
+
+/* Small mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .admin-main {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}

@@ -1,0 +1,332 @@
+/* ============================================
+   ADD NEW BOOK PAGE
+   ============================================ */
+
+.anb-page {
+  width: 100%;
+}
+
+/* ── Header ─────────────────────────────────── */
+.anb-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.anb-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.9rem;
+  background: #f1f5f9 !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  margin-top: 0.35rem;
+  flex-shrink: 0;
+}
+.anb-back-btn:hover {
+  background: #e2e8f0 !important;
+  color: var(--text-primary) !important;
+}
+
+.anb-title {
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  letter-spacing: -0.02em;
+}
+.anb-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted) !important;
+  margin: 0.2rem 0 0 !important;
+}
+
+/* ── Form card ───────────────────────────────── */
+.anb-form-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+/* ── Two-column grid ─────────────────────────── */
+.anb-form-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 500px;
+}
+
+/* ── Section label ───────────────────────────── */
+.anb-section-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+/* ── LEFT — Image column ─────────────────────── */
+.anb-image-col {
+  padding: 1.75rem 1.5rem;
+  border-right: 1px solid var(--border-color);
+  background: #fafbfc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Dropzone */
+.anb-dropzone {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  position: relative;
+  background: #ffffff;
+}
+.anb-dropzone:hover {
+  border-color: var(--accent);
+  background: rgba(245, 158, 11, 0.03);
+}
+.anb-dropzone--has-image {
+  border-style: solid;
+  border-color: var(--border-color);
+}
+
+.anb-dropzone-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  text-align: center;
+  pointer-events: none;
+}
+.anb-dropzone-icon {
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+.anb-dropzone-text {
+  font-size: 0.85rem;
+  color: var(--text-muted) !important;
+  margin: 0 !important;
+}
+.anb-dropzone-text span {
+  color: var(--accent);
+  font-weight: 600;
+}
+.anb-dropzone-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+  margin: 0 !important;
+}
+
+.anb-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anb-file-input {
+  display: none;
+}
+
+.anb-remove-img-btn {
+  margin-top: 0.75rem;
+  background: rgba(239, 68, 68, 0.08) !important;
+  color: #dc2626 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.anb-remove-img-btn:hover {
+  background: rgba(239, 68, 68, 0.14) !important;
+}
+
+/* ── RIGHT — Fields column ───────────────────── */
+.anb-fields-col {
+  padding: 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fields grid — 2 cols */
+.anb-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+  flex: 1;
+}
+
+/* Full-width field */
+.anb-field--full {
+  grid-column: 1 / -1;
+}
+
+/* Category field — relative for suggestions */
+.anb-field--category {
+  position: relative;
+}
+
+/* ── Field label ─────────────────────────────── */
+.anb-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary) !important;
+  margin-bottom: 0.4rem;
+}
+
+/* ── Input / Select / Textarea ───────────────── */
+.anb-input {
+  width: 100%;
+  height: 40px;
+  padding: 0 0.85rem;
+  font-size: 0.875rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.anb-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+  background: #ffffff;
+}
+.anb-input::placeholder {
+  color: #94a3b8;
+}
+
+.anb-select {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.anb-textarea {
+  height: auto;
+  padding: 0.65rem 0.85rem;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* ── Category suggestions ────────────────────── */
+.anb-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  overflow: hidden;
+  margin-top: 2px;
+}
+.anb-suggestion-item {
+  display: block;
+  width: 100%;
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  background: none !important;
+  border: none;
+  font-size: 0.875rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary) !important;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-radius: 0;
+}
+.anb-suggestion-item:hover {
+  background: var(--bg-hover) !important;
+  color: var(--accent) !important;
+}
+
+/* ── Submit button ───────────────────────────── */
+.anb-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.anb-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.5rem;
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+}
+.anb-submit-btn:hover:not(:disabled) {
+  background: var(--accent-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+}
+.anb-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 900px) {
+  .anb-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .anb-image-col {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .anb-dropzone {
+    aspect-ratio: 16 / 7;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .anb-fields-grid {
+    grid-template-columns: 1fr;
+  }
+  .anb-fields-col {
+    padding: 1.25rem;
+  }
+}
