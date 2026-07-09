@@ -21,22 +21,26 @@ const ClientApp = () => {
     <LoginState>
       <React.Fragment>
         <Router>
-          <Navbar />
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/forgotpassword' element={<ForgotPassword />} />
-            <Route path='/menu' element={<FeaturedBooks />} />
-            <Route path='/books' element={<Books />} />
-            <Route path='/books/:id' element={<ViewBook />} />
-            <Route path='/profile' element={<ClientProfile />} />
-            <Route path='/about' element={<AboutUsPage />} />
-            <Route path='/otp' element={<OtpForm />} />
+          <div className='d-flex flex-column min-vh-100'>
+            <Navbar />
+            <div className='flex-grow-1'>
+              <Routes>
+                <Route path='/' element={<Home />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<Signup />} />
+                <Route path='/forgotpassword' element={<ForgotPassword />} />
+                <Route path='/menu' element={<FeaturedBooks />} />
+                <Route path='/books' element={<Books />} />
+                <Route path='/books/:id' element={<ViewBook />} />
+                <Route path='/profile' element={<ClientProfile />} />
+                <Route path='/about' element={<AboutUsPage />} />
+                <Route path='/otp' element={<OtpForm />} />
 
-            <Route path='*' element={<PagenotFound></PagenotFound>} />
-          </Routes>
-          <Footer />
+                <Route path='*' element={<PagenotFound></PagenotFound>} />
+              </Routes>
+            </div>
+            <Footer />
+          </div>
         </Router>
       </React.Fragment>
     </LoginState>

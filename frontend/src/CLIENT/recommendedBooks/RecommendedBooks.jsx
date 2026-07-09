@@ -3,112 +3,139 @@ import { backend_server } from '../../main'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import RequestBook from '../requestBooks/RequestBook'
-import { Toaster } from 'react-hot-toast'
+import { useLoginState } from '../../LoginState'
 
 const RecommendedBooks = () => {
   const RECOMMENDED_BOOK_API = `${backend_server}/api/v1/recommendedBooks`
-
+  const { userLogState } = useLoginState()
   const [latestBooks, setLatestBooks] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const fetchData = async () => {
-    try {
-      const response = await axios.get(RECOMMENDED_BOOK_API)
-
-      const fetchedBooks = await response.data.data
-
-      setLatestBooks(fetchedBooks)
-    } catch (error) {
-      console.log('Recommended Books Unable to Fetch ! Login Please')
-      // console.log(error.response)
+    if (!userLogState) {
+      setLoading(false)
+      return
     }
-  }
+    try {
+      setLoading(true)
+      const response = await axios.get(RECOMMENDED_BOOK_API)
+      const fetchedBooks = await response.data.data
+      setLatestBooks(fetchedBooks || [])
+    } catch (error) {
+      console.log('Recommended Books Unable to Fetch !')
+    } finally {
+      setLoading(false)
+    }
+  };
 
   const { request_Book } = RequestBook()
 
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [userLogState])
 
-  return (
-    <div className='row my-2'>
-      {latestBooks.length > 0 ? (
-        <div>
-          <h1 className='h1 mt-3' style={{ textAlign: 'center' }}>
-            Recommended Books
-          </h1>
+  // If NOT logged in, show a modern glassmorphic Call to Action (CTA) card
+  if (!userLogState) {
+    return (
+      <div className='col-12'>
+        <div className='login-cta-container'>
+          <h3 className='login-cta-title'>Personalized Recommendations</h3>
+          <p className='login-cta-text'>
+            Log in to your account to see custom book recommendations tailored to your reading preferences and borrowing history.
+          </p>
+          <Link to='/login' className='login-cta-button'>
+            Log In Now
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
-          <div className='row mb-3'>
-            {latestBooks.length > 0 ? (
-              latestBooks.map((book) => {
-                const { _id, title, image, author, available } = book
-                const imgSrc = `${backend_server}/${image}`
+  // If loading recommendations
+  if (loading) {
+    return (
+      <div className='col-12 py-5 text-center'>
+        <div className='spinner-border text-warning' role='status'>
+          <span className='visually-hidden'>Loading...</span>
+        </div>
+        <p className='p mt-2'>Loading recommendations...</p>
+      </div>
+    )
+  }
 
-                return (
-                  <div
-                    className='col-xxl-3 col-lg-3 col-md-4 col-sm-6 col-6 gy-3'
-                    key={_id}
-                  >
-                    <div className='card h-100'>
-                      <div className='card-img-top'>
-                        <img
-                          style={{
-                            height: '100%',
-                            width: '100%',
-                          }}
-                          className='img-fluid'
-                          src={imgSrc}
-                          alt='book image'
-                        />
-                      </div>
+  // If logged in and has books, show them
+  if (latestBooks.length > 0) {
+    return (
+      <div className='col-12 my-2'>
+        <h2 className='home-section-header'>Recommended Books</h2>
+        <div className='row mb-3 client-book-grid g-4'>
+          {latestBooks.map((book) => {
+            const { _id, title, image, author, available } = book
+            const imgSrc = `${backend_server}/${image}`
 
-                      <div className='card-body'>
-                        <h5 className='h5 card-title'>{title}</h5>
-                        <p className='p card-text'>{author}</p>
-                        <div className='form-group mb-2 justify-content-center d-flex'>
-                          {/* Request Books Button */}
-                          {available ? (
-                            <button
-                              type='button'
-                              className='btn btn-primary me-2'
-                              onClick={() => request_Book(_id)}
-                            >
-                              Request
-                            </button>
-                          ) : (
-                            <button
-                              type='button'
-                              className='btn btn-primary me-2'
-                              disabled
-                            >
-                              Out of Stock
-                            </button>
-                          )}
+            return (
+              <div
+                className='col-xxl-3 col-lg-3 col-md-4 col-sm-6 col-6'
+                key={_id}
+              >
+                <div className='card'>
+                  <div className='card-img-container'>
+                    {available ? (
+                      <span className='status-badge available'>Available</span>
+                    ) : (
+                      <span className='status-badge outofstock'>Out of Stock</span>
+                    )}
+                    <img
+                      className='card-img-top'
+                      src={imgSrc}
+                      alt='book image'
+                    />
+                    <div className='card-img-overlay-gradient'></div>
+                  </div>
 
-                          {/* View Books Button */}
-                          <Link to={`/books/${_id}`}>
-                            <button
-                              type='button'
-                              className='btn btn-secondary me-2'
-                            >
-                              View
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
+                  <div className='card-body'>
+                    <h5 className='card-title' title={title}>{title}</h5>
+                    <p className='card-text'>{author}</p>
+                    <div className='card-action-group'>
+                      {available ? (
+                        <button
+                          type='button'
+                          className='btn-card-primary'
+                          onClick={() => request_Book(_id)}
+                        >
+                          Request
+                        </button>
+                      ) : (
+                        <button
+                          type='button'
+                          className='btn-card-primary'
+                          disabled
+                        >
+                          Out of Stock
+                        </button>
+                      )}
+
+                      <Link to={`/books/${_id}`}>
+                        <button
+                          type='button'
+                          className='btn-card-secondary'
+                        >
+                          View
+                        </button>
+                      </Link>
                     </div>
                   </div>
-                )
-              })
-            ) : (
-              <p className='p text-center'>Loading ...</p>
-            )}
-          </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
-      ) : (
-        ''
-      )}
-    </div>
-  )
+      </div>
+    )
+  }
+
+  // Fallback if logged in but empty recommendations list
+  return null
 }
 
 export default RecommendedBooks

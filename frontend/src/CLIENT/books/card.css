@@ -1,85 +1,221 @@
-/* CSS to manage all books CARD sizes and shapes */
+/* Scoped book card design system for client-side catalog */
 
-.card-body {
-  white-space: nowrap;
+.client-book-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Card Container */
+.client-book-grid .card {
+  background: rgba(30, 26, 20, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
+  border-radius: 14px;
   overflow: hidden;
-}
-
-.card-body > p::before {
-  content: 'by ';
-}
-
-.card-title {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
   width: 100%;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
-.card-text {
-  text-overflow: ellipsis;
-  overflow: hidden;
+/* Hover Zoom and Lift Animation */
+.client-book-grid .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px rgba(235, 130, 10, 0.25);
+  border-color: rgba(235, 130, 10, 0.4);
 }
 
-.card-img-top {
-  height: 400px !important;
+/* Image Container & Settings */
+.client-book-grid .card-img-container {
+  position: relative;
+  overflow: hidden;
+  height: 380px;
+}
+
+.client-book-grid .card-img-top {
+  height: 100% !important;
   width: 100% !important;
   object-fit: cover !important;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.client-book-grid .card:hover .card-img-top {
+  transform: scale(1.06);
+}
+
+/* Image Gradient Overlay for text readability and depth */
+.client-book-grid .card-img-overlay-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(18, 15, 12, 0.9) 100%);
+  pointer-events: none;
+}
+
+/* Availability Badge */
+.client-book-grid .status-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  backdrop-filter: blur(5px);
+}
+
+.client-book-grid .status-badge.available {
+  background-color: rgba(46, 117, 89, 0.85);
+  border: 1px solid rgba(46, 117, 89, 0.5);
+  color: #ffffff !important;
+}
+
+.client-book-grid .status-badge.outofstock {
+  background-color: rgba(186, 45, 50, 0.85);
+  border: 1px solid rgba(186, 45, 50, 0.5);
+  color: #ffffff !important;
+}
+
+/* Card Body & Typography */
+.client-book-grid .card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  color: #ffffff;
+  white-space: normal;
+  overflow: visible;
+}
+
+.client-book-grid .card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #ffffff !important;
+  margin-bottom: 0.4rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 3.1rem;
+}
+
+.client-book-grid .card-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(235, 130, 10, 0.85) !important;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.client-book-grid .card-text::before {
+  content: 'by ';
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 400;
+}
+
+/* Action Group */
+.client-book-grid .card-action-group {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+/* Scoped Card Button Styles */
+.client-book-grid .card-action-group button,
+.client-book-grid .card-action-group a {
+  flex: 1;
+}
+
+.client-book-grid .btn-card-primary {
+  background-color: #eb820a !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.2);
+}
+
+.client-book-grid .btn-card-primary:hover:not(:disabled) {
+  background-color: #ff9d2b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(235, 130, 10, 0.35);
+}
+
+.client-book-grid .btn-card-primary:disabled {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.client-book-grid .btn-card-secondary {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+}
+
+.client-book-grid .btn-card-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
 @media screen and (max-width: 1366px) {
-  .card-img-top {
-    height: 300px !important;
-  }
-  .card-text {
-    font-size: 1rem;
-  }
-
-  .card-body button {
-    font-size: 0.8rem;
-    color:  #024b12;
-  }
-
-  .card {
-    width: 90%;
+  .client-book-grid .card-img-container {
+    height: 300px;
   }
 }
 
 @media screen and (max-width: 1199px) {
-  .card-img-top {
-    height: 250px !important;
+  .client-book-grid .card-img-container {
+    height: 250px;
   }
-  .card-text {
-    font-size: 1rem;
-  }
+}
 
-  .card-body button {
+@media screen and (max-width: 576px) {
+  .client-book-grid .card-img-container {
+    height: 210px;
+  }
+  .client-book-grid .card-body {
+    padding: 0.9rem;
+  }
+  .client-book-grid .card-title {
+    font-size: 0.95rem;
+    height: 2.6rem;
+  }
+  .client-book-grid .card-text {
     font-size: 0.8rem;
+    margin-bottom: 0.8rem;
   }
-}
-
-@media screen and (max-width: 450px) {
-  .card-img-top {
-    height: 200px !important;
+  .client-book-grid .status-badge {
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    font-size: 0.65rem;
   }
-
-  .card-body button {
-  font-size: 0.8rem;
-  color: #024b12;
-  background-color: transparent;
-  border: 1px solid #024b12;
-  padding: 0.4rem 0.8rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.card-body button:hover {
-  background-color: #024b12;
-  color: #ffffff;
-}
-}
-
-@media screen and (max-width: 390px) {
-  .card-img-top {
-    height: 180px !important;
+  .client-book-grid .btn-card-primary,
+  .client-book-grid .btn-card-secondary {
+    padding: 8px 10px;
+    font-size: 0.75rem;
   }
 }

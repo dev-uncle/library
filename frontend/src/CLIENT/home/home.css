@@ -1,44 +1,258 @@
-/* HOME PAGE /LANDING PAGE CSS */
+/* CLIENT SIDE HOME PAGE MAIN STYLING */
 
-.home-recommended-books-div {
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* flex-wrap: wrap; */
-  align-items: center;
-  margin: 1rem;
-  padding: 1rem;
-  border: 0.1rem solid #ccc;
-  border-radius: 0.5rem;
+.home-main-div {
+  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
+  min-height: 100vh;
+  color: #ffffff;
+  padding-bottom: 5rem;
 }
 
-.home-recommended-books-div img {
-  max-width: 10rem;
-  margin-right: 1rem;
+/* Section Header Typography */
+.home-section-header {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  text-align: center;
+  position: relative;
+  margin-top: 4rem !important;
+  margin-bottom: 2.5rem !important;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
 }
 
-.home-recommended-books-div h2 {
+.home-section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #eb820a;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+}
+
+/* Glassmorphic Call to Action (CTA) block for unauthorized users */
+.login-cta-container {
+  background: rgba(235, 130, 10, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin: 3rem auto;
+  max-width: 720px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.login-cta-title {
+  color: #ffffff !important;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.login-cta-text {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.login-cta-button {
+  background-color: #eb820a !important;
+  color: #ffffff !important;
+  font-weight: 700;
   font-size: 1rem;
-  margin: 0;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.3);
 }
 
-.home-recommended-books-div h3 {
-  font-size: 1.1rem;
-  margin: 0;
-}
-
-.home-recommended-books-div p {
-  margin: 1rem 0 0 0;
+.login-cta-button:hover {
+  background-color: #ff9d2b !important;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 22px rgba(235, 130, 10, 0.5);
+  color: #ffffff !important;
 }
 
 @media (max-width: 768px) {
-  .home-recommended-books-div {
-    flex-direction: column;
-    align-items: flex-start;
+  .home-section-header {
+    font-size: 1.7rem;
+    margin-top: 3rem !important;
   }
-
-  .home-recommended-books-div img {
-    max-width: 100%;
-    margin-right: 0;
-    margin-bottom: 1rem;
+  .login-cta-container {
+    padding: 2rem 1.5rem;
+    margin: 2rem 1rem;
+  }
+  .login-cta-title {
+    font-size: 1.3rem;
+  }
+  .login-cta-text {
+    font-size: 0.95rem;
   }
 }
+
+/* Category Filter Pill Buttons */
+.category-pill-btn {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 30px !important;
+  padding: 8px 22px !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+  margin: 6px 8px !important;
+  box-shadow: none !important;
+}
+
+.category-pill-btn.active {
+  background-color: #eb820a !important;
+  border-color: #eb820a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(235, 130, 10, 0.3) !important;
+}
+
+.category-pill-btn:hover:not(.active) {
+  border-color: rgba(235, 130, 10, 0.5) !important;
+  color: #eb820a !important;
+  background-color: rgba(235, 130, 10, 0.08) !important;
+  transform: translateY(-1px);
+}
+
+/* Category Discovery Grid Card styles */
+.category-discovery-card {
+  background: rgba(30, 26, 20, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(235, 130, 10, 0.12);
+  border-radius: 16px;
+  padding: 2.2rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.category-discovery-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(235, 130, 10, 0.35);
+  box-shadow: 0 16px 32px rgba(235, 130, 10, 0.2);
+  background: rgba(235, 130, 10, 0.06);
+}
+
+.category-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(235, 130, 10, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: #eb820a;
+  font-size: 1.6rem;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.category-discovery-card:hover .category-icon-wrapper {
+  background: #eb820a;
+  color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(235, 130, 10, 0.4);
+}
+
+.category-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  margin-bottom: 0.5rem;
+}
+
+.category-card-count {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5) !important;
+  margin-bottom: 0;
+}
+
+/* Discovery Breadcrumbs Header */
+.breadcrumb-discovery {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 4rem !important;
+  margin-bottom: 2.5rem !important;
+}
+
+.breadcrumb-root-link {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.4) !important;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.breadcrumb-root-link:hover {
+  color: #ffffff !important;
+}
+
+.breadcrumb-separator-icon {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.4rem;
+}
+
+.breadcrumb-active-node {
+  font-size: 2.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #eb820a !important;
+  text-shadow: 0 0 10px rgba(235, 130, 10, 0.4);
+}
+
+@media (max-width: 768px) {
+  .breadcrumb-discovery {
+    margin-top: 3rem !important;
+    gap: 8px;
+  }
+  .breadcrumb-root-link,
+  .breadcrumb-active-node {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+  }
+  .breadcrumb-separator-icon {
+    font-size: 1rem;
+  }
+}
+
+/* Fix: Override global * { padding: 0 } reset — restore horizontal gutter between cards */
+.discovery-grid > div,
+.client-book-grid > div {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  
+}
+
+
+

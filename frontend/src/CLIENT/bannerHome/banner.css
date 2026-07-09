@@ -1,56 +1,175 @@
+/* MODERN BANNER HERO CAROUSEL STYLES */
+
+.banner-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  background: #0d0c0a;
+}
+
 #banner-image {
-  /* max-height: calc(100vh - 60px); */
-  height: 400px;
+  height: 520px;
   width: 100%;
   object-fit: cover;
-  opacity: 0.9;
-  filter: brightness(0.3);
+  opacity: 0.85;
+  filter: brightness(0.4) contrast(1.05);
+  transition: transform 8s ease;
 }
 
-/* BANNER LAI full width banako, no white space. incase then,add padding left/right 0 */
-/* parent container-fluid ma p-0 rakhnu parxa */
-.custom-container {
-  margin-left: 0;
-  margin-right: 0;
+/* Image zoom effect active in carousel transitions */
+.carousel-item-next #banner-image,
+.carousel-item-prev #banner-image,
+.carousel-item.active #banner-image {
+  transform: scale(1.05);
 }
 
-/* carousel img bottom indicators CSS */
-.carousel-indicators button {
-  box-shadow: none;
+/* Linear gradient overlay for depth */
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(13, 12, 10, 0.6) 70%,
+    #16120e 100%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Bottom text CSS */
-.text-outline-h {
-  color: rgb(252, 252, 252);
-  -webkit-text-stroke: 0.3px black;
-  font-size: 3rem;
-}
-.text-outline-p {
-  color: rgba(255, 255, 255, 0.466);
-  -webkit-text-stroke: 0.1px black;
+/* Modern Glassmorphic Caption Card */
+.hero-glass-card {
+  position: absolute;
+  bottom: 12%;
+  left: 8%;
+  right: auto;
+  text-align: left;
+  z-index: 5;
+  background: rgba(30, 26, 20, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 580px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s;
 }
 
-@media screen and (max-width: 700px) {
-  .text-outline-h {
+/* Activate slide-in animation when slide changes */
+.carousel-item.active .hero-glass-card {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Custom text and headers */
+.hero-heading {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff !important;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero-paragraph {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.75) !important;
+  margin-bottom: 2rem;
+}
+
+/* Hero CTA Button */
+.hero-btn {
+  background-color: #eb820a !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 28px;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hero-btn:hover {
+  background-color: #ff9d2b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(235, 130, 10, 0.5);
+  color: #ffffff !important;
+}
+
+/* Override standard bootstrap indicators */
+.carousel-indicators {
+  z-index: 10;
+  margin-bottom: 2rem;
+}
+
+.carousel-indicators [data-bs-target] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin: 0 5px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.carousel-indicators .active {
+  background-color: #eb820a;
+  transform: scale(1.25);
+  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  #banner-image {
+    height: 460px;
+  }
+  .hero-glass-card {
+    left: 5%;
+    right: 5%;
+    max-width: 90%;
+    padding: 2rem;
+    bottom: 10%;
+  }
+  .hero-heading {
+    font-size: 2.2rem;
+  }
+  .hero-paragraph {
     font-size: 1rem;
-  }
-  .text-outline-p {
-    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
   }
 }
-@media screen and (max-width: 400px) {
-  .text-outline-h {
-    font-size: 1rem;
+
+@media (max-width: 576px) {
+  #banner-image {
+    height: 380px;
   }
-  .text-outline-p {
+  .hero-glass-card {
+    padding: 1.5rem;
+    bottom: 8%;
+    border-radius: 14px;
+  }
+  .hero-heading {
+    font-size: 1.6rem;
+  }
+  .hero-paragraph {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+  .hero-btn {
+    padding: 10px 20px;
     font-size: 0.8rem;
-  }
-}
-@media screen and (max-width: 280px) {
-  .text-outline-h {
-    font-size: 1rem;
-  }
-  .text-outline-p {
-    font-size: 0.5rem;
   }
 }

@@ -1,14 +1,15 @@
 import React from 'react'
 
 const CategoryButtons = (props) => {
-  const { filterFunction, categories } = props
+  const { filterFunction, categories, activeCategory } = props
   return (
-    <div>
+    <div className='d-flex flex-wrap justify-content-center'>
       {categories.map((map_para, index) => {
+        const isActive = activeCategory === map_para
         return (
           <button
             key={index}
-            className='btn btn-success mx-3 my-1'
+            className={`category-pill-btn ${isActive ? 'active' : ''}`}
             onClick={() => filterFunction(map_para)}
           >
             {map_para}
