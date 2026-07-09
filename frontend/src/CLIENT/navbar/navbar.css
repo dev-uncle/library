@@ -3,7 +3,7 @@
 }
 
 /* Gap between navbar links */
-li {
+.navbar li {
   margin-right: 0.8rem;
 }
 

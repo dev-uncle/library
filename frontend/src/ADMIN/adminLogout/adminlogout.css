@@ -1,0 +1,95 @@
+/* ============================================
+   ADMIN LOGOUT PAGE
+   ============================================ */
+
+.logout-page-wrapper {
+  width: 100%;
+  max-width: 480px;
+  margin: 4rem auto;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 3rem 2rem;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.logout-illustration {
+  width: 220px;
+  height: auto;
+  opacity: 0.85;
+}
+
+.logout-title {
+  font-size: 1.3rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.logout-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.logout-confirm-btn {
+  flex: 1;
+  height: 42px;
+  background: #dc2626 !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-confirm-btn:hover {
+  background: #b91c1c !important;
+  transform: translateY(-1px);
+}
+
+.logout-back-btn {
+  flex: 1;
+  height: 42px;
+  background: #f1f5f9 !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-back-btn:hover {
+  background: #e2e8f0 !important;
+  color: var(--text-primary) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .logout-page-wrapper {
+    margin: 2rem auto;
+    padding: 2rem 1.5rem;
+  }
+}

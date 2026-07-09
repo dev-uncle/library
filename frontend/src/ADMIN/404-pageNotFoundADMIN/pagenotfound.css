@@ -1,25 +1,54 @@
+/* ============================================
+   ADMIN 404 PAGE NOT FOUND
+   ============================================ */
+
 .not-found-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  font-family: Arial, sans-serif;
+  min-height: calc(100vh - var(--topbar-height) - 4rem);
   text-align: center;
+  font-family: 'Inter', sans-serif;
+  padding: 2rem;
 }
 
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+.not-found-container h1 {
+  font-size: 4rem !important;
+  font-weight: 800 !important;
+  color: var(--accent) !important;
+  margin: 0 0 1rem 0 !important;
+  line-height: 1;
 }
 
-p {
+.not-found-container p {
   font-size: 1rem;
-  color: #666;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  max-width: 320px;
 }
 
 #admin-pagenotfound-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 1.5rem;
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
   text-decoration: none;
-  color: white;
-  background-color: black;
+}
+
+#admin-pagenotfound-btn:hover {
+  background: var(--accent-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  text-decoration: none;
 }

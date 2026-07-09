@@ -3,123 +3,141 @@ import ManageSearchBooks from './ManageSearchBooks'
 import axios from 'axios'
 import './managebooks.css'
 import CustomPagination from '../../CLIENT/pagination/CustomPagination'
-
-// API BASE URL
 import { backend_server } from '../../main'
 import { Link } from 'react-router-dom'
+import { HiOutlinePencilSquare, HiOutlineBookOpen, HiOutlinePlusCircle } from 'react-icons/hi2'
 
 const ManageBooks = () => {
   const API_URL = `${backend_server}/api/v1/books`
   const API_SKIPFETCH = `${backend_server}/api/v1/book/`
 
-  // If 0 results then display false , true = results found , false = 0 search results
   const [searchResult, setSearchResult] = useState(true)
-
-  // if filterForm is active , disbale pagination else allow paginations
   const [filterActive, setFilterActive] = useState(false)
+  const [allBooks, setAllBooks] = useState([])
+  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const fetchData = async (pageNumber) => {
     try {
       const resp = await axios.get(`${API_SKIPFETCH}/?page=${pageNumber}`)
-      const data = await resp.data.data
-      setAllBooks(data)
+      setAllBooks(resp.data.data)
     } catch (error) {
-      console.log('Error fetching books collections', error)
+      console.log('Error fetching books', error)
     }
   }
-
-  const [allBooks, setAllBooks] = useState([])
-  const [categories, setCategories] = useState([])
 
   const fetchBooks = async () => {
     try {
       const response = await axios.get(API_URL)
-
       const bookCategories = [
-        ...new Set(
-          response.data.data.map((items) => {
-            return items.category
-          })
-        ),
+        ...new Set(response.data.data.map((item) => item.category)),
       ]
-
-      // console.log(bookCategories)
       setCategories(bookCategories)
-
-      // setAllBooks(response.data.data)
     } catch (error) {
       console.log(error.response)
+    } finally {
+      setLoading(false)
     }
   }
+
   useEffect(() => {
-    fetchBooks() //Fetches all books
-    fetchData() //fetches only 8 books
+    fetchBooks()
+    fetchData()
   }, [])
 
   return (
-    <div className='container mt-2'>
-      <h1 className='h1 text-center'>Manage Books </h1>
+    <div className='page-content'>
+      <div className='mb-page'>
+      {/* ── Header ─────────────────────────────── */}
+      <div className='mb-header'>
+        <div>
+          <h1 className='mb-title'>Manage Books</h1>
+          <p className='mb-subtitle'>Browse, filter and edit the library collection.</p>
+        </div>
+        <Link to='/admin/addnewbook' className='mb-add-btn'>
+          <HiOutlinePlusCircle size={18} />
+          Add New Book
+        </Link>
+      </div>
 
-      <div className='row my-3'>
-        {/* Filter gareko books lai set Gareko */}
+      {/* ── Filter bar ─────────────────────────── */}
+      <div className='mb-filter-card'>
         <ManageSearchBooks
           setAllBooks={setAllBooks}
           bookCategories={categories}
+          setFilterActive={setFilterActive}
         />
       </div>
 
-      {/* TABLE BOOK DATA */}
-      {allBooks.length > 0 ? (
-        <div className='row mt-3'>
-          <table className='table table-hover'>
-            <thead>
-              <tr>
-                <th scope='col'>#</th>
-                <th scope='col'>Title</th>
-                <th scope='col'>Category</th>
-                <th scope='col'>Featured</th>
-                <th scope='col'>Available</th>
-                <th scope='col'> Update</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allBooks.map((book, index) => {
-                const { _id, title, category, featured, available } = book
+      {/* ── Table ──────────────────────────────── */}
+      {loading ? (
+        <div className='mb-skeleton-wrap'>
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className='mb-skeleton-row' />
+          ))}
+        </div>
+      ) : allBooks.length > 0 ? (
+        <div className='mb-table-card'>
+          <div className='mb-table-wrap'>
+            <table className='mb-table'>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Featured</th>
+                  <th>Available</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {allBooks.map((book, index) => {
+                  const { _id, title, category, featured, available } = book
+                  return (
+                    <tr key={_id}>
+                      <td className='mb-td-num'>{index + 1}</td>
+                      <td className='mb-td-title'>
+                        <span className='mb-book-icon'><HiOutlineBookOpen size={15} /></span>
+                        {title}
+                      </td>
+                      <td>
+                        <span className='mb-badge mb-badge--category'>{category}</span>
+                      </td>
+                      <td>
+                        <span className={`mb-badge ${featured ? 'mb-badge--yes' : 'mb-badge--no'}`}>
+                          {featured ? 'Yes' : 'No'}
+                        </span>
+                      </td>
+                      <td>
+                        <span className={`mb-badge ${available ? 'mb-badge--yes' : 'mb-badge--no'}`}>
+                          {available ? 'Yes' : 'No'}
+                        </span>
+                      </td>
+                      <td>
+                        <Link to={`/admin/managebooks/${_id}`} className='mb-edit-btn'>
+                          <HiOutlinePencilSquare size={15} />
+                          Edit
+                        </Link>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
 
-                // Convert boolean values to strings
-                const featuredText = featured ? 'Yes' : 'No'
-                const availableText = available ? 'Yes' : 'No'
-
-                return (
-                  <tr key={_id}>
-                    <th scope='row'>{index + 1}</th>
-                    <td>{title}</td>
-                    <td>{category}</td>
-                    <td>{featuredText}</td>
-                    <td>{availableText}</td>
-                    <td>
-                      <Link to={`/admin/managebooks/${_id}`}>
-                        <button className='btn mx-1 edit-books-btn'>
-                          View Details
-                        </button>
-                      </Link>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
           {/* Pagination */}
-          <div className='my-3 d-flex justify-content-center'>
-            <CustomPagination
-              fetchData={fetchData}
-              filterActive={filterActive}
-            ></CustomPagination>
+          <div className='mb-pagination'>
+            <CustomPagination fetchData={fetchData} filterActive={filterActive} />
           </div>
         </div>
       ) : (
-        <p className='p text-center'>0 Book result's</p>
+        <div className='mb-empty'>
+          <HiOutlineBookOpen size={40} />
+          <p>No books found</p>
+        </div>
       )}
+    </div>
     </div>
   )
 }

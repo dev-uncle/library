@@ -1,6 +1,353 @@
-.edit-books-btn {
-  background-color: rgba(161, 212, 253, 0.726) !important;
+/* ============================================
+   MANAGE BOOKS PAGE
+   ============================================ */
+
+.mb-page {
+  width: 100%;
 }
-.delete-books-btn {
-  background-color: rgba(236, 52, 68, 0.726) !important;
+
+/* ── Page header ─────────────────────────────── */
+.mb-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.mb-title {
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  letter-spacing: -0.02em;
+}
+
+.mb-subtitle {
+  font-size: 0.875rem;
+  color: var(--text-muted) !important;
+  margin: 0.2rem 0 0 !important;
+}
+
+/* ── Add book button ─────────────────────────── */
+.mb-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
+  background: var(--accent);
+  color: #ffffff !important;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+}
+
+.mb-add-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  text-decoration: none;
+  color: #ffffff !important;
+}
+
+/* ── Filter card ─────────────────────────────── */
+.mb-filter-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Filter form ─────────────────────────────── */
+.mb-filter-form {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+/* Search input wrapper */
+.mb-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 180px;
+}
+
+.mb-search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.mb-search-input {
+  padding-left: 2.25rem !important;
+}
+
+/* Shared input/select style */
+.mb-input,
+.mb-select {
+  height: 38px;
+  padding: 0 0.75rem;
+  font-size: 0.875rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  background: #f8fafc;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+}
+
+.mb-input:focus,
+.mb-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+  background: #ffffff;
+}
+
+.mb-select {
+  width: auto;
+  min-width: 130px;
+  cursor: pointer;
+}
+
+/* ── Filter buttons ──────────────────────────── */
+.mb-filter-btn {
+  height: 38px;
+  padding: 0 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.mb-filter-btn--search {
+  background: var(--accent) !important;
+  color: #ffffff;
+}
+.mb-filter-btn--search:hover {
+  background: var(--accent-hover) !important;
+  transform: translateY(-1px);
+}
+
+.mb-filter-btn--clear {
+  background: #f1f5f9 !important;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+.mb-filter-btn--clear:hover {
+  background: #e2e8f0 !important;
+  color: var(--text-primary);
+}
+
+/* ── Table card ──────────────────────────────── */
+.mb-table-card {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.mb-table-wrap {
+  overflow-x: auto;
+}
+
+/* ── Table ───────────────────────────────────── */
+.mb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.mb-table thead {
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mb-table thead th {
+  padding: 0.85rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-align: left;
+}
+
+.mb-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.15s ease;
+}
+
+.mb-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.mb-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+.mb-table tbody td {
+  padding: 0.85rem 1rem;
+  color: var(--text-primary);
+  vertical-align: middle;
+}
+
+.mb-td-num {
+  color: var(--text-muted) !important;
+  font-size: 0.8rem;
+  width: 40px;
+}
+
+.mb-td-title {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 280px;
+}
+
+.mb-book-icon {
+  color: var(--accent);
+  flex-shrink: 0;
+  display: flex;
+}
+
+/* ── Badges ──────────────────────────────────── */
+.mb-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.mb-badge--yes {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.mb-badge--no {
+  background: rgba(244, 63, 94, 0.08);
+  color: #e11d48;
+}
+
+.mb-badge--category {
+  background: rgba(99, 102, 241, 0.08);
+  color: #4f46e5;
+}
+
+/* ── Edit button ─────────────────────────────── */
+.mb-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(217, 119, 6, 0.08);
+  color: var(--accent) !important;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.mb-edit-btn:hover {
+  background: rgba(217, 119, 6, 0.15);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+/* ── Pagination ──────────────────────────────── */
+.mb-pagination {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Skeleton loader ─────────────────────────── */
+.mb-skeleton-wrap {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 0.5rem 0;
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.mb-skeleton-row {
+  height: 52px;
+  margin: 0.25rem 1rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, #f1f5f9 25%, #e8edf2 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Empty state ─────────────────────────────── */
+.mb-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 4rem 2rem;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  color: var(--text-muted);
+  box-shadow: var(--shadow-card);
+}
+
+.mb-empty p {
+  font-size: 0.95rem;
+  color: var(--text-muted) !important;
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 768px) {
+  .mb-filter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mb-select,
+  .mb-filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .mb-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

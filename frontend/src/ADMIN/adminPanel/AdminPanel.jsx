@@ -1,123 +1,137 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { backend_server } from '../../main'
-import './adminpanel.css'
 import axios from 'axios'
+import './adminpanel.css'
 
-import { GiBookshelf } from 'react-icons/gi'
-import { FaUserFriends } from 'react-icons/fa'
-import { GiBookPile } from 'react-icons/gi'
-import { FiGitPullRequest } from 'react-icons/fi'
-import { BiCategoryAlt } from 'react-icons/bi'
-import { BsFillJournalBookmarkFill } from 'react-icons/bs'
+import { HiOutlineBookOpen, HiOutlineUsers, HiOutlineInbox, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineTag } from 'react-icons/hi2'
+import { HiOutlinePlusCircle, HiOutlineArrowUpTray, HiOutlineArrowDownTray } from 'react-icons/hi2'
 
-import { Card, Col, Row } from 'react-bootstrap'
+const stats = (data) => [
+  {
+    id: 1,
+    label: 'Total Books',
+    value: data.totalBooks ?? '—',
+    icon: HiOutlineBookOpen,
+    color: 'amber',
+    link: '/admin/managebooks',
+  },
+  {
+    id: 2,
+    label: 'Issued Books',
+    value: data.totalIssuedBooks ?? '—',
+    icon: HiOutlineClipboardDocumentList,
+    color: 'blue',
+    link: '/admin/issuedbooks',
+  },
+  {
+    id: 3,
+    label: 'Book Requests',
+    value: data.totalBookRequests ?? '—',
+    icon: HiOutlineInbox,
+    color: 'violet',
+    link: '/admin/booksrequests',
+  },
+  {
+    id: 4,
+    label: 'Registered Users',
+    value: data.totalRegisteredUsers ?? '—',
+    icon: HiOutlineUsers,
+    color: 'emerald',
+    link: '/admin/viewusers',
+  },
+  {
+    id: 5,
+    label: 'Authors Listed',
+    value: data.totalAuthors ?? '—',
+    icon: HiOutlineUserGroup,
+    color: 'rose',
+    link: '/admin/managebooks',
+  },
+  {
+    id: 6,
+    label: 'Categories',
+    value: data.totalCategories ?? '—',
+    icon: HiOutlineTag,
+    color: 'teal',
+    link: '/admin/managebooks',
+  },
+]
+
+const quickActions = [
+  { label: 'Add New Book', icon: HiOutlinePlusCircle, link: '/admin/addnewbook', color: 'amber' },
+  { label: 'Issue Book to User', icon: HiOutlineArrowUpTray, link: '/admin/issuebooktouser', color: 'blue' },
+  { label: 'Return Due Books', icon: HiOutlineArrowDownTray, link: '/admin/returnedbooks', color: 'emerald' },
+  { label: 'View Requests', icon: HiOutlineInbox, link: '/admin/booksrequests', color: 'violet' },
+]
 
 const AdminPanel = () => {
-  const FetchInfo_API = `${backend_server}/api/v1/adminHomePageInfo`
-
   const [homepageData, setHomepageData] = useState({})
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(FetchInfo_API)
-      setHomepageData(response.data.data)
-      // console.log(response.data.data)
-    } catch (error) {
-      console.log(error.response)
-    }
-  }
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${backend_server}/api/v1/adminHomePageInfo`)
+        setHomepageData(response.data.data)
+      } catch (error) {
+        console.log(error.response)
+      } finally {
+        setLoading(false)
+      }
+    }
     fetchData()
   }, [])
 
+  const statCards = stats(homepageData)
+
   return (
-    <div className='container mt-5 adminpanel-container'>
-      <Row>
-        <div className='col-xs-12 col-md-4 card-admin-main'>
-          <Card className='card-admin my-3 mx-3' style={{ width: '250px' }}>
-            <Card.Body>
-              <span className='card-admin-icon'>
-                <GiBookshelf />{' '}
-              </span>
-              <Card.Title className='card-admin-title'>
-                <h3 className='h3 p-3'>{homepageData.totalBooks}</h3>
-                <h5>Total Books</h5>
-              </Card.Title>
-            </Card.Body>
-          </Card>
+    <div className='dashboard'>
+      {/* ── Welcome header ───────────────────── */}
+      <div className='dashboard-header'>
+        <div>
+          <h1 className='dashboard-title'>Dashboard</h1>
+          <p className='dashboard-subtitle'>Welcome back, Admin. Here's what's happening today.</p>
         </div>
+      </div>
 
-        <div className='col-xs-12 col-md-4 card-admin-main'>
-          <Card className='card-admin my-3 mx-3' style={{ width: '250px' }}>
-            <Card.Body>
-              <span className='card-admin-icon'>
-                <GiBookPile />{' '}
-              </span>
-              <Card.Title className='card-admin-title'>
-                <h3 className='h3 p-3'>{homepageData.totalIssuedBooks}</h3>
-                <h5>Issued Books</h5>
-              </Card.Title>
-            </Card.Body>
-          </Card>
-        </div>
+      {/* ── Stat cards ──────────────────────── */}
+      <div className='stat-grid'>
+        {statCards.map((stat) => {
+          const Icon = stat.icon
+          return (
+            <Link to={stat.link} key={stat.id} className={`stat-card stat-card--${stat.color}`}>
+              <div className='stat-card__icon-wrap'>
+                <Icon size={22} />
+              </div>
+              <div className='stat-card__body'>
+                <span className='stat-card__value'>
+                  {loading ? <span className='stat-skeleton' /> : stat.value}
+                </span>
+                <span className='stat-card__label'>{stat.label}</span>
+              </div>
+            </Link>
+          )
+        })}
+      </div>
 
-        <div className='col-xs-12 col-md-4 card-admin-main'>
-          <Card className='card-admin my-3 mx-3' style={{ width: '250px' }}>
-            <Card.Body>
-              <span className='card-admin-icon'>
-                <FiGitPullRequest />{' '}
-              </span>
-              <Card.Title className='card-admin-title'>
-                <h3 className='h3 p-3'>{homepageData.totalBookRequests}</h3>
-                <h5>Book Requests</h5>
-              </Card.Title>
-            </Card.Body>
-          </Card>
+      {/* ── Quick actions ────────────────────── */}
+      <div className='dashboard-section'>
+        <h2 className='dashboard-section-title'>Quick Actions</h2>
+        <div className='quick-actions'>
+          {quickActions.map((action) => {
+            const Icon = action.icon
+            return (
+              <Link to={action.link} key={action.label} className={`quick-action quick-action--${action.color}`}>
+                <span className='quick-action__icon'>
+                  <Icon size={20} />
+                </span>
+                <span className='quick-action__label'>{action.label}</span>
+              </Link>
+            )
+          })}
         </div>
-
-        <div className='col-xs-12 col-md-4 card-admin-main'>
-          <Card className='card-admin my-3 mx-3' style={{ width: '250px' }}>
-            <Card.Body>
-              <span className='card-admin-icon'>
-                <FaUserFriends />{' '}
-              </span>
-              <Card.Title className='card-admin-title'>
-                <h3 className='h3 p-3'>{homepageData.totalRegisteredUsers}</h3>
-                <h5>Registered Users</h5>
-              </Card.Title>
-            </Card.Body>
-          </Card>
-        </div>
-
-        <div className='col-xs-12 col-md-4 card-admin-main'>
-          <Card className='card-admin my-3 mx-3' style={{ width: '250px' }}>
-            <Card.Body>
-              <span className='card-admin-icon'>
-                <BsFillJournalBookmarkFill />{' '}
-              </span>
-              <Card.Title className='card-admin-title'>
-                <h3 className='h3 p-3'>{homepageData.totalAuthors}</h3>
-                <h5>Authors Listed</h5>
-              </Card.Title>
-            </Card.Body>
-          </Card>
-        </div>
-
-        <div className='col-xs-12 col-md-4 card-admin-main'>
-          <Card className='card-admin my-3 mx-3' style={{ width: '250px' }}>
-            <Card.Body>
-              <span className='card-admin-icon'>
-                <BiCategoryAlt />{' '}
-              </span>
-              <Card.Title className='card-admin-title'>
-                <h3 className='h3 p-3'>{homepageData.totalCategories}</h3>
-                <h5>Categories Listed</h5>
-              </Card.Title>
-            </Card.Body>
-          </Card>
-        </div>
-      </Row>
+      </div>
     </div>
   )
 }

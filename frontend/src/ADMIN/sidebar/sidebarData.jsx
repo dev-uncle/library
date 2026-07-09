@@ -1,53 +1,89 @@
+import {
+  HiOutlineHome,
+  HiOutlineBookOpen,
+  HiOutlinePlusCircle,
+  HiOutlineInbox,
+  HiOutlineUsers,
+  HiOutlineClipboardDocumentList,
+  HiOutlineArrowUpTray,
+  HiOutlineArrowDownTray,
+  HiOutlineArrowRightOnRectangle,
+} from 'react-icons/hi2'
+
 export const sidebarData = [
   {
-    id: 1,
-    title: `Home`,
-    url: '/admin',
+    group: 'OVERVIEW',
+    items: [
+      {
+        id: 1,
+        title: 'Dashboard',
+        url: '/admin',
+        icon: HiOutlineHome,
+        exact: true,
+      },
+    ],
   },
   {
-    id: 2,
-    title: `Manage Books`,
-    url: '/admin/managebooks',
+    group: 'LIBRARY',
+    items: [
+      {
+        id: 2,
+        title: 'Manage Books',
+        url: '/admin/managebooks',
+        icon: HiOutlineBookOpen,
+      },
+      {
+        id: 3,
+        title: 'Add New Book',
+        url: '/admin/addnewbook',
+        icon: HiOutlinePlusCircle,
+      },
+      {
+        id: 4,
+        title: "Book Requests",
+        url: '/admin/booksrequests',
+        icon: HiOutlineInbox,
+      },
+    ],
   },
   {
-    id: 3,
-    title: `Add new Book`,
-    url: '/admin/addnewbook',
+    group: 'USERS',
+    items: [
+      {
+        id: 5,
+        title: 'View Users',
+        url: '/admin/viewusers',
+        icon: HiOutlineUsers,
+      },
+      {
+        id: 6,
+        title: 'Issued Books',
+        url: '/admin/issuedbooks',
+        icon: HiOutlineClipboardDocumentList,
+      },
+      {
+        id: 7,
+        title: 'Issue Book to User',
+        url: '/admin/issuebooktouser',
+        icon: HiOutlineArrowUpTray,
+      },
+      {
+        id: 8,
+        title: 'Return Due Books',
+        url: '/admin/returnedbooks',
+        icon: HiOutlineArrowDownTray,
+      },
+    ],
   },
   {
-    id: 4,
-    title: `Books Request's`,
-    url: '/admin/booksrequests',
-  },
-  {
-    id: 5,
-    title: `View Users`,
-    url: '/admin/viewusers',
-  },
-  {
-    id: 6,
-    title: `Issued Books`,
-    url: '/admin/issuedbooks',
-  },
-  {
-    id: 7,
-    title: `Issue Book to User`,
-    url: '/admin/issuebooktouser',
-  },
-  {
-    id: 8,
-    title: `Return Due Books`,
-    url: '/admin/returnedbooks',
-  },
-  // {
-  //   id: 9,
-  //   title: `Create admin Account`,
-  //   url: '/admin/adminsignup',
-  // },
-
-  {
-    id: 10,
-    title: `Logout`,
-    url: '/admin/logout',
+    group: 'SYSTEM',
+    items: [
+      {
+        id: 10,
+        title: 'Logout',
+        url: '/admin/logout',
+        icon: HiOutlineArrowRightOnRectangle,
+      },
+    ],
   },
 ]
