@@ -1,0 +1,148 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+.signup-maindiv {
+  width: 100%;
+  max-width: 32rem;
+  margin: 5rem auto;
+  padding: 25px;
+  box-shadow: 0 0 10px var(--color-faded);
+  background-color: transparent !important;
+  border-radius: 10px;
+  
+
+ 
+}
+.signup-maindiv button:hover { background-color: #454341 !important; }
+/* =========================
+   HEADER
+========================= */
+.signup-upperdiv h4 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* =========================
+   LABELS
+========================= */
+.signup-maindiv label {
+  display: block;
+  margin-top: 10px;
+  font-size: 1rem;
+  color: rgb(8, 0, 0);
+}
+
+/* =========================
+   INPUT FIELDS
+========================= */
+.signup-maindiv input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #f3f0ec;
+  color: #000000;
+
+  font-size: 1rem;
+}
+
+/* remove number arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* =========================
+   FLEX ROWS
+========================= */
+.first-row-form,
+.password-main-div {
+  display: flex;
+  gap: 10px;
+}
+
+/* =========================
+   PASSWORD ICON AREA
+========================= */
+.password-field {
+  position: relative;
+}
+
+.password-field span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+/* =========================
+   MAIN BUTTON (SIGNUP)
+========================= */
+.signup-maindiv button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+
+  background-color: transparent !important;
+  color: white !important;
+ 
+
+  border: none;
+  border-radius: 6px;
+
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.signup-maindiv button:hover {
+  background-color: white !important;
+  color: #090400 !important;
+}
+
+
+/* =========================
+   LOWER SECTION
+========================= */
+.signup-lowerdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 15px;
+  color: white;
+}
+
+.signup-lowerdiv p {
+  margin: 0;
+}
+
+/* login button */
+.signup-lowerdiv button {
+  padding: 8px 14px;
+  background-color: #f3f0ec;
+  color: #090400;
+
+  border: none;
+  border-radius: 6px;
+
+  cursor: pointer;
+}
+
+.signup-lowerdiv button:hover {
+  background-color: white !important;
+}

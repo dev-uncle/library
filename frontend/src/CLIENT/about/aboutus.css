@@ -1,0 +1,18 @@
+#about-heading {
+  border-bottom: 2px solid black;
+  margin-top: 1rem;
+  width: fit-content;
+}
+
+.aboutus-bottom-section p {
+  font-size: 1rem;
+}
+.about-div-with-background {
+  padding: 5px 10px;   /* reduces height */
+  margin-top: 1.5rem !important;
+  border-radius: 10px;
+}
+.about-quote-container {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}

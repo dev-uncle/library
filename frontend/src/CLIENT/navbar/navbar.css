@@ -1,0 +1,77 @@
+.navbar {
+  background-color: #ffffff;
+}
+
+/* Gap between navbar links */
+li {
+  margin-right: 0.8rem;
+}
+
+#navbar-search-btn {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: black;
+  background-color: rgb(199, 132, 7);
+}
+
+.a {
+  text-decoration: none;
+  color: rgb(98, 62, 2);
+}
+.a:hover {
+  color: rgb(234, 191, 36);
+}
+
+/* rendering based on if user logged or not */
+#nav-conditional-rendering {
+  display: flex;
+}
+
+@media screen and (max-width: 1199px) {
+  #nav-conditional-rendering {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Navbar mobile button */
+#navbar-mobileview-btn {
+  box-shadow: none;
+}
+
+@media screen and (max-width: 380px) {
+  #navbar-mobileview-btn {
+    font-size: 1rem;
+  }
+
+  #navbar-title-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  #navbar-mobileview-btn {
+    font-size: 0.5rem;
+  }
+}
+.navbar a {
+  text-decoration: none;
+  color: rgb(98, 62, 2);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+/* ACTIVE TAB (boxed button look) */
+.navbar a.active {
+  background-color: rgb(199, 132, 7);
+  color: white; /* better contrast */
+  font-weight: 600;
+  border: 2px solid rgb(199, 132, 7); /* solid box feel */
+  border-radius: 0.6rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Optional: keep hover consistent */
+.navbar a:hover {
+  background-color: rgba(199, 132, 7, 0.15);
+}

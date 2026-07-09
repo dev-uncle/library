@@ -1,0 +1,64 @@
+.admin-navbar {
+  background-color: #ffffff;
+  position: fixed !important;
+  width: 100%;
+  z-index: 1000;
+  
+}
+
+/* Gap between navbar links */
+li {
+  margin-right: 1rem;
+}
+
+.navbar-nav {
+  margin-left: auto;
+  
+}
+
+#navbar-search-btn {
+  box-shadow: none;
+  color: rgb(242, 245, 245);
+  background-color: rgb(199, 132, 7);
+}
+
+.a {
+  text-decoration: none;
+  color: rgb(42, 30, 2);
+}
+.a:hover {
+  color: rgb(90, 62, 3);
+}
+
+/* rendering based on if user logged or not */
+#nav-conditional-rendering {
+  display: flex;
+}
+
+@media screen and (max-width: 1199px) {
+  #nav-conditional-rendering {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Navbar mobile button */
+#navbar-mobileview-btn {
+  box-shadow: none;
+}
+
+@media screen and (max-width: 380px) {
+  #navbar-mobileview-btn {
+    font-size: 1rem;
+  }
+
+  #navbar-title-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  #navbar-mobileview-btn {
+    font-size: 0.5rem;
+  }
+}

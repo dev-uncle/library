@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "64b89fff084897052e79d09f"
+  },
+  "username": "admin",
+  "email": "admin@gmail.com",
+  "emailVerified": true,
+  "phone": "9847612345",
+  "userType": "admin_user",
+  "totalRequestedBooks": 0,
+  "totalAcceptedBooks": 0,
+  "password": "$2b$10$ByhWWpoVPEeZHsuZZsY/2eqNJAqZJI7I4XsGfJL1k7KLaZC5aaKrG",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64b89fff084897052e79d0a0"
+  },
+  "username": "student",
+  "email": "student@gmail.com",
+  "emailVerified": true,
+  "phone": "9123456789",
+  "userType": "normal_user",
+  "totalRequestedBooks": 0,
+  "totalAcceptedBooks": 0,
+  "password": "$2b$10$Yl2myYDPnfKIvZkUbQbpRuRPBNT1drvQ3Uhzcgw4qcIkSC6fKMqH2",
+  "__v": 0
+}]

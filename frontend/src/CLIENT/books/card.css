@@ -1,0 +1,85 @@
+/* CSS to manage all books CARD sizes and shapes */
+
+.card-body {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card-body > p::before {
+  content: 'by ';
+}
+
+.card-title {
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.card-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.card-img-top {
+  height: 400px !important;
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+@media screen and (max-width: 1366px) {
+  .card-img-top {
+    height: 300px !important;
+  }
+  .card-text {
+    font-size: 1rem;
+  }
+
+  .card-body button {
+    font-size: 0.8rem;
+    color:  #024b12;
+  }
+
+  .card {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .card-img-top {
+    height: 250px !important;
+  }
+  .card-text {
+    font-size: 1rem;
+  }
+
+  .card-body button {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .card-img-top {
+    height: 200px !important;
+  }
+
+  .card-body button {
+  font-size: 0.8rem;
+  color: #024b12;
+  background-color: transparent;
+  border: 1px solid #024b12;
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card-body button:hover {
+  background-color: #024b12;
+  color: #ffffff;
+}
+}
+
+@media screen and (max-width: 390px) {
+  .card-img-top {
+    height: 180px !important;
+  }
+}

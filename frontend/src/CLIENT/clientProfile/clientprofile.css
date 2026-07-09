@@ -1,0 +1,54 @@
+.client-dashboard-buttons button {
+  color: rgb(240, 240, 238) !important;
+  font: #baeeb5;
+  border: 1px solid rgba(234, 202, 130, 0.418) !important;
+  font-weight: bold;
+  margin-top: 15px !important;
+}
+
+.client-dashboard-buttons button:hover {
+  background-color: rgba(234, 202, 130, 0.418);
+  color: rgb(238, 246, 239) !important;
+}
+
+.client-dashboard-buttons {
+  margin-top: 1rem !important;
+}
+.table {
+  background: transparent !important;
+  color: #ffffff !important;
+}
+
+.table th,
+.table td {
+  background: transparent !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(12px); /* Safari */
+  color: #ffffff !important;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+}
+.table-hover tbody tr:hover {
+  background: rgba(255, 255, 255, 0.323) !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.profile-details {
+  background: rgba(255, 255, 255, 0.08) !important; /* slight transparency */
+  
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Safari */
+
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+  /* soft glow */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+
+  /* text readability */
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+
+  border-radius: 12px;
+}

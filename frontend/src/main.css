@@ -1,0 +1,97 @@
+* 
+{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  h1 {
+  color: white !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  }
+  
+  h3 {
+  color: white !important;
+  margin-top: 1.5rem;
+  text-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+  
+
+}
+h2 {
+  color: white;
+}
+h5 {
+  color: white;
+}
+label {
+  color: white !important;
+}
+p {
+  color: rgba(235, 130, 10, 0.597);
+} 
+.logout-img {
+  margin-top: 80px !important
+}
+.page-link {
+  color: rgb(199, 132, 7) !important;  /* brown text */
+  background-color: white;
+  border-color: rgb(56, 37, 2);
+}
+
+/* Active page */
+.page-item.active .page-link {
+  background-color: rgb(57, 37, 1) !important;
+  border-color: rgb(199, 132, 7) !important;
+  color: white !important;
+}
+
+/* Hover effect */
+.page-link:hover {
+  color: rgb(7, 0, 0) !important;
+  background-color: rgb(160, 105, 5);
+  border-color: rgb(160, 105, 5);
+}
+.card-title {
+  color: rgb(42, 30, 2) !important;
+}
+
+button {
+  background-color: #3e2f01!important;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+button:hover {
+  background-color: #5a3a05;
+}
+}
+.clickable-category {
+  color: #ffffff !important;
+
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+.col-lg-4 {
+  background: rgba(244, 242, 242, 0.06);
+  
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  border-radius: 12px;
+
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+
+  padding: 20px;
+
+  color: #ffffff;
+
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}

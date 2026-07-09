@@ -1,0 +1,48 @@
+.adminpanel-container a {
+  text-decoration: none;
+  color: rgb(249, 249, 249)!important;
+}
+.adminpanel-container a:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.card-admin {
+  background-color: rgb(54, 41, 1);
+  width: fit-content;
+  transition: all 0.3s ease;
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+.card-admin-body-font {
+  color: #000;
+  font-size: 20px;
+}
+.card-admin-main {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+.card-admin:hover {
+  background-color: rgb(54, 41, 1);
+  color: white;
+}
+
+.adminpanel-container {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.452);
+  border-radius: 10px;
+}
+
+.card-admin-icon {
+  font-size: 3rem;
+}
+
+.card-admin-icon:hover {
+  font-size: 3rem;
+  color: white;
+}
+.logout-page {
+  padding-top: 90px; /* adjust depending on navbar height */
+}
