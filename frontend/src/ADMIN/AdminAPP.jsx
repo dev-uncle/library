@@ -26,6 +26,28 @@ import "./admin-layout.css";
 const AdminLayout = () => {
   const { isOpen, toggle } = useSidebar();
 
+  React.useEffect(() => {
+    // Save original styles
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlHeight = document.documentElement.style.height;
+    const originalBodyHeight = document.body.style.height;
+
+    // Disable viewport-level scrolling for the admin layout
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.height = "100vh";
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100vh";
+
+    return () => {
+      // Revert styles when leaving the admin layout
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.documentElement.style.height = originalHtmlHeight;
+      document.body.style.overflow = originalBodyOverflow;
+      document.body.style.height = originalBodyHeight;
+    };
+  }, []);
+
   return (
     <div className={`admin-shell ${isOpen ? "sidebar-open" : "sidebar-closed"}`}>
       <AdminNavbar />
