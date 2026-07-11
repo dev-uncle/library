@@ -1,0 +1,142 @@
+/* ============================================
+   BOOKS PAGE — Dark Theme Wrapper & Components
+   ============================================ */
+
+/* Page Wrapper — matches home-main-div gradient */
+.books-page-wrapper {
+  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
+  min-height: 100vh;
+  color: #ffffff;
+  padding-bottom: 5rem;
+}
+
+/* Section Headers — reuses home-section-header design */
+.books-page-wrapper .books-section-header {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  text-align: center;
+  position: relative;
+  margin-top: 4rem !important;
+  margin-bottom: 2.5rem !important;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.books-page-wrapper .books-section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #eb820a;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+}
+
+/* ============================================
+   BRAND NEW POPULAR BOOKS HEADING
+   ============================================ */
+.modern-popular-heading {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  text-align: center;
+  padding-top: 4rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  
+
+}
+
+@keyframes pulse-star {
+  0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.1) rotate(15deg); }
+}
+
+/* Section Subtitle */
+.books-page-wrapper .books-section-subtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Pagination — Dark Theme Override */
+.books-page-wrapper .pagination {
+  gap: 6px;
+}
+
+.books-page-wrapper .pagination .page-item .page-link {
+  background: rgba(30, 26, 20, 0.7) !important;
+  border: 1px solid rgba(235, 130, 10, 0.15) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.books-page-wrapper .pagination .page-item .page-link:hover {
+  background: rgba(235, 130, 10, 0.15) !important;
+  border-color: rgba(235, 130, 10, 0.4) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+.books-page-wrapper .pagination .page-item.active .page-link {
+  background: #eb820a !important;
+  border-color: #eb820a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.35);
+}
+
+.books-page-wrapper .pagination .page-item.disabled .page-link {
+  background: rgba(30, 26, 20, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.2) !important;
+  cursor: not-allowed;
+}
+
+/* Loading / Empty State */
+.books-page-wrapper .books-loading-text {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 1.1rem;
+  padding: 3rem 0;
+}
+
+/* Divider between sections */
+.books-page-wrapper .section-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(235, 130, 10, 0.2) 50%,
+    transparent 100%
+  );
+  margin: 2rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .books-page-wrapper .books-section-header {
+    font-size: 1.5rem;
+    letter-spacing: 0.5px;
+    margin-top: 3rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .books-page-wrapper .pagination .page-item .page-link {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+}

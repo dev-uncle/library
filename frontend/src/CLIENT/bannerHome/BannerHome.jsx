@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const BannerHome = () => {
   return (
     <div className='banner-container'>
-      <Carousel controls={false} interval={5000} fade>
+      <Carousel controls={false} indicators={false} interval={5000} fade>
         {bannerData.map((items) => {
           const { id, image, heading, paragraph } = items
           return (

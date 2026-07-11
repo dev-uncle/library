@@ -1,0 +1,74 @@
+/* ============================================
+   ALGORITHM SORT BUTTONS — Pill-style Toggles
+   ============================================ */
+
+.algo-sort-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 1.5rem 0 2rem 0;
+}
+
+/* Individual button — default: transparent with border */
+.algo-sort-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #eb820a;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #eb820a;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+.algo-sort-btn:hover {
+  border-color: rgba(235, 130, 10, 0.4);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Active state — solid amber bg, white text */
+.algo-sort-btn.active {
+  background: #eb820a !important;
+  border-color: #eb820a !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.25);
+}
+
+.algo-sort-btn.active:hover {
+  background: #ff9d2b !important;
+  border-color: #ff9d2b !important;
+}
+
+/* Icon inside button */
+.algo-sort-btn .algo-icon {
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Loading state */
+.algo-sort-btn.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .algo-sort-container {
+    gap: 8px;
+  }
+
+  .algo-sort-btn {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+}

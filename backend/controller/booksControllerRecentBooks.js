@@ -1,11 +1,12 @@
 const BookList = require('../models/bookScheme')
 
-// fetch only 4 books based on DATE (Latest/Recently ADDED books Fetching)
+// fetch books based on DATE (Latest/Recently ADDED books Fetching)
 const getAllRecentBooks = async (req, res) => {
-  const result = await BookList.find().sort({ createdAdded: -1 }).limit(4)
+  const limit = parseInt(req.query.limit) || 12
+  const result = await BookList.find().sort({ createdAdded: -1 }).limit(limit)
 
   res
-    .status(StatusCodes.OK)
+    .status(200)
     .json({ success: true, totalHits: result.length, data: result })
 }
 

@@ -1,11 +1,6 @@
-body {
-  margin: 0;
-  padding: 0;
+.login-page-wrapper {
   min-height: 100vh;
-
   background: url("/BannerOne.jpg") no-repeat center center/cover;
-
-  
 }
 
 /* LOCAL CSS Variables */

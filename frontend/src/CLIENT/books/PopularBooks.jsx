@@ -7,7 +7,6 @@ import axios from 'axios'
 
 const PopularBooks = () => {
   const PopularBooks_API_URL = `${backend_server}/api/v1/popularBooks`
-  // const { request_Book } = RequestBook()
 
   const [popularBooks, setPopularBooks] = useState([])
   const { request_Book } = RequestBook()
@@ -15,7 +14,6 @@ const PopularBooks = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(PopularBooks_API_URL)
-      // console.log(response)
       setPopularBooks(response.data.data)
     } catch (error) {
       console.log(error.response)
@@ -27,35 +25,37 @@ const PopularBooks = () => {
   }, [])
 
   return (
-    <div className='row'>
+    <div className='row mt-3 client-book-grid' style={{ gap: '24px 0' }}>
       {popularBooks.length > 0 ? (
         popularBooks.map((book) => {
           const { _id, title, image, author, available } = book
           const imgSrc = `${backend_server}/${image}`
 
           return (
-            <div className='col-lg-3 col-md-4 col-sm-6 col-6 gy-3' key={_id}>
+            <div className='col-lg-3 col-md-4 col-sm-6 col-6' key={_id} style={{ padding: '12px' }}>
               <div className='card h-100'>
-                <div className='card-img-top'>
+                <div className='card-img-container'>
+                  {available ? (
+                    <span className='status-badge available'>Available</span>
+                  ) : (
+                    <span className='status-badge outofstock'>Out of Stock</span>
+                  )}
                   <img
-                    style={{
-                      height: '100%',
-                      width: '100%',
-                    }}
-                    className='img-fluid'
+                    className='card-img-top'
                     src={imgSrc}
                     alt='book image'
-                  />{' '}
+                  />
+                  <div className='card-img-overlay-gradient'></div>
                 </div>
 
                 <div className='card-body'>
-                  <h5 className='h5 card-title'>{title}</h5>
-                  <p className='p card-text'>{author}</p>
-                  <div className='form-group mb-2 justify-content-center d-flex'>
+                  <h5 className='h5 card-title' title={title}>{title}</h5>
+                  <p className='card-text'>{author}</p>
+                  <div className='card-action-group'>
                     {available ? (
                       <button
                         type='button'
-                        className='btn btn-primary me-2'
+                        className='btn-card-primary'
                         onClick={() => request_Book(_id)}
                       >
                         Request
@@ -63,7 +63,7 @@ const PopularBooks = () => {
                     ) : (
                       <button
                         type='button'
-                        className='btn btn-primary me-2'
+                        className='btn-card-primary'
                         disabled
                       >
                         Out of Stock
@@ -71,7 +71,7 @@ const PopularBooks = () => {
                     )}
 
                     <Link to={`/books/${_id}`}>
-                      <button type='button' className='btn btn-secondary me-2'>
+                      <button type='button' className='btn-card-secondary'>
                         View
                       </button>
                     </Link>
@@ -82,7 +82,7 @@ const PopularBooks = () => {
           )
         })
       ) : (
-        <p className='p text-center'>Loading ...</p>
+        <p className='text-center w-100 py-5 books-loading-text'>Loading ...</p>
       )}
     </div>
   )
