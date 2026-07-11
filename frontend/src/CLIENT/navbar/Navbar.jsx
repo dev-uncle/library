@@ -22,16 +22,16 @@ const Navbar = () => {
   const { navbarLinks, navbarTitle, navbarImage } = navbarData
 
   return (
-    <nav className='navbar navbar-expand-xl '>
-      <div className='container-fluid'>
-        <Link to='/' className='a'>
+    <nav className='navbar navbar-expand-xl modern-glass-navbar sticky-top navbar-dark'>
+      <div className='container-fluid px-4 py-1'>
+        <Link to='/' className='navbar-brand d-flex align-items-center gap-3'>
           <img
             src={navbarImage}
             alt='Logo'
-            width={'50'}
-            className='d-sm-inline-block d-none'
+            width={'40'}
+            className='d-sm-inline-block d-none navbar-logo-img'
           />
-          <h4 className='h4 d-inline ' id='navbar-title-text'>
+          <h4 className='m-0 navbar-title-text'>
             {navbarTitle}
           </h4>
         </Link>
@@ -50,12 +50,12 @@ const Navbar = () => {
         </button>
 
         <div className='collapse navbar-collapse' id='navbarSupportedContent'>
-          <ul className='navbar-nav mb-2 mb-lg-0 justify-content-end fs-5'>
+          <ul className='navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2'>
             {navbarLinks.map((link, index) => {
               const { name, url } = link
               return (
                 <li className='nav-item' key={index}>
-                  <Link to={url} className='nav-link'>
+                  <Link to={url} className='nav-link modern-nav-link'>
                     {name}
                   </Link>
                 </li>

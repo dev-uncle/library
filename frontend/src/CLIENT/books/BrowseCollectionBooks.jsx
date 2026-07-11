@@ -8,14 +8,14 @@ const BrowseCollectionBooks = ({ bookData, searchResult }) => {
   const { request_Book } = RequestBook()
 
   return (
-    <div className='row mt-3 client-book-grid g-4'>
+    <div className='row mt-3 client-book-grid' style={{ gap: '24px 0' }}>
       {bookData.length > 0 ? (
         bookData.map((book) => {
           const { _id, title, image, author, available } = book
           const imgSrc = `${backend_server}/${image}`
 
           return (
-            <div className='col-xxl-3 col-lg-3 col-md-4 col-sm-6 col-6' key={_id}>
+            <div className='col-xxl-3 col-lg-3 col-md-4 col-sm-6 col-6' key={_id} style={{ padding: '12px' }}>
               <div className='card'>
                 <div className='card-img-container'>
                   {available ? (

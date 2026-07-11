@@ -15,6 +15,7 @@ const booksRouterRecentBooks = require("./routes/booksRoutesRecentBooks");
 const booksRouterFeaturedBooks = require("./routes/booksRoutesFeatured");
 const requestBookRouter = require("./routes/requestBooksRoute");
 const popularBooksRouter = require("./routes/popularBooksRoutes");
+const mostVisitedBooksRouter = require("./routes/mostVisitedBooksRoutes");
 
 const userRouter = require("./routes/usersRoute");
 
@@ -76,6 +77,7 @@ app.use("/api/v1/recentBooks", booksRouterRecentBooks);
 app.use("/api/v1/featuredBooks", booksRouterFeaturedBooks);
 app.use("/api/v1/requestBooks", verifyToken, requestBookRouter);
 app.use("/api/v1/popularBooks", popularBooksRouter);
+app.use("/api/v1/mostVisitedBooks", mostVisitedBooksRouter);
 
 // User Routes
 app.use("/api/v1/users", verifyToken, userRouter);

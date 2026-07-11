@@ -80,6 +80,7 @@ const Login = () => {
   }, [])
 
   return (
+    <div className='login-page-wrapper'>
     <div className='login-maindiv '>
       {/* TOP DIV */}
       <div className='login-upperdiv'>
@@ -132,6 +133,7 @@ const Login = () => {
           <button>SignUp</button>
         </Link>
       </div>
+    </div>
     </div>
   )
 }

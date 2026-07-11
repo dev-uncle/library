@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { backend_server } from '../../main'
 import axios from 'axios'
+import { FiFilter, FiX } from 'react-icons/fi'
 
 import './filterbooksform.css'
 
-const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
+const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive, fetchData }) => {
   const API_URL_FILTER = `${backend_server}/api/v1/filter`
   const API_ALLBOOKS_URL = `${backend_server}/api/v1/books`
   const empty_field = {
@@ -18,19 +19,20 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
   const [categories, setCategories] = useState([]) //all books CATEGORIES
   const [author, setAuthor] = useState([])
   const [language, setLanguage] = useState([])
+  const [showAdvanced, setShowAdvanced] = useState(false)
 
-  // Form Submit handle (FILTER data Fetched)
-  const handleFormSubmit = async (e) => {
-    e.preventDefault()
-
+  // Centralized fetch logic that accepts the updated fields directly
+  const fetchFilteredData = async (fields) => {
     // Checking if user falsly hit search without making any changes
-    // this fixes -> empty fields search means fetching all data which we dont want
-    if (JSON.stringify(filterFields) === JSON.stringify(empty_field)) {
-      return setFilterActive(false)
+    if (JSON.stringify(fields) === JSON.stringify(empty_field)) {
+      setFilterActive(false)
+      setSearchResult(true)
+      if (fetchData) fetchData(1)
+      return
     }
     setFilterActive(true)
 
-    const { title, category, author, language } = filterFields
+    const { title, category, author, language } = fields
     try {
       const response = await axios.get(API_URL_FILTER, {
         params: {
@@ -42,17 +44,23 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
       })
 
       let totalHits = response.data.total
-      // console.log(totalHits)
       if (totalHits == 0) {
         setSearchResult(false)
+      } else {
+        setSearchResult(true)
       }
 
       setBookData(response.data.data)
-      // console.log(filterFields)
     } catch (error) {
       console.log(error)
       console.log(error.response)
     }
+  }
+
+  // Form Submit handle (FILTER data Fetched)
+  const handleFormSubmit = async (e) => {
+    if (e) e.preventDefault()
+    fetchFilteredData(filterFields)
   }
 
   // FORM INPUT FIELDS On Change Handlers
@@ -60,17 +68,26 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
     const { name, value } = e.target
     setFilterFields({ ...filterFields, [name]: value })
   }
+  
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value
-    setFilterFields({ ...filterFields, category: selectedCategory })
+    const newFields = { ...filterFields, category: selectedCategory }
+    setFilterFields(newFields)
+    fetchFilteredData(newFields) // Auto-submit
   }
+  
   const handleAuthorChange = (e) => {
     const selectedAuthor = e.target.value
-    setFilterFields({ ...filterFields, author: selectedAuthor })
+    const newFields = { ...filterFields, author: selectedAuthor }
+    setFilterFields(newFields)
+    fetchFilteredData(newFields) // Auto-submit
   }
+  
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value
-    setFilterFields({ ...filterFields, language: selectedLanguage })
+    const newFields = { ...filterFields, language: selectedLanguage }
+    setFilterFields(newFields)
+    fetchFilteredData(newFields) // Auto-submit
   }
 
   // Fetch ALL  Book Categories / Author / Language
@@ -102,10 +119,6 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
         ),
       ]
 
-      // console.log(bookCategories)
-      // console.log(bookAuthor)
-      // console.log(bookLanguage)
-
       setCategories(bookCategories)
       setAuthor(bookAuthor)
       setLanguage(bookLanguage)
@@ -127,35 +140,71 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
 
     // After clearing all FORM Field , we have to refetch all Categories,Author's and Language's
     fetchAllCategories()
+
+    // Restore full list
+    setFilterActive(false)
+    setSearchResult(true)
+    if (fetchData) fetchData(1)
   }
 
   return (
-    <div className='container '>
-      <div className='row my-3 justify-content-center'>
-        <div className='col-md-8'>
-          <form method='get' className='form-inline d-flex'>
-            {/* Search Filter */}
-            <div className='form-group mx-1 my-1  col-xl-4'>
-              <input
-                type='text'
-                className='form-control mx-1'
-                autoComplete='off'
-                placeholder='Search by title . . .'
-                name='title'
-                value={filterFields.title}
-                onChange={handleSearchTitleOnChange}
-              />
-            </div>
+    <div className='books-filter-container'>
+      <form method='get' className='form-inline d-flex flex-column'>
+        {/* TOP ROW: Primary Search & Actions */}
+        <div className='d-flex align-items-center flex-wrap w-100 mb-2'>
+          {/* Search Filter */}
+          <div className='form-group mx-1 my-1 flex-grow-1' style={{ minWidth: '250px' }}>
+            <input
+              type='text'
+              className='form-control'
+              autoComplete='off'
+              placeholder='Search by title . . .'
+              name='title'
+              value={filterFields.title}
+              onChange={handleSearchTitleOnChange}
+            />
+          </div>
 
+          <div className='d-flex text-center align-items-center flex-wrap'>
+            <button
+              type='button'
+              className='btn btn-advanced-filter mx-1 my-1 d-flex justify-content-center align-items-center'
+              onClick={() => setShowAdvanced(!showAdvanced)}
+              title={showAdvanced ? 'Hide Advanced Filters' : 'Show Advanced Filters'}
+              style={{ width: '42px', height: '42px', padding: 0 }}
+            >
+              {showAdvanced ? <FiX size={20} /> : <FiFilter size={20} />}
+            </button>
+
+            <button
+              type='submit'
+              className='btn btn-filter-search mx-1 my-1'
+              onClick={handleFormSubmit}
+            >
+              Search
+            </button>
+            <button
+              type='button'
+              className='btn btn-filter-clear mx-1 my-1'
+              onClick={handleClearFilter}
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+
+        {/* BOTTOM ROW: Advanced Filters */}
+        {showAdvanced && (
+          <div className='d-flex align-items-center flex-wrap w-100 mt-2 p-3 advanced-filter-panel'>
             {/* Category Filter */}
-            <div className='form-group mx-1 my-1 col-xl-2'>
+            <div className='form-group mx-1 my-1 flex-grow-1'>
               <select
-                className='form-control mx-1'
-                defaultValue=''
+                className='form-control'
+                value={filterFields.category}
                 onChange={handleCategoryChange}
               >
                 <option key='' value=''>
-                  Categories
+                  All Categories
                 </option>
                 {categories.map((books_category) => {
                   return (
@@ -168,14 +217,14 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
             </div>
 
             {/* Author Filter */}
-            <div className='form-group mx-1 my-1 col-xl-2'>
+            <div className='form-group mx-1 my-1 flex-grow-1'>
               <select
-                className='form-control mx-1'
-                defaultValue=''
+                className='form-control'
+                value={filterFields.author}
                 onChange={handleAuthorChange}
               >
                 <option key='' value=''>
-                  Author
+                  All Authors
                 </option>
                 {author.map((books_author) => {
                   return (
@@ -188,14 +237,14 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
             </div>
 
             {/* Language Filter */}
-            <div className='form-group mx-1 my-1 col-xl-2'>
+            <div className='form-group mx-1 my-1 flex-grow-1'>
               <select
-                className='form-control mx-1'
-                defaultValue='all'
+                className='form-control'
+                value={filterFields.language}
                 onChange={handleLanguageChange}
               >
                 <option key='' value=''>
-                  Language
+                  All Languages
                 </option>
                 {language.map((books_language) => {
                   return (
@@ -206,29 +255,9 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive }) => {
                 })}
               </select>
             </div>
-
-            <div
-              className='col-xl-2 d-flex text-center '
-              style={{ width: 'fit-content' }}
-            >
-              <button
-                type='submit'
-                className='btn btn-success mx-1 my-1 '
-                onClick={handleFormSubmit}
-              >
-                Search
-              </button>
-              <button
-                type='button'
-                className='btn btn-danger mx-1 my-1'
-                onClick={handleClearFilter}
-              >
-                Clear Filter
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
+          </div>
+        )}
+      </form>
     </div>
   )
 }

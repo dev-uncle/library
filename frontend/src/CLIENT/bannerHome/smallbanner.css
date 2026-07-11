@@ -1,21 +1,77 @@
+/* ============================================
+   SMALL BANNER — Dark Parallax Quote Section
+   ============================================ */
+
 .div-with-background {
   height: 400px;
   overflow: hidden;
   background-image: linear-gradient(
-      rgba(255, 255, 255, 0.65),
-      rgba(45, 21, 153, 0.3)
+      rgba(6, 5, 4, 0.55),
+      rgba(13, 11, 9, 0.75)
     ),
     url('/intothewildBanner.jpg');
-  overflow: hidden;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: bottom;
   background-attachment: fixed;
-  background-color: rgb(75, 129, 177);
+  border: none !important;
+  border-top: 1px solid rgba(235, 130, 10, 0.1) !important;
+  border-bottom: 1px solid rgba(235, 130, 10, 0.1) !important;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Subtle amber glow overlay */
+.div-with-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(235, 130, 10, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
 }
 
 .quote-container {
   text-align: right;
   width: auto;
   color: white;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  font-style: italic;
+  color: #ffffff !important;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  line-height: 1.4;
+}
+
+.quote-container p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #eb820a !important;
+  margin-top: 1rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .div-with-background {
+    height: 280px;
+  }
+
+  .quote-container h1 {
+    font-size: 1.3rem;
+  }
+
+  .quote-container p {
+    font-size: 0.85rem;
+  }
 }

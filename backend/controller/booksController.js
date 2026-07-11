@@ -60,6 +60,9 @@ const getSingleBook = async (req, res) => {
     })
   }
 
+  // Increment view count (fire-and-forget, don't await)
+  BookList.findByIdAndUpdate(bookID, { $inc: { viewCount: 1 } }).catch(() => {})
+
   res.status(StatusCodes.OK).json({ success: true, data: result })
 }
 

@@ -1,16 +1,16 @@
 import React from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
-import './aboutbanner.css'
 
 const AboutUsBanner = () => {
   return (
-    <div className='about-div-with-background border mt-5'>
-      <Container>
-        <Row className='about-quote-container mt-5 me-1'>
-          <h1></h1>
-          <p></p>
-        </Row>
-      </Container>
+    <div className='about-hero-banner'>
+      <div className='about-hero-overlay'></div>
+      <div className='about-hero-content'>
+        <h1 className='about-hero-title'>Welcome to Our Library</h1>
+        <p className='about-hero-subtitle'>
+          Empowering the youth of Rodriguez, Rizal through technology-driven, 
+          accessible, and value-oriented education at Colegio de Montalban.
+        </p>
+      </div>
     </div>
   )
 }

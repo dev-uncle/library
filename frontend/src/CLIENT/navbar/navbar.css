@@ -1,77 +1,115 @@
-.navbar {
-  background-color: #ffffff;
+/* ============================================
+   MODERN GLASS NAVBAR
+   ============================================ */
+
+.modern-glass-navbar {
+  background: rgba(13, 11, 9, 0.85); /* Deep dark tint */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+  z-index: 1030;
 }
 
-/* Gap between navbar links */
-.navbar li {
-  margin-right: 0.8rem;
-}
-
-#navbar-search-btn {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: black;
-  background-color: rgb(199, 132, 7);
-}
-
-.a {
+/* Brand Logo & Title */
+.navbar-brand {
   text-decoration: none;
-  color: rgb(98, 62, 2);
-}
-.a:hover {
-  color: rgb(234, 191, 36);
+  transition: opacity 0.3s ease;
 }
 
-/* rendering based on if user logged or not */
-#nav-conditional-rendering {
-  display: flex;
+.navbar-brand:hover {
+  opacity: 0.85;
 }
 
-@media screen and (max-width: 1199px) {
-  #nav-conditional-rendering {
-    display: flex;
-    flex-direction: column;
-  }
+.navbar-logo-img {
+  filter: drop-shadow(0 0 4px rgba(235, 130, 10, 0.4));
 }
 
-/* Navbar mobile button */
+.navbar-title-text {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, #ffffff 0%, #eb820a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(235, 130, 10, 0.2);
+}
+
+/* Modern Navigation Links */
+.modern-nav-link {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: 0.5rem 1rem !important;
+  position: relative;
+  transition: color 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.modern-nav-link:hover {
+  color: #ffffff !important;
+}
+
+/* Elegant Underline Animation instead of bulky box */
+.modern-nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: #eb820a;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+}
+
+.modern-nav-link:hover::after,
+.modern-nav-link.active::after {
+  width: 70%;
+}
+
+.modern-nav-link.active {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+/* Toggler / Hamburger Button */
 #navbar-mobileview-btn {
-  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+}
+
+#navbar-mobileview-btn:focus {
+  box-shadow: 0 0 0 0.25rem rgba(235, 130, 10, 0.25);
+}
+
+/* Responsive Overrides */
+@media screen and (max-width: 1199px) {
+  .navbar-collapse {
+    background: rgba(13, 11, 9, 0.95);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .modern-nav-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .modern-nav-link::after {
+    bottom: 5px; /* Adjust underline placement for mobile stacking */
+  }
 }
 
 @media screen and (max-width: 380px) {
-  #navbar-mobileview-btn {
-    font-size: 1rem;
-  }
-
-  #navbar-title-text {
+  .navbar-title-text {
     font-size: 1.1rem;
   }
-}
-
-@media screen and (max-width: 340px) {
-  #navbar-mobileview-btn {
-    font-size: 0.5rem;
-  }
-}
-.navbar a {
-  text-decoration: none;
-  color: rgb(98, 62, 2);
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
-}
-
-/* ACTIVE TAB (boxed button look) */
-.navbar a.active {
-  background-color: rgb(199, 132, 7);
-  color: white; /* better contrast */
-  font-weight: 600;
-  border: 2px solid rgb(199, 132, 7); /* solid box feel */
-  border-radius: 0.6rem;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
-}
-
-/* Optional: keep hover consistent */
-.navbar a:hover {
-  background-color: rgba(199, 132, 7, 0.15);
 }

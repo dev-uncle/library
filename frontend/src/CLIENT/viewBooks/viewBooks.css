@@ -1,13 +1,179 @@
-@media screen and (min-width: 992px) {
-  .image-div {
-    text-align: right !important;
-    width: fit-content !important;
-  }
+/* ============================================
+   VIEW BOOK DETAILS - PREMIUM DARK UI
+   ============================================ */
+
+.view-book-wrapper {
+  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
+  min-height: 100vh;
+  color: #ffffff;
 }
 
+/* Glassmorphic Card */
+.glass-detail-card {
+  background: rgba(30, 26, 20, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Back Button */
+.back-ghost-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.back-ghost-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Book Cover Styling */
+.book-cover-wrapper {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.book-cover-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.book-cover-wrapper:hover .book-cover-img {
+  transform: scale(1.05);
+}
+
+/* Typography */
+.book-detail-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.book-detail-author {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* Meta Badges */
+.book-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.meta-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.category-badge {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.language-badge {
+  background: rgba(66, 153, 225, 0.1);
+  color: #63b3ed;
+  border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.status-badge.in-stock {
+  background: rgba(72, 187, 120, 0.1);
+  color: #68d391;
+  border: 1px solid rgba(72, 187, 120, 0.2);
+}
+
+.status-badge.out-of-stock {
+  background: rgba(245, 101, 101, 0.1);
+  color: #fc8181;
+  border: 1px solid rgba(245, 101, 101, 0.2);
+}
+
+/* Synopsis */
+.synopsis-title {
+  font-size: 1.2rem;
+  color: #ffffff !important;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.synopsis-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Primary Action Button */
+.request-action-btn {
+  background: linear-gradient(135deg, #eb820a 0%, #ff9d2b 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(235, 130, 10, 0.4);
+  width: 100%;
+  max-width: 300px;
+}
+
+.request-action-btn:hover:not(.disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(235, 130, 10, 0.6);
+}
+
+.request-action-btn.disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Responsive Overrides */
 @media screen and (max-width: 991px) {
-  .image-div {
-    text-align: center !important;
-    width: fit-content !important;
+  .book-detail-title {
+    font-size: 2rem;
+  }
+  .image-container {
+    padding-bottom: 0 !important;
+  }
+  .book-cover-wrapper {
+    max-width: 250px;
   }
 }
