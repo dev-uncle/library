@@ -57,10 +57,10 @@
 
 /* ── Filter card ─────────────────────────────── */
 .mb-filter-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   padding: 1rem 1.25rem;
   margin-bottom: 1.25rem;
@@ -103,8 +103,8 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -112,14 +112,14 @@
 }
 
 .mb-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--input-placeholder);
 }
 
 .mb-input:focus,
 .mb-select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-input-focus);
 }
 
 .mb-select {
@@ -129,8 +129,8 @@
 }
 
 .mb-select option {
-  background-color: #16120e;
-  color: #ffffff;
+  background-color: var(--select-bg-option);
+  color: var(--text-primary);
 }
 
 /* ── Filter buttons ──────────────────────────── */
@@ -162,21 +162,21 @@
 }
 
 .mb-filter-btn--clear {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: var(--bg-input-btn) !important;
   color: var(--text-muted);
   border: 1px solid var(--border-color);
 }
 .mb-filter-btn--clear:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: var(--bg-hover) !important;
   color: var(--text-primary);
 }
 
 /* ── Table card ──────────────────────────────── */
 .mb-table-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
@@ -194,7 +194,7 @@
 }
 
 .mb-table thead {
-  background: rgba(22, 18, 14, 0.8);
+  background: var(--bg-table-head);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -210,7 +210,7 @@
 }
 
 .mb-table tbody tr {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border-row);
   transition: background 0.15s ease;
 }
 
@@ -219,7 +219,7 @@
 }
 
 .mb-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--bg-row-hover);
 }
 
 .mb-table tbody td {
@@ -299,17 +299,17 @@
 /* ── Pagination ──────────────────────────────── */
 .mb-pagination {
   padding: 1rem 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid var(--border-row);
   display: flex;
   justify-content: center;
 }
 
 /* ── Skeleton loader ─────────────────────────── */
 .mb-skeleton-wrap {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   padding: 0.5rem 0;
   box-shadow: var(--shadow-card);
@@ -320,7 +320,7 @@
   height: 52px;
   margin: 0.25rem 1rem;
   border-radius: var(--radius-sm);
-  background: linear-gradient(90deg, #1e1a14 25%, #2a2218 50%, #1e1a14 75%);
+  background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-to) 50%, var(--skeleton-from) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s infinite;
 }
@@ -338,10 +338,10 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 4rem 2rem;
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   color: var(--text-muted);
   box-shadow: var(--shadow-card);

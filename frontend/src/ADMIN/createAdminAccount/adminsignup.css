@@ -6,15 +6,15 @@
   width: 100%;
   max-width: 480px;
   margin: 3rem auto;
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 2.25rem 2rem;
   font-family: 'Inter', sans-serif;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Header Section */
@@ -89,8 +89,8 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -99,11 +99,11 @@
 .signup-middlediv input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-input-focus);
 }
 
 .signup-middlediv input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--input-placeholder);
 }
 
 /* Password field with Eye toggle */

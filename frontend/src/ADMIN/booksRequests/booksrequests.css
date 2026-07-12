@@ -45,10 +45,10 @@
 
 /* ── Table card ──────────────────────────────── */
 .br-table-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
@@ -66,7 +66,7 @@
 }
 
 .br-table thead {
-  background: rgba(22, 18, 14, 0.8);
+  background: var(--bg-table-head);
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -88,11 +88,11 @@
 }
 
 .br-table tbody tr {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border-row);
   transition: background 0.15s ease;
 }
 .br-table tbody tr:last-child { border-bottom: none; }
-.br-table tbody tr:hover { background: rgba(255, 255, 255, 0.04); }
+.br-table tbody tr:hover { background: var(--bg-row-hover); }
 
 .br-table tbody td {
   padding: 0.95rem 1rem;
@@ -174,8 +174,8 @@
   font-size: 0.8rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   cursor: pointer;
@@ -185,11 +185,11 @@
 .br-select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-input-focus);
 }
 .br-select option {
-  background-color: #16120e;
-  color: #ffffff;
+  background-color: var(--select-bg-option);
+  color: var(--text-primary);
 }
 
 .br-update-btn {
@@ -221,10 +221,10 @@
 
 /* ── Skeleton ────────────────────────────────── */
 .br-skeleton-wrap {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   padding: 0.5rem 0;
   box-shadow: var(--shadow-card);
@@ -233,7 +233,7 @@
   height: 52px;
   margin: 0.25rem 1rem;
   border-radius: var(--radius-sm);
-  background: linear-gradient(90deg, #1e1a14 25%, #2a2218 50%, #1e1a14 75%);
+  background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-to) 50%, var(--skeleton-from) 75%);
   background-size: 200% 100%;
   animation: br-shimmer 1.4s infinite;
 }
@@ -250,10 +250,10 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 4rem 2rem;
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   color: var(--text-muted);
   box-shadow: var(--shadow-card);

@@ -53,10 +53,10 @@
 
 /* ── Form card ───────────────────────────────── */
 .anb-form-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
@@ -83,8 +83,8 @@
 /* ── LEFT — Image column ─────────────────────── */
 .anb-image-col {
   padding: 1.75rem 1.5rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(30, 26, 20, 0.25);
+  border-right: 1px solid var(--border-inner);
+  background: var(--bg-card-inner);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,7 +94,7 @@
 .anb-dropzone {
   width: 100%;
   aspect-ratio: 3 / 4;
-  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border: 2px dashed var(--border-input);
   border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
@@ -103,7 +103,7 @@
   overflow: hidden;
   transition: border-color 0.2s ease, background 0.2s ease;
   position: relative;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-input);
 }
 .anb-dropzone:hover {
   border-color: var(--accent);
@@ -215,8 +215,8 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -224,10 +224,10 @@
 .anb-input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-input-focus);
 }
 .anb-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--input-placeholder);
 }
 
 .anb-select {
@@ -235,8 +235,8 @@
   appearance: auto;
 }
 .anb-select option {
-  background-color: #16120e;
-  color: #ffffff;
+  background-color: var(--select-bg-option);
+  color: var(--text-primary);
 }
 
 .anb-textarea {
@@ -252,7 +252,7 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: rgba(30, 26, 20, 0.95);
+  background: var(--bg-card-solid);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(235, 130, 10, 0.2);
@@ -287,7 +287,7 @@
   justify-content: flex-end;
   margin-top: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-inner);
 }
 
 .anb-submit-btn {

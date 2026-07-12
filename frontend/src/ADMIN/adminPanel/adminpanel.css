@@ -39,10 +39,10 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   padding: 1.25rem 1.25rem;
   text-decoration: none;
@@ -104,7 +104,7 @@
   display: inline-block;
   width: 56px;
   height: 28px;
-  background: linear-gradient(90deg, #1e1a14 25%, #2a2218 50%, #1e1a14 75%);
+  background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-to) 50%, var(--skeleton-from) 75%);
   background-size: 200% 100%;
   border-radius: 6px;
   animation: shimmer 1.4s infinite;
@@ -177,10 +177,10 @@
   align-items: center;
   gap: 0.65rem;
   padding: 0.85rem 1rem;
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
   text-decoration: none;
   color: var(--text-primary);
@@ -273,10 +273,10 @@
 
 /* ── Chart card ─────────────────────────────── */
 .chart-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   box-shadow: var(--shadow-card);

@@ -5,8 +5,9 @@ import {
   HiOutlineBell,
   HiOutlineChevronRight,
 } from 'react-icons/hi'
-import { HiOutlineArrowRightOnRectangle } from 'react-icons/hi2'
+import { HiOutlineArrowRightOnRectangle, HiOutlineSun, HiOutlineMoon } from 'react-icons/hi2'
 import { useSidebar } from '../context/SidebarContext'
+import { useTheme } from '../context/ThemeContext'
 import './navbar.css'
 
 /* Map route segments → human-readable labels */
@@ -34,6 +35,7 @@ const buildBreadcrumb = (pathname) => {
 
 const AdminNavbar = () => {
   const { toggle } = useSidebar()
+  const { theme, toggleTheme } = useTheme()
   const location = useLocation()
   const breadcrumb = buildBreadcrumb(location.pathname)
 
@@ -80,6 +82,19 @@ const AdminNavbar = () => {
 
       {/* ── Right: actions + profile ─────────── */}
       <div className='topbar-right'>
+        {/* Theme toggle */}
+        <button
+          id='topbar-theme-btn'
+          className='topbar-icon-btn theme-toggle-btn'
+          onClick={toggleTheme}
+          aria-label='Toggle theme'
+          title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {theme === 'dark'
+            ? <HiOutlineSun size={20} />
+            : <HiOutlineMoon size={20} />}
+        </button>
+
         {/* Notification bell */}
         <button id='topbar-notif-btn' className='topbar-icon-btn' aria-label='Notifications'>
           <HiOutlineBell size={22} />

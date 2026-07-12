@@ -65,10 +65,10 @@
 
 /* ── Table card ──────────────────────────────── */
 .vu-table-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
@@ -82,7 +82,7 @@
   font-size: 0.875rem;
 }
 .vu-table thead {
-  background: rgba(22, 18, 14, 0.8);
+  background: var(--bg-table-head);
   border-bottom: 1px solid var(--border-color);
 }
 .vu-table thead th {
@@ -101,11 +101,11 @@
   gap: 0.3rem;
 }
 .vu-table tbody tr {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border-row);
   transition: background 0.15s ease;
 }
 .vu-table tbody tr:last-child { border-bottom: none; }
-.vu-table tbody tr:hover { background: rgba(255, 255, 255, 0.04); }
+.vu-table tbody tr:hover { background: var(--bg-row-hover); }
 .vu-table tbody td {
   padding: 0.95rem 1rem;
   color: var(--text-primary);
@@ -219,10 +219,10 @@
 
 /* ── Skeleton ────────────────────────────────── */
 .vu-skeleton-wrap {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   padding: 0.5rem 0;
   box-shadow: var(--shadow-card);
@@ -231,7 +231,7 @@
   height: 52px;
   margin: 0.25rem 1rem;
   border-radius: var(--radius-sm);
-  background: linear-gradient(90deg, #1e1a14 25%, #2a2218 50%, #1e1a14 75%);
+  background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-to) 50%, var(--skeleton-from) 75%);
   background-size: 200% 100%;
   animation: vu-shimmer 1.4s infinite;
 }
@@ -248,10 +248,10 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 4rem 2rem;
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   color: var(--text-muted);
   box-shadow: var(--shadow-card);
@@ -264,10 +264,10 @@
 
 /* ── Profile card ────────────────────────────── */
 .uip-profile-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   display: flex;
@@ -284,8 +284,8 @@
   justify-content: center;
   gap: 0.65rem;
   padding: 2rem 2rem;
-  background: rgba(30, 26, 20, 0.25);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-card-inner);
+  border-right: 1px solid var(--border-inner);
   min-width: 180px;
 }
 .uip-avatar {
@@ -332,8 +332,8 @@
   flex-direction: column;
   gap: 0.3rem;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--border-row);
+  border-right: 1px solid var(--border-row);
 }
 .uip-info-item:nth-child(even) { border-right: none; }
 .uip-info-item:nth-last-child(-n+2) { border-bottom: none; }
@@ -400,7 +400,7 @@
   padding: 1rem;
 }
 .uip-modal {
-  background: rgba(30, 26, 20, 0.95);
+  background: var(--bg-card-solid);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(235, 130, 10, 0.2);
@@ -421,7 +421,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--border-inner);
 }
 .uip-modal-title {
   font-size: 1rem !important;
@@ -467,8 +467,8 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -477,7 +477,7 @@
 .uip-modal-input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-input-focus);
 }
 .uip-modal-input:disabled {
   opacity: 0.6;
@@ -489,13 +489,13 @@
   justify-content: flex-end;
   gap: 0.6rem;
   padding-top: 0.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-inner);
 }
 .uip-modal-cancel {
   padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: var(--bg-input-btn) !important;
   color: var(--text-muted) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 500;
@@ -503,7 +503,7 @@
   cursor: pointer;
   transition: background 0.2s ease;
 }
-.uip-modal-cancel:hover { background: rgba(255, 255, 255, 0.15) !important; }
+.uip-modal-cancel:hover { background: var(--bg-hover) !important; }
 .uip-modal-submit {
   padding: 0.5rem 1.25rem;
   background: var(--accent) !important;

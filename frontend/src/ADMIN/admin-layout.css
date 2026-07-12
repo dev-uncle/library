@@ -6,7 +6,7 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
+  background: var(--bg-shell);
 }
 
 /* ── Main content area ─────────────────────── */
