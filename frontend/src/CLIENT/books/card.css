@@ -219,3 +219,21 @@
     font-size: 0.75rem;
   }
 }
+
+/* E-Book Badge on Top-Left */
+.client-book-grid .status-badge.ebook-badge {
+  left: 15px;
+  right: auto;
+  background-color: rgba(235, 130, 10, 0.85);
+  border: 1px solid rgba(235, 130, 10, 0.5);
+  color: #ffffff !important;
+}
+
+@media screen and (max-width: 576px) {
+  .client-book-grid .status-badge.ebook-badge {
+    left: 10px;
+    right: auto;
+    padding: 4px 8px;
+    font-size: 0.65rem;
+  }
+}

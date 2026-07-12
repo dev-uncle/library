@@ -28,7 +28,7 @@ const PopularBooks = () => {
     <div className='row mt-3 client-book-grid' style={{ gap: '24px 0' }}>
       {popularBooks.length > 0 ? (
         popularBooks.map((book) => {
-          const { _id, title, image, author, available } = book
+          const { _id, title, image, author, available, quantity, bookFile } = book
           const imgSrc = `${backend_server}/${image}`
 
           return (
@@ -36,9 +36,12 @@ const PopularBooks = () => {
               <div className='card h-100'>
                 <div className='card-img-container'>
                   {available ? (
-                    <span className='status-badge available'>Available</span>
+                    <span className='status-badge available'>Available ({quantity ?? 1})</span>
                   ) : (
                     <span className='status-badge outofstock'>Out of Stock</span>
+                  )}
+                  {bookFile && (
+                    <span className='status-badge ebook-badge'>E-Book</span>
                   )}
                   <img
                     className='card-img-top'

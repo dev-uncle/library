@@ -27,13 +27,14 @@ const AddNewBook = () => {
     author: '',
     description: 'Some description about the book',
     category: '',
-    available: true,
+    quantity: 1,
     featured: false,
     language: 'ENGLISH',
   }
 
   const [selectedImage, setSelectedImage] = useState(null)
   const [imagePreview, setImagePreview] = useState(null)
+  const [selectedBookFile, setSelectedBookFile] = useState(null)
   const [inputvalue, setInputValue] = useState(empty_inputfield)
   const [relatedCategories, setRelatedCategories] = useState([])
   const [submitting, setSubmitting] = useState(false)
@@ -47,6 +48,10 @@ const AddNewBook = () => {
 
   const handleImageChange = (e) => {
     if (e.target.files?.[0]) setSelectedImage(e.target.files[0])
+  }
+
+  const handleBookFileChange = (e) => {
+    if (e.target.files?.[0]) setSelectedBookFile(e.target.files[0])
   }
 
   const handleDrop = (e) => {
@@ -87,14 +92,21 @@ const AddNewBook = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!selectedImage) {
+      toast.error('Please upload a cover image')
+      return
+    }
     setSubmitting(true)
     const formData = new FormData()
     formData.append('image', selectedImage)
+    if (selectedBookFile) {
+      formData.append('bookFile', selectedBookFile)
+    }
     formData.append('title', inputvalue.title)
     formData.append('author', inputvalue.author)
     formData.append('description', inputvalue.description)
     formData.append('category', inputvalue.category)
-    formData.append('available', inputvalue.available)
+    formData.append('quantity', inputvalue.quantity)
     formData.append('featured', inputvalue.featured)
     formData.append('language', inputvalue.language)
     try {
@@ -102,6 +114,7 @@ const AddNewBook = () => {
       toast.success('Book created successfully!')
       setInputValue(empty_inputfield)
       setSelectedImage(null)
+      setSelectedBookFile(null)
     } catch (error) {
       toast.error('Failed to create book.')
       console.error(error.response)
@@ -167,6 +180,27 @@ const AddNewBook = () => {
                   Remove image
                 </button>
               )}
+
+              {/* ── E-Book File Upload ── */}
+              <div style={{ width: "100%", marginTop: "1.5rem", borderTop: "1px solid var(--border-inner)", paddingTop: "1.5rem" }}>
+                <span className='anb-section-label' style={{ marginBottom: "0.5rem", display: "block" }}>E-Book Document</span>
+                <label className="anb-file-label" htmlFor="anb-file-input">
+                  <HiOutlineDocumentText size={18} />
+                  {selectedBookFile ? "Change Selected PDF" : "Choose PDF File"}
+                </label>
+                <input
+                  id='anb-file-input'
+                  type='file'
+                  accept='.pdf,.doc,.docx,.epub'
+                  style={{ display: 'none' }}
+                  onChange={handleBookFileChange}
+                />
+                {selectedBookFile && (
+                  <p style={{ fontSize: '0.78rem', color: 'var(--accent)', marginTop: '8px', textAlign: 'center', wordBreak: 'break-all' }}>
+                    Selected: {selectedBookFile.name}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* ── RIGHT — Fields ──────────────── */}
@@ -261,22 +295,21 @@ const AddNewBook = () => {
                   />
                 </div>
 
-                {/* Available */}
+                {/* Quantity */}
                 <div className='anb-field'>
-                  <label className='anb-label' htmlFor='anb-available'>
-                    <HiOutlineCheckCircle size={14} /> Available
+                  <label className='anb-label' htmlFor='anb-quantity'>
+                    <HiOutlineCheckCircle size={14} /> Quantity (Stock)
                   </label>
-                  <select
-                    id='anb-available'
-                    className='anb-input anb-select'
-                    name='available'
-                    value={inputvalue.available.toString()}
-                    onChange={handleOnChangeSelectOptions}
+                  <input
+                    id='anb-quantity'
+                    type='number'
+                    className='anb-input'
+                    name='quantity'
+                    value={inputvalue.quantity}
+                    onChange={handleOnChange}
+                    min='0'
                     required
-                  >
-                    <option value='true'>Yes</option>
-                    <option value='false'>No</option>
-                  </select>
+                  />
                 </div>
 
                 {/* Featured */}

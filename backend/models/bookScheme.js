@@ -31,6 +31,15 @@ const bookSchemeStructure = mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  quantity: {
+    type: Number,
+    default: 1,
+    min: 0,
+  },
+  bookFile: {
+    type: String,
+    default: "",
+  },
   featured: {
     type: Boolean,
     default: false,
@@ -51,10 +60,13 @@ const bookSchemeStructure = mongoose.Schema({
 })
 
 // Pre-save middleware
-// Converting Category to all UPPERCASE
+// Converting Category to all UPPERCASE and setting availability
 bookSchemeStructure.pre('save', function (next) {
   if (this.category) {
     this.category = this.category.toUpperCase()
+  }
+  if (typeof this.quantity === 'number') {
+    this.available = this.quantity > 0
   }
   next()
 })

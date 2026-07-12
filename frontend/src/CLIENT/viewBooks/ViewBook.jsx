@@ -48,13 +48,13 @@ const ViewBook = () => {
           <h5>
             Available :
             {bookData.available ? (
-              <span> In Stock</span>
+              <span> In Stock ({bookData.quantity ?? 0} left)</span>
             ) : (
               <span> Out of Stock</span>
             )}{' '}
           </h5>
 
-          <h5 className='h5 my-1 mt-3 '>Sypnosis :</h5>
+          <h5 className='h5 my-1 mt-3 '>Synopsis :</h5>
           <h6 className='h6  my-2'> {bookData.description}</h6>
 
           {/* Request Books Button */}
@@ -75,6 +75,18 @@ const ViewBook = () => {
               >
                 Out of Stock
               </button>
+            )}
+
+            {bookData.bookFile && (
+              <a
+                href={`${backend_server}/${bookData.bookFile}`}
+                target="_blank"
+                rel="noreferrer"
+                className='btn btn-success me-2 mt-3'
+                style={{ color: '#ffffff' }}
+              >
+                Read E-Book
+              </a>
             )}
 
             <button

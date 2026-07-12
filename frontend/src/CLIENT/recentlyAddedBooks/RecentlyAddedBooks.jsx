@@ -42,7 +42,7 @@ const RecentlyAddedBooks = () => {
           </div>
         ) : latestBooks.length > 0 ? (
           latestBooks.map((book) => {
-            const { _id, title, image, author, available } = book
+            const { _id, title, image, author, available, quantity, bookFile } = book
             const imgSrc = `${backend_server}/${image}`
 
             return (
@@ -53,9 +53,12 @@ const RecentlyAddedBooks = () => {
                 <div className='card'>
                   <div className='card-img-container'>
                     {available ? (
-                      <span className='status-badge available'>Available</span>
+                      <span className='status-badge available'>Available ({quantity ?? 1})</span>
                     ) : (
                       <span className='status-badge outofstock'>Out of Stock</span>
+                    )}
+                    {bookFile && (
+                      <span className='status-badge ebook-badge'>E-Book</span>
                     )}
                     <img
                       className='card-img-top'

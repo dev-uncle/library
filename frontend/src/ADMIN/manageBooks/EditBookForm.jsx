@@ -19,6 +19,7 @@ import {
   HiOutlineDocumentText,
   HiOutlineTrash,
   HiOutlineArrowPath,
+  HiOutlineCheckCircle,
 } from "react-icons/hi2";
 
 const EditBookForm = () => {
@@ -30,6 +31,7 @@ const EditBookForm = () => {
     title: "",
     category: "",
     author: "",
+    quantity: 1,
     available: false,
     featured: false,
     description: "",
@@ -171,6 +173,36 @@ const EditBookForm = () => {
     }
   };
 
+  const [selectedBookFile, setSelectedBookFile] = useState(null);
+  const [updatingBookFile, setUpdatingBookFile] = useState(false);
+
+  const handleBookFileChange = (event) => {
+    if (event.target.files?.[0]) {
+      setSelectedBookFile(event.target.files[0]);
+    }
+  };
+
+  const handleBookFileUpdateFormSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedBookFile) return;
+
+    setUpdatingBookFile(true);
+    const formData = new FormData();
+    formData.append("bookFile", selectedBookFile);
+
+    try {
+      await axios.patch(`${API_URL}/updateBookFile/${id}`, formData);
+      toast.success("E-Book File Updated Successfully");
+      fetchBookData();
+      setSelectedBookFile(null);
+    } catch (error) {
+      console.log(error.response);
+      toast.error("Error updating E-Book File");
+    } finally {
+      setUpdatingBookFile(false);
+    }
+  };
+
   return (
     <div className="page-content">
       <div className="eb-page">
@@ -239,6 +271,59 @@ const EditBookForm = () => {
                     </div>
                   )}
                 </form>
+
+                {/* ── E-Book File Update Form ── */}
+                <div style={{ width: "100%", marginTop: "1.5rem", borderTop: "1px solid var(--border-inner)", paddingTop: "1.5rem" }}>
+                  <span className="eb-section-label" style={{ marginBottom: "0.5rem", display: "block" }}>E-Book Document</span>
+                  {bookData.bookFile ? (
+                    <div style={{ marginBottom: "1rem" }}>
+                      <a
+                        href={`${backend_server}/${bookData.bookFile}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ fontSize: "0.85rem", color: "var(--accent)", textDecoration: "underline", display: "block", marginBottom: "0.5rem" }}
+                      >
+                        Download/Read Current PDF
+                      </a>
+                    </div>
+                  ) : (
+                    <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "1rem" }}>No E-Book file uploaded yet.</p>
+                  )}
+
+                  <form onSubmit={handleBookFileUpdateFormSubmit}>
+                    <label className="eb-file-label" htmlFor="eb-bookfile-input" style={{ background: "var(--bg-input-btn)", border: "1px solid var(--border-input)" }}>
+                      <HiOutlineDocumentText size={16} />
+                      {selectedBookFile ? "Change Selected PDF" : "Choose PDF File"}
+                    </label>
+                    <input
+                      id="eb-bookfile-input"
+                      type="file"
+                      accept=".pdf,.doc,.docx,.epub"
+                      className="eb-file-input"
+                      onChange={handleBookFileChange}
+                    />
+
+                    {selectedBookFile && (
+                      <div className="eb-image-actions" style={{ marginTop: "0.5rem" }}>
+                        <button
+                          type="submit"
+                          className="eb-img-update-btn"
+                          disabled={updatingBookFile}
+                        >
+                          <HiOutlineArrowPath size={14} />
+                          {updatingBookFile ? "Saving..." : "Save PDF"}
+                        </button>
+                        <button
+                          type="button"
+                          className="eb-cancel-img-btn"
+                          onClick={() => setSelectedBookFile(null)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+                  </form>
+                </div>
               </div>
 
               {/* ── RIGHT — Details Form column ── */}
@@ -314,22 +399,26 @@ const EditBookForm = () => {
                     />
                   </div>
 
-                  {/* Checkboxes (Available / Featured) */}
+                  {/* Quantity */}
+                  <div className="eb-field">
+                    <label className="eb-label" htmlFor="quantity">
+                      <HiOutlineCheckCircle size={14} /> Quantity (Stock)
+                    </label>
+                    <input
+                      id="quantity"
+                      type="number"
+                      className="eb-input"
+                      required
+                      value={bookData.quantity ?? 1}
+                      onChange={handleOnChange}
+                      name="quantity"
+                      min="0"
+                    />
+                  </div>
+
+                  {/* Featured */}
                   <div className="eb-field" style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
                     <div className="eb-checkbox-group">
-                      <label className="eb-checkbox-label" htmlFor="available">
-                        <input
-                          id="available"
-                          type="checkbox"
-                          className="eb-checkbox-input"
-                          checked={bookData.available}
-                          onChange={() =>
-                            setBookData({ ...bookData, available: !bookData.available })
-                          }
-                        />
-                        Available
-                      </label>
-
                       <label className="eb-checkbox-label" htmlFor="featured">
                         <input
                           id="featured"

@@ -15,25 +15,19 @@ const getAllBooks = async (req, res) => {
 const postBook = async (req, res) => {
   // ---------------------------MULTER---CREATING----NEW----BOOK-------------------
 
-  const image = req.file.path
+  const image = req.files && req.files['image'] ? req.files['image'][0].path : ''
+  const bookFile = req.files && req.files['bookFile'] ? req.files['bookFile'][0].path : ''
   const { title, description, language, author, category } = req.body
+  const quantity = req.body.quantity !== undefined ? Number(req.body.quantity) : 1
+  const available = quantity > 0
 
   let featured
-  if (req.body.featured === 'true') {
+  if (req.body.featured === 'true' || req.body.featured === true) {
     featured = true
   } else {
     featured = false
   }
 
-  let available
-  if (req.body.available === 'true') {
-    available = true
-  } else {
-    available = false
-  }
-
-  // console.log(req.body)
-  // console.log(req.file.path)
   const result = await BookList.create({
     title,
     description,
@@ -42,6 +36,8 @@ const postBook = async (req, res) => {
     category,
     featured,
     available,
+    quantity,
+    bookFile,
     image,
   })
 
@@ -69,6 +65,11 @@ const getSingleBook = async (req, res) => {
 // update single book detail
 const patchBook = async (req, res) => {
   const { id: bookID } = req.params
+
+  if (req.body.quantity !== undefined) {
+    req.body.quantity = Number(req.body.quantity)
+    req.body.available = req.body.quantity > 0
+  }
 
   const result = await BookList.findByIdAndUpdate({ _id: bookID }, req.body, {
     // Instant Update or else 1step delay output hunxa + rechecking the validation for updated Values
@@ -100,6 +101,7 @@ const deleteBook = async (req, res) => {
   }
 
   const imageFilename = book.image
+  const bookFileFilename = book.bookFile
 
   // Delete the book from the database
   const result = await BookList.findByIdAndDelete({ _id: bookID })
@@ -113,10 +115,19 @@ const deleteBook = async (req, res) => {
   // Delete the image file from the uploads folder
   if (imageFilename) {
     const imagePath = path.join(__dirname, '..', imageFilename)
-    // console.log('Deleted Image FILE PATH : ', imagePath)
     fs.unlink(imagePath, (err) => {
       if (err) {
         console.error(`Error deleting image file: ${err}`)
+      }
+    })
+  }
+
+  // Delete the PDF file from the uploads folder
+  if (bookFileFilename) {
+    const bookFilePath = path.join(__dirname, '..', bookFileFilename)
+    fs.unlink(bookFilePath, (err) => {
+      if (err) {
+        console.error(`Error deleting book PDF file: ${err}`)
       }
     })
   }

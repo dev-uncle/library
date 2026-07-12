@@ -44,6 +44,18 @@ const postBooks = async (req, res) => {
 
   // Book title fetch
   const bookDetails = await BookSchema.findById(bookId);
+  if (!bookDetails) {
+    return res.status(400).json({
+      success: false,
+      message: "Book doesn't exist",
+    });
+  }
+  if (!bookDetails.available || bookDetails.quantity <= 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Book is out of stock / not available",
+    });
+  }
   const { title } = bookDetails;
 
   // Check if user has previously requested for same book with id
@@ -113,6 +125,16 @@ const postIssueBooks = async (req, res) => {
 
   // Book title fetch
   const bookDetails = await BookSchema.findById(bookId);
+  if (!bookDetails) {
+    return res
+      .status(400)
+      .json({ success: false, message: `Book doesn't Exists` });
+  }
+  if (!bookDetails.available || bookDetails.quantity <= 0) {
+    return res
+      .status(400)
+      .json({ success: false, message: `Book is out of stock / not available` });
+  }
   const { title } = bookDetails;
 
   // Check if user has previously requested for same book with id
@@ -147,6 +169,11 @@ const postIssueBooks = async (req, res) => {
       issueDate: new Date(),
       returnDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // Add 10 days to the current date
     });
+
+    // Update book quantity
+    bookDetails.quantity = Math.max(0, bookDetails.quantity - 1);
+    bookDetails.available = bookDetails.quantity > 0;
+    await bookDetails.save();
 
     // Update users total requested books on 'UserDetails' collection
     const updatedTotalAcceptedBooks = totalAcceptedBooks + 1;
@@ -245,6 +272,23 @@ const patchRequestedBooks = async (req, res) => {
       .json({ success: true, message: `Book removed successfully` });
   }
 
+  const transactionDetail = await BookTransaction.findById(id);
+  if (!transactionDetail) {
+    return res
+      .status(400)
+      .json({ success: false, message: `Transaction doesn't exist` });
+  }
+  const bookId = transactionDetail.bookId;
+
+  if (issueStatus === "ACCEPTED") {
+    const bookDetails = await BookSchema.findById(bookId);
+    if (!bookDetails || !bookDetails.available || bookDetails.quantity <= 0) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Book is out of stock / not available" });
+    }
+  }
+
   // if issueStatus ayo vane issueStatus only update that , and viceversa
   const result = await BookTransaction.findByIdAndUpdate(
     id,
@@ -259,7 +303,7 @@ const patchRequestedBooks = async (req, res) => {
   );
 
   // Fetching Book ID and Book Title for updating popular books if STATUS is ACCEPTED
-  const { bookId, bookTitle, userId, returnDate, userEmail } = result;
+  const { bookTitle, userId, returnDate, userEmail } = result;
 
   // If book return TRUE ,
   if (isReturned) {
@@ -281,6 +325,14 @@ const patchRequestedBooks = async (req, res) => {
       }
     );
 
+    // Increment book stock
+    const bookDetails = await BookSchema.findById(bookId);
+    if (bookDetails) {
+      bookDetails.quantity += 1;
+      bookDetails.available = true;
+      await bookDetails.save();
+    }
+
     await UserSchema.findByIdAndUpdate(userId, {
       totalAcceptedBooks: updatedTotalAcceptedBooks,
       totalRequestedBooks: updatedTotalRequestedBooks,
@@ -294,6 +346,14 @@ const patchRequestedBooks = async (req, res) => {
       issueDate: new Date(),
       returnDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // Add 10 days to the current date
     });
+
+    // Decrement book stock
+    const bookDetails = await BookSchema.findById(bookId);
+    if (bookDetails) {
+      bookDetails.quantity = Math.max(0, bookDetails.quantity - 1);
+      bookDetails.available = bookDetails.quantity > 0;
+      await bookDetails.save();
+    }
 
     // increment users TotalAcceptedBooks
     const getUserData = await UserSchema.findById(userId);

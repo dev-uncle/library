@@ -85,6 +85,7 @@ const ManageBooks = () => {
                   <th>#</th>
                   <th>Title</th>
                   <th>Category</th>
+                  <th>Stock</th>
                   <th>Featured</th>
                   <th>Available</th>
                   <th>Action</th>
@@ -92,7 +93,7 @@ const ManageBooks = () => {
               </thead>
               <tbody>
                 {allBooks.map((book, index) => {
-                  const { _id, title, category, featured, available } = book
+                  const { _id, title, category, featured, available, quantity } = book
                   return (
                     <tr key={_id}>
                       <td className='mb-td-num'>{index + 1}</td>
@@ -102,6 +103,9 @@ const ManageBooks = () => {
                       </td>
                       <td>
                         <span className='mb-badge mb-badge--category'>{category}</span>
+                      </td>
+                      <td>
+                        <span style={{ fontWeight: 600, paddingLeft: '8px' }}>{quantity ?? 0}</span>
                       </td>
                       <td>
                         <span className={`mb-badge ${featured ? 'mb-badge--yes' : 'mb-badge--no'}`}>
