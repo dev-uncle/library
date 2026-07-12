@@ -5,7 +5,8 @@ import {
   HiOutlineBookOpen,
   HiOutlineIdentification,
   HiOutlineArrowRightOnRectangle,
-  HiOutlineHome
+  HiOutlineHome,
+  HiOutlineArchiveBox
 } from 'react-icons/hi2'
 
 const ClientProfileSidebar = () => {
@@ -28,6 +29,13 @@ const ClientProfileSidebar = () => {
           url: '/profile/details',
           exact: false,
           icon: HiOutlineIdentification,
+        },
+        {
+          id: 'archive',
+          title: 'Archive',
+          url: '/profile/archive',
+          exact: false,
+          icon: HiOutlineArchiveBox,
         },
       ],
     },

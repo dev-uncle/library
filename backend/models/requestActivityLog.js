@@ -50,6 +50,14 @@ const RequestActivityLogSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  requestedDate: {
+    type: Date,
+    default: null,
+  },
+  returnedDate: {
+    type: Date,
+    default: null,
+  },
   timestamp: {
     type: Date,
     default: Date.now,

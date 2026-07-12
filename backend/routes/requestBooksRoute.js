@@ -11,6 +11,7 @@ const {
   getNotReturnedBooks,
   postIssueBooks,
   getActivityLogs,
+  getMyActivityLogs,
 } = require('../controller/requestBookController')
 
 requestBookRouter
@@ -29,5 +30,8 @@ requestBookRouter.route('/issuebook').post(adminAuthorization, postIssueBooks)
 
 // Fetch activity logs for requests
 requestBookRouter.route('/activity-log').get(adminAuthorization, getActivityLogs)
+
+// Fetch own activity logs for students
+requestBookRouter.route('/my-activity-log').get(getMyActivityLogs)
 
 module.exports = requestBookRouter

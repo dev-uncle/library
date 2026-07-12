@@ -100,6 +100,7 @@ const postBooks = async (req, res) => {
       action: 'REQUESTED',
       performedBy: username,
       remark: '',
+      requestedDate: result.issueDate || new Date(),
     });
 
     // Update users total requested books on 'UserDetails' collection
@@ -194,6 +195,7 @@ const postIssueBooks = async (req, res) => {
       action: 'ISSUED',
       performedBy: req.username || 'Admin',
       remark: '',
+      requestedDate: result.issueDate || new Date(),
     });
 
     // Update book quantity
@@ -299,6 +301,9 @@ const patchRequestedBooks = async (req, res) => {
   if (issueStatus === "ALREADYRETURNED") {
     const getTransactionDetail = await BookTransaction.findById(id);
     if (getTransactionDetail) {
+      const returnLog = await RequestActivityLog.findOne({ transactionId: getTransactionDetail._id, action: 'RETURNED' });
+      const returnedDate = returnLog ? returnLog.timestamp : getTransactionDetail.returnDate || new Date();
+
       await RequestActivityLog.create({
         userId: getTransactionDetail.userId,
         userEmail: getTransactionDetail.userEmail,
@@ -309,6 +314,8 @@ const patchRequestedBooks = async (req, res) => {
         action: 'ARCHIVED',
         performedBy: getTransactionDetail.username,
         remark: 'Removed from student dashboard (Already Returned)',
+        requestedDate: getTransactionDetail.issueDate,
+        returnedDate: returnedDate,
       });
     }
 
@@ -323,6 +330,9 @@ const patchRequestedBooks = async (req, res) => {
   if (issueStatus === "ADMINCANCELLED") {
     const getTransactionDetail = await BookTransaction.findById(id);
     if (getTransactionDetail) {
+      const cancelLog = await RequestActivityLog.findOne({ transactionId: getTransactionDetail._id, action: 'CANCELLED_BY_ADMIN' });
+      const returnedDate = cancelLog ? cancelLog.timestamp : new Date();
+
       await RequestActivityLog.create({
         userId: getTransactionDetail.userId,
         userEmail: getTransactionDetail.userEmail,
@@ -333,6 +343,8 @@ const patchRequestedBooks = async (req, res) => {
         action: 'ARCHIVED',
         performedBy: getTransactionDetail.username,
         remark: 'Removed from student dashboard (Admin Cancelled)',
+        requestedDate: getTransactionDetail.issueDate,
+        returnedDate: returnedDate,
       });
     }
 
@@ -582,6 +594,26 @@ const getActivityLogs = async (req, res) => {
   });
 };
 
+const getMyActivityLogs = async (req, res) => {
+  const userId = req.userId;
+  const { search } = req.query;
+  const query = { userId, action: 'ARCHIVED' };
+
+  if (search) {
+    query.bookTitle = { $regex: search, $options: "i" };
+  }
+
+  const result = await RequestActivityLog.find(query)
+    .sort({ timestamp: -1 })
+    .exec();
+
+  res.status(200).json({
+    success: true,
+    totalHits: result.length,
+    data: result,
+  });
+};
+
 module.exports = {
   postBooks,
   getRequestedBooks,
@@ -589,4 +621,5 @@ module.exports = {
   getNotReturnedBooks,
   postIssueBooks,
   getActivityLogs,
+  getMyActivityLogs,
 };

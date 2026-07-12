@@ -9,6 +9,7 @@ import ClientProfileTopbar from './ClientProfileTopbar'
 import ClientProfileSidebar from './ClientProfileSidebar'
 import ClientDashboard from './ClientDashboard'
 import ClientDetails from './ClientDetails'
+import ClientArchive from './ClientArchive'
 import ClientLogout from '../clientLogout/ClientLogout'
 import './client-profile-layout.css'
 
@@ -90,6 +91,7 @@ const ClientProfileLayout = () => {
           <Routes>
             <Route path='/' element={<ClientDashboard userBookData={userBookData} userData={userData} onUpdate={fetchData} />} />
             <Route path='/details' element={<ClientDetails userData={userData} onUpdate={fetchData} />} />
+            <Route path='/archive' element={<ClientArchive userData={userData} />} />
             <Route path='/logout' element={<ClientLogout />} />
           </Routes>
         </div>
