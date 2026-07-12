@@ -10,6 +10,7 @@ const {
   patchRequestedBooks,
   getNotReturnedBooks,
   postIssueBooks,
+  getActivityLogs,
 } = require('../controller/requestBookController')
 
 requestBookRouter
@@ -25,5 +26,8 @@ requestBookRouter
 
 // admin issue book to User
 requestBookRouter.route('/issuebook').post(adminAuthorization, postIssueBooks)
+
+// Fetch activity logs for requests
+requestBookRouter.route('/activity-log').get(adminAuthorization, getActivityLogs)
 
 module.exports = requestBookRouter

@@ -21,6 +21,7 @@ import UserIndividualPage from "./viewUsers/UserIndividualPage";
 import IssueBookToUser from "./issuedBooks/IssueBookToUser";
 import AdminSignup from "./createAdminAccount/AdminSignup";
 import AdminOtpForm from "./adminOTP/AdminOtpForm";
+import ActivityLog from "./activityLog/ActivityLog";
 
 import "./admin-layout.css";
 
@@ -68,6 +69,7 @@ const AdminLayout = () => {
           <Route path="/admin/booksrequests" element={<BooksRequests />} />
           <Route path="/admin/returnedbooks" element={<ReturnedBooks />} />
           <Route path="/admin/addnewbook" element={<AddNewBook />} />
+          <Route path="/admin/activitylog" element={<ActivityLog />} />
           <Route path="/admin/managebooks/:id" element={<EditBookForm />} />
           <Route path="/admin/adminsignup" element={<AdminSignup />} />
           <Route path="/admin/otp" element={<AdminOtpForm />} />

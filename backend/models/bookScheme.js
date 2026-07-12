@@ -53,6 +53,10 @@ const bookSchemeStructure = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  searchCount: {
+    type: Number,
+    default: 0,
+  },
   createdAdded: {
     type: Date,
     default: Date.now(),

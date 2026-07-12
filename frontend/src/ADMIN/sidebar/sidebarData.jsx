@@ -43,6 +43,12 @@ export const sidebarData = [
         url: '/admin/booksrequests',
         icon: HiOutlineInbox,
       },
+      {
+        id: 9,
+        title: "Activity Log",
+        url: '/admin/activitylog',
+        icon: HiOutlineClipboardDocumentList,
+      },
     ],
   },
   {

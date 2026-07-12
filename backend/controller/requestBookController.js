@@ -2,8 +2,8 @@ const BookTransaction = require("../models/bookTransaction");
 const BookSchema = require("../models/bookScheme");
 const PopularBookSchema = require("../models/PopularBooks");
 const UserSchema = require("../models/signUpModel");
-
 const UserLastBookModel = require("../models/userLastBook");
+const RequestActivityLog = require("../models/requestActivityLog");
 
 // Creates a new User book request transaction
 const postBooks = async (req, res) => {
@@ -89,6 +89,19 @@ const postBooks = async (req, res) => {
       bookTitle: title,
     });
 
+    // Create activity log
+    await RequestActivityLog.create({
+      userId,
+      userEmail,
+      username,
+      bookId,
+      bookTitle: title,
+      transactionId: result._id,
+      action: 'REQUESTED',
+      performedBy: username,
+      remark: '',
+    });
+
     // Update users total requested books on 'UserDetails' collection
     const updatedTotalRequestedBooks = totalRequestedBooks + 1;
     await UserSchema.findByIdAndUpdate(userId, {
@@ -170,6 +183,19 @@ const postIssueBooks = async (req, res) => {
       returnDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // Add 10 days to the current date
     });
 
+    // Create activity log
+    await RequestActivityLog.create({
+      userId,
+      userEmail,
+      username,
+      bookId,
+      bookTitle: title,
+      transactionId: result._id,
+      action: 'ISSUED',
+      performedBy: req.username || 'Admin',
+      remark: '',
+    });
+
     // Update book quantity
     bookDetails.quantity = Math.max(0, bookDetails.quantity - 1);
     bookDetails.available = bookDetails.quantity > 0;
@@ -237,6 +263,20 @@ const patchRequestedBooks = async (req, res) => {
   // if user cancels the PENDING request then delete it from DB completly
   if (issueStatus === "DELETE") {
     const getTransactionDetail = await BookTransaction.findById(id);
+    if (getTransactionDetail) {
+      await RequestActivityLog.create({
+        userId: getTransactionDetail.userId,
+        userEmail: getTransactionDetail.userEmail,
+        username: getTransactionDetail.username,
+        bookId: getTransactionDetail.bookId,
+        bookTitle: getTransactionDetail.bookTitle,
+        transactionId: getTransactionDetail._id,
+        action: 'CANCELLED_BY_USER',
+        performedBy: getTransactionDetail.username,
+        remark: 'Request deleted by student',
+      });
+    }
+
     // user's id destructer to decrement total books qty for users so he can request for a new books
     const { userId } = getTransactionDetail;
     const getUserData = await UserSchema.findById(userId);
@@ -257,6 +297,21 @@ const patchRequestedBooks = async (req, res) => {
 
   // Book returned already , client le profile bata remove matra gareko
   if (issueStatus === "ALREADYRETURNED") {
+    const getTransactionDetail = await BookTransaction.findById(id);
+    if (getTransactionDetail) {
+      await RequestActivityLog.create({
+        userId: getTransactionDetail.userId,
+        userEmail: getTransactionDetail.userEmail,
+        username: getTransactionDetail.username,
+        bookId: getTransactionDetail.bookId,
+        bookTitle: getTransactionDetail.bookTitle,
+        transactionId: getTransactionDetail._id,
+        action: 'ARCHIVED',
+        performedBy: getTransactionDetail.username,
+        remark: 'Removed from student dashboard (Already Returned)',
+      });
+    }
+
     await BookTransaction.findByIdAndDelete(id);
     return res
       .status(200)
@@ -266,6 +321,21 @@ const patchRequestedBooks = async (req, res) => {
   // If admin cancels the book then , user le profile bata cancel garda just remove it , dont decrement TotalRequestedBooks
   // when admin cancels the book request, totalRequestBook is automatically decremented
   if (issueStatus === "ADMINCANCELLED") {
+    const getTransactionDetail = await BookTransaction.findById(id);
+    if (getTransactionDetail) {
+      await RequestActivityLog.create({
+        userId: getTransactionDetail.userId,
+        userEmail: getTransactionDetail.userEmail,
+        username: getTransactionDetail.username,
+        bookId: getTransactionDetail.bookId,
+        bookTitle: getTransactionDetail.bookTitle,
+        transactionId: getTransactionDetail._id,
+        action: 'ARCHIVED',
+        performedBy: getTransactionDetail.username,
+        remark: 'Removed from student dashboard (Admin Cancelled)',
+      });
+    }
+
     await BookTransaction.findByIdAndDelete(id);
     return res
       .status(200)
@@ -342,6 +412,20 @@ const patchRequestedBooks = async (req, res) => {
       totalAcceptedBooks: updatedTotalAcceptedBooks,
       totalRequestedBooks: updatedTotalRequestedBooks,
     });
+
+    // Create activity log for return
+    await RequestActivityLog.create({
+      userId: transactionDetail.userId,
+      userEmail: transactionDetail.userEmail,
+      username: transactionDetail.username,
+      bookId: transactionDetail.bookId,
+      bookTitle: transactionDetail.bookTitle,
+      transactionId: transactionDetail._id,
+      action: 'RETURNED',
+      performedBy: issuedBy || req.username || 'Admin',
+      remark: remark || '',
+      fineAmount: transactionDetail.extraCharge || 0,
+    });
   }
 
   // If "ACCEPTED" then push that into popular books collection
@@ -390,6 +474,19 @@ const patchRequestedBooks = async (req, res) => {
     }
 
     createOrUpdatePopularBook(bookId, bookTitle);
+
+    // Create activity log for issued
+    await RequestActivityLog.create({
+      userId: transactionDetail.userId,
+      userEmail: transactionDetail.userEmail,
+      username: transactionDetail.username,
+      bookId: transactionDetail.bookId,
+      bookTitle: transactionDetail.bookTitle,
+      transactionId: transactionDetail._id,
+      action: 'ISSUED',
+      performedBy: issuedBy || req.username || 'Admin',
+      remark: remark || '',
+    });
   } else if (issueStatus === "CANCELLED" && transactionDetail.issueStatus !== "CANCELLED") {
     // user's id destructer to decrement total books qty for users so he can request for a new books
     const getUserData = await UserSchema.findById(userId);
@@ -399,6 +496,32 @@ const patchRequestedBooks = async (req, res) => {
     const updatedTotalRequestedBooks = Math.max(0, totalRequestedBooks - 1);
     await UserSchema.findByIdAndUpdate(userId, {
       totalRequestedBooks: updatedTotalRequestedBooks,
+    });
+
+    // Create activity log for cancelled
+    await RequestActivityLog.create({
+      userId: transactionDetail.userId,
+      userEmail: transactionDetail.userEmail,
+      username: transactionDetail.username,
+      bookId: transactionDetail.bookId,
+      bookTitle: transactionDetail.bookTitle,
+      transactionId: transactionDetail._id,
+      action: 'CANCELLED_BY_ADMIN',
+      performedBy: issuedBy || req.username || 'Admin',
+      remark: remark || '',
+    });
+  } else if (issueStatus === "READY" && transactionDetail.issueStatus !== "READY") {
+    // Create activity log for ready
+    await RequestActivityLog.create({
+      userId: transactionDetail.userId,
+      userEmail: transactionDetail.userEmail,
+      username: transactionDetail.username,
+      bookId: transactionDetail.bookId,
+      bookTitle: transactionDetail.bookTitle,
+      transactionId: transactionDetail._id,
+      action: 'READY',
+      performedBy: issuedBy || req.username || 'Admin',
+      remark: remark || '',
     });
   }
 
@@ -432,10 +555,38 @@ const createOrUpdatePopularBook = async (bookId, bookTitle) => {
   }
 };
 
+const getActivityLogs = async (req, res) => {
+  const { search, action } = req.query;
+  const query = {};
+
+  if (action) {
+    query.action = action;
+  }
+
+  if (search) {
+    query.$or = [
+      { userEmail: { $regex: search, $options: "i" } },
+      { username: { $regex: search, $options: "i" } },
+      { bookTitle: { $regex: search, $options: "i" } },
+    ];
+  }
+
+  const result = await RequestActivityLog.find(query)
+    .sort({ timestamp: -1 })
+    .exec();
+
+  res.status(200).json({
+    success: true,
+    totalHits: result.length,
+    data: result,
+  });
+};
+
 module.exports = {
   postBooks,
   getRequestedBooks,
   patchRequestedBooks,
   getNotReturnedBooks,
   postIssueBooks,
+  getActivityLogs,
 };

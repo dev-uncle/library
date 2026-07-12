@@ -5,6 +5,8 @@ import axios from 'axios'
 import './adminpanel.css'
 import LibraryOverviewChart from './LibraryOverviewChart'
 import BookStatusChart from './BookStatusChart'
+import RecommendationsChart from './RecommendationsChart'
+import BookInventoryTable from './BookInventoryTable'
 
 import { HiOutlineBookOpen, HiOutlineUsers, HiOutlineInbox, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineTag } from 'react-icons/hi2'
 import { HiOutlinePlusCircle, HiOutlineArrowUpTray, HiOutlineArrowDownTray } from 'react-icons/hi2'
@@ -119,10 +121,14 @@ const AdminPanel = () => {
 
       {/* ── Charts row ───────────────────────── */}
       {!loading && (
-        <div className="charts-row">
-          <LibraryOverviewChart data={homepageData} />
-          <BookStatusChart data={homepageData} />
-        </div>
+        <>
+          <div className="charts-row">
+            <LibraryOverviewChart data={homepageData} />
+            <BookStatusChart data={homepageData} />
+          </div>
+          <RecommendationsChart data={homepageData} />
+          <BookInventoryTable data={homepageData} />
+        </>
       )}
 
       {/* ── Quick actions ────────────────────── */}
