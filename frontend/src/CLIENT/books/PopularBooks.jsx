@@ -4,12 +4,14 @@ import './card.css'
 import RequestBook from '../requestBooks/RequestBook'
 import { backend_server } from '../../main'
 import axios from 'axios'
+import { useLoginState } from '../../LoginState'
 
 const PopularBooks = () => {
   const PopularBooks_API_URL = `${backend_server}/api/v1/popularBooks`
 
   const [popularBooks, setPopularBooks] = useState([])
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
 
   const fetchData = async () => {
     try {
@@ -30,6 +32,7 @@ const PopularBooks = () => {
         popularBooks.map((book) => {
           const { _id, title, image, author, available, quantity, bookFile } = book
           const imgSrc = `${backend_server}/${image}`
+          const isRequested = requestedBookIds?.includes(_id)
 
           return (
             <div className='col-lg-3 col-md-4 col-sm-6 col-6' key={_id} style={{ padding: '12px' }}>
@@ -55,7 +58,16 @@ const PopularBooks = () => {
                   <h5 className='h5 card-title' title={title}>{title}</h5>
                   <p className='card-text'>{author}</p>
                   <div className='card-action-group'>
-                    {available ? (
+                    {isRequested ? (
+                      <button
+                        type='button'
+                        className='btn-card-primary'
+                        disabled
+                        style={{ backgroundColor: 'var(--accent)', opacity: 0.65 }}
+                      >
+                        Requested
+                      </button>
+                    ) : available ? (
                       <button
                         type='button'
                         className='btn-card-primary'

@@ -2,16 +2,19 @@ import React from 'react'
 import { backend_server } from '../../main'
 import { Link } from 'react-router-dom'
 import RequestBook from '../requestBooks/RequestBook'
+import { useLoginState } from '../../LoginState'
 
 const BookList = (props) => {
   const { books } = props
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
 
   return (
     <div className='row client-book-grid g-4'>
       {books.map((book) => {
         const { _id, title, image, author, available, quantity, bookFile } = book
         const imgSrc = `${backend_server}/${image}`
+        const isRequested = requestedBookIds?.includes(_id)
 
         return (
           <div
@@ -40,7 +43,16 @@ const BookList = (props) => {
                 <h5 className='h5 card-title' title={title}>{title}</h5>
                 <p className='card-text'>{author}</p>
                 <div className='card-action-group'>
-                  {available ? (
+                  {isRequested ? (
+                    <button
+                      type='button'
+                      className='btn-card-primary'
+                      disabled
+                      style={{ backgroundColor: 'var(--accent)', opacity: 0.65 }}
+                    >
+                      Requested
+                    </button>
+                  ) : available ? (
                     <button
                       type='button'
                       className='btn-card-primary'

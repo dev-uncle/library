@@ -21,6 +21,11 @@ const getSingleUser = async (req, res) => {
   const { userId } = req.params
 
   const getUserData = await UserModel.findById(userId)
+  if (getUserData && (getUserData.totalAcceptedBooks < 0 || getUserData.totalRequestedBooks < 0)) {
+    if (getUserData.totalAcceptedBooks < 0) getUserData.totalAcceptedBooks = 0
+    if (getUserData.totalRequestedBooks < 0) getUserData.totalRequestedBooks = 0
+    await getUserData.save()
+  }
 
   const getUserBookTransaction = await BookTransactionSchema.find({
     userId,
@@ -48,6 +53,11 @@ const postSingleUser = async (req, res) => {
   const userId = req.userId
 
   const getUserData = await UserModel.findById(userId)
+  if (getUserData && (getUserData.totalAcceptedBooks < 0 || getUserData.totalRequestedBooks < 0)) {
+    if (getUserData.totalAcceptedBooks < 0) getUserData.totalAcceptedBooks = 0
+    if (getUserData.totalRequestedBooks < 0) getUserData.totalRequestedBooks = 0
+    await getUserData.save()
+  }
 
   // Fetch all 3 Status to show users - ACCEPTED / PENDING / CANCELLED / READY
   const getAllUserBookTransaction = await BookTransactionSchema.find({

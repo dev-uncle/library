@@ -232,7 +232,7 @@ const getNotReturnedBooks = async (req, res) => {
 
 // Update book issue Status
 const patchRequestedBooks = async (req, res) => {
-  const { id, issueStatus, isReturned } = req.body;
+  const { id, issueStatus, isReturned, remark, issuedBy, returnDate, fineType, fineAmount } = req.body;
 
   // if user cancels the PENDING request then delete it from DB completly
   if (issueStatus === "DELETE") {
@@ -243,7 +243,7 @@ const patchRequestedBooks = async (req, res) => {
 
     // destructure user's total books qty and decrement by 1
     const { totalRequestedBooks } = getUserData;
-    const updatedTotalRequestedBooks = totalRequestedBooks - 1;
+    const updatedTotalRequestedBooks = Math.max(0, totalRequestedBooks - 1);
     await UserSchema.findByIdAndUpdate(userId, {
       totalRequestedBooks: updatedTotalRequestedBooks,
     });
@@ -295,6 +295,11 @@ const patchRequestedBooks = async (req, res) => {
     {
       issueStatus,
       isReturned,
+      remark,
+      issuedBy,
+      returnDate: returnDate ? new Date(returnDate) : undefined,
+      fineType,
+      fineAmount: fineAmount !== undefined ? Number(fineAmount) : undefined,
     },
     {
       new: true,
@@ -303,15 +308,15 @@ const patchRequestedBooks = async (req, res) => {
   );
 
   // Fetching Book ID and Book Title for updating popular books if STATUS is ACCEPTED
-  const { bookTitle, userId, returnDate, userEmail } = result;
+  const { bookTitle, userId, userEmail } = result;
 
-  // If book return TRUE ,
-  if (isReturned) {
+  // If book return TRUE, and it was not previously marked as returned
+  if (isReturned && !transactionDetail.isReturned) {
     // increment users TotalAcceptedBooks
     const getUserData = await UserSchema.findById(userId);
     const { totalAcceptedBooks, totalRequestedBooks } = getUserData;
-    const updatedTotalAcceptedBooks = totalAcceptedBooks - 1;
-    const updatedTotalRequestedBooks = totalRequestedBooks - 1;
+    const updatedTotalAcceptedBooks = Math.max(0, totalAcceptedBooks - 1);
+    const updatedTotalRequestedBooks = Math.max(0, totalRequestedBooks - 1);
 
     // is returned = true , means bookTransaction status is to be set to - "RETURNED"
     await BookTransaction.findByIdAndUpdate(
@@ -344,7 +349,7 @@ const patchRequestedBooks = async (req, res) => {
     // update issueDate and returnDate
     await BookTransaction.findByIdAndUpdate(id, {
       issueDate: new Date(),
-      returnDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // Add 10 days to the current date
+      returnDate: returnDate ? new Date(returnDate) : new Date(Date.now() + 10 * 24 * 60 * 60 * 1000), // Add 10 days to the current date or use custom return date
     });
 
     // Decrement book stock
@@ -385,13 +390,13 @@ const patchRequestedBooks = async (req, res) => {
     }
 
     createOrUpdatePopularBook(bookId, bookTitle);
-  } else if (issueStatus === "CANCELLED") {
+  } else if (issueStatus === "CANCELLED" && transactionDetail.issueStatus !== "CANCELLED") {
     // user's id destructer to decrement total books qty for users so he can request for a new books
     const getUserData = await UserSchema.findById(userId);
 
     // destructure user's total books qty and decrement by 1
     const { totalRequestedBooks } = getUserData;
-    const updatedTotalRequestedBooks = totalRequestedBooks - 1;
+    const updatedTotalRequestedBooks = Math.max(0, totalRequestedBooks - 1);
     await UserSchema.findByIdAndUpdate(userId, {
       totalRequestedBooks: updatedTotalRequestedBooks,
     });

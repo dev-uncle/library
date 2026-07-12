@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useParams, Link } from 'react-router-dom'
 import RequestBook from '../requestBooks/RequestBook'
 import '../books/card.css'
+import { useLoginState } from '../../LoginState'
 
 const SimilarBooks = () => {
   const { id } = useParams()
@@ -15,11 +16,11 @@ const SimilarBooks = () => {
   const [similarBooks, setSimilarBooks] = useState([])
 
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
 
   const fetchSimilarBooks = async () => {
     try {
       const response = await axios.get(FetchSimilarBooks_API)
-      // console.log(response.data.data)
       setSimilarBooks(response.data.data)
     } catch (error) {
       console.log(error)
@@ -39,6 +40,7 @@ const SimilarBooks = () => {
           similarBooks.map((book) => {
             const { _id, title, image, author, available, quantity, bookFile } = book
             const imgSrc = `${backend_server}/${image}`
+            const isRequested = requestedBookIds?.includes(_id)
 
             return (
               <div
@@ -67,7 +69,16 @@ const SimilarBooks = () => {
                     <h5 className='h5 card-title' title={title}>{title}</h5>
                     <p className='card-text'>{author}</p>
                     <div className='card-action-group'>
-                      {available ? (
+                      {isRequested ? (
+                        <button
+                          type='button'
+                          className='btn-card-primary'
+                          disabled
+                          style={{ backgroundColor: 'var(--accent)', opacity: 0.65 }}
+                        >
+                          Requested
+                        </button>
+                      ) : available ? (
                         <button
                           type='button'
                           className='btn-card-primary'

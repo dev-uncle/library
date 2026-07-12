@@ -29,6 +29,7 @@ const RecommendedBooks = () => {
   };
 
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
 
   useEffect(() => {
     fetchData()
@@ -72,6 +73,7 @@ const RecommendedBooks = () => {
           {latestBooks.map((book) => {
             const { _id, title, image, author, available, quantity, bookFile } = book
             const imgSrc = `${backend_server}/${image}`
+            const isRequested = requestedBookIds?.includes(_id)
 
             return (
               <div
@@ -100,7 +102,16 @@ const RecommendedBooks = () => {
                     <h5 className='card-title' title={title}>{title}</h5>
                     <p className='card-text'>{author}</p>
                     <div className='card-action-group'>
-                      {available ? (
+                      {isRequested ? (
+                        <button
+                          type='button'
+                          className='btn-card-primary'
+                          disabled
+                          style={{ backgroundColor: 'var(--accent)', opacity: 0.65 }}
+                        >
+                          Requested
+                        </button>
+                      ) : available ? (
                         <button
                           type='button'
                           className='btn-card-primary'

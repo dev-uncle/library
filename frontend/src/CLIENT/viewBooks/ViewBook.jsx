@@ -5,12 +5,15 @@ import './viewBooks.css'
 import useFetch from '../../useFetch'
 import RequestBook from '../requestBooks/RequestBook'
 import SimilarBooks from './SimilarBooks'
+import { useLoginState } from '../../LoginState'
 
 const ViewBook = () => {
   const { id } = useParams() //fetching book id from url params
   const API_URL = `${backend_server}/api/v1/books/${id}`
 
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
+  const isRequested = requestedBookIds?.includes(id)
   const navigate = useNavigate()
 
   const getData = useFetch(API_URL)
@@ -59,7 +62,16 @@ const ViewBook = () => {
 
           {/* Request Books Button */}
           <div className='text-center'>
-            {bookData.available ? (
+            {isRequested ? (
+              <button
+                disabled
+                type='button'
+                className='btn btn-warning me-2 mt-3'
+                style={{ color: '#ffffff' }}
+              >
+                Requested
+              </button>
+            ) : bookData.available ? (
               <button
                 type='button'
                 className='btn btn-primary me-2 mt-3'
@@ -71,7 +83,7 @@ const ViewBook = () => {
               <button
                 disabled
                 type='button'
-                className='btn btn-primary me-2 mt-3'
+                className='btn btn-secondary me-2 mt-3'
               >
                 Out of Stock
               </button>

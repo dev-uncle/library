@@ -9,8 +9,16 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts'
+import { useTheme } from '../context/ThemeContext'
 
 const LibraryOverviewChart = ({ data }) => {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  const axisColor = isDark ? 'rgba(255, 255, 255, 0.4)' : 'rgba(15, 23, 42, 0.5)'
+  const gridColor = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.06)'
+  const cursorColor = isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'
+
   const chartData = [
     { name: 'Books', value: data.totalBooks ?? 0 },
     { name: 'Issued', value: data.totalIssuedBooks ?? 0 },
@@ -38,21 +46,21 @@ const LibraryOverviewChart = ({ data }) => {
       <div className="chart-wrapper">
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={chartData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
             <XAxis
               dataKey="name"
-              stroke="rgba(255, 255, 255, 0.4)"
+              stroke={axisColor}
               fontSize={11}
               tickLine={false}
               axisLine={false}
             />
             <YAxis
-              stroke="rgba(255, 255, 255, 0.4)"
+              stroke={axisColor}
               fontSize={11}
               tickLine={false}
               axisLine={false}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.02)' }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: cursorColor }} />
             <Bar dataKey="value" radius={[4, 4, 0, 0]} maxBarSize={45}>
               {chartData.map((entry, index) => {
                 const colors = [
