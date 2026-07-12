@@ -8,6 +8,8 @@ import {
 import { HiOutlineArrowRightOnRectangle, HiOutlineSun, HiOutlineMoon } from 'react-icons/hi2'
 import { useSidebar } from '../context/SidebarContext'
 import { useTheme } from '../context/ThemeContext'
+import { useNotification } from '../context/NotificationContext'
+import NotificationDropdown from './NotificationDropdown'
 import './navbar.css'
 
 /* Map route segments → human-readable labels */
@@ -36,6 +38,8 @@ const buildBreadcrumb = (pathname) => {
 const AdminNavbar = () => {
   const { toggle } = useSidebar()
   const { theme, toggleTheme } = useTheme()
+  const { unreadCount } = useNotification()
+  const [notifOpen, setNotifOpen] = useState(false)
   const location = useLocation()
   const breadcrumb = buildBreadcrumb(location.pathname)
 
@@ -96,10 +100,18 @@ const AdminNavbar = () => {
         </button>
 
         {/* Notification bell */}
-        <button id='topbar-notif-btn' className='topbar-icon-btn' aria-label='Notifications'>
-          <HiOutlineBell size={22} />
-          <span className='notif-badge'>3</span>
-        </button>
+        <div className="notif-wrapper" style={{ position: 'relative' }}>
+          <button
+            id='topbar-notif-btn'
+            className={`topbar-icon-btn ${notifOpen ? 'topbar-icon-btn--active' : ''}`}
+            onClick={() => setNotifOpen(!notifOpen)}
+            aria-label='Notifications'
+          >
+            <HiOutlineBell size={22} />
+            {unreadCount > 0 && <span className='notif-badge'>{unreadCount}</span>}
+          </button>
+          <NotificationDropdown isOpen={notifOpen} onClose={() => setNotifOpen(false)} />
+        </div>
 
         {/* Admin avatar */}
         <div className='admin-profile'>

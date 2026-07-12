@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { SidebarProvider, useSidebar } from "./context/SidebarContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 import AdminNavbar from "./navbar/AdminNavbar";
 import Sidebar from "./sidebar/Sidebar";
@@ -81,9 +82,11 @@ const AdminAPP = () => {
   return (
     <Router>
       <ThemeProvider>
-        <SidebarProvider>
-          <AdminLayout />
-        </SidebarProvider>
+        <NotificationProvider>
+          <SidebarProvider>
+            <AdminLayout />
+          </SidebarProvider>
+        </NotificationProvider>
       </ThemeProvider>
     </Router>
   );
