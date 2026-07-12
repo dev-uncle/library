@@ -1,102 +1,163 @@
 .login-page-wrapper {
   min-height: 100vh;
-  background: url("/BannerOne.jpg") no-repeat center center/cover;
+  background: linear-gradient(to bottom, rgba(13, 11, 9, 0.7) 0%, rgba(6, 5, 4, 0.9) 100%),
+              url("/BannerOne.jpg") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
-/* LOCAL CSS Variables */
-.login-maindiv {
-  --color-login-button: transparent !important;
-  --color-login-button-hover: rgb(74, 73, 72);
-  --color-font-primary: rgb(255, 255, 255);
-  --color-font-secondary: rgb(13, 1, 1);
-
-  --color-faded: #ffffff;
-  --color-faded-white: rgb(4, 0, 0);
-
- 
-}
-
-/* <-----------------------------------------------------------------> */
-
-/* Main DIV ko CSS */
 .login-maindiv {
   width: 100%;
-  max-width: 30rem;
-  margin: 5.5rem auto;
-  box-shadow: 0 0 10px var(--color-faded);
-  border-radius: 4px;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  background: transparent;
-  backdrop-filter: blur(5px);
+  max-width: 28rem;
+  background: rgba(30, 26, 20, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  transition: all 0.3s ease;
 }
 
 /* Upper Div (Login text) ko CSS */
 .login-upperdiv h1 {
   text-align: center;
-  font-size: 3rem;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  position: relative;
 }
 
-/* <-----------------------------------------------------------------> */
+.login-upperdiv h1::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: #eb820a;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+}
 
 /* Middle Div CSS */
 .login-middlediv {
-  margin-top: 1rem;
-  text-align: center;
+  margin-top: 2rem;
 }
 
 /* Input Fields CSS (Username,Password) */
 .login-middlediv input {
   display: block;
   width: 100%;
-  padding: 10px;
-  margin-top: 1rem;
-  border: 1px solid var(--color-faded-white);
-  border-radius: 0.5rem;
-  font-size: 1.3rem;
-  text-align: left;
+  padding: 12px 16px;
+  margin-bottom: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.login-middlediv input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.login-middlediv input:focus {
+  border-color: #eb820a;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
+  outline: none;
+}
+
+/* Password eye container style */
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field input {
+  padding-right: 45px;
+  margin-bottom: 0;
+}
+
+.password-field span {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.password-field span:hover {
+  color: #eb820a;
 }
 
 /* Login Button CSS */
-.login-middlediv button {
-  width: auto;
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  background-color: transparent !important;
-  color: white !important;
+.login-middlediv button[type='submit'] {
+  width: 100%;
+  padding: 12px;
+  margin-top: 1.5rem;
+  background-color: #eb820a !important;
+  color: #ffffff !important;
   border: none;
-  border-radius: 0.5rem;
-  font-size: 1.3rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0px 0px 5px black;
+  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.3);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 /* Login Button HOVER Effect */
-.login-middlediv button:hover {
-  background-color: #ffffff !important;
-  color: #090400 !important;
+.login-middlediv button[type='submit']:hover {
+  background-color: #ff9d2b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(235, 130, 10, 0.5);
 }
 
-/* button CLICK huda Effect */
-button:active {
-  translate: 0 1px;
+.login-middlediv button[type='submit']:active {
+  transform: translateY(0);
 }
-
-/* <-----------------------------------------------------------------> */
 
 /* Lower Div ko CSS (Forgot password && signup button) */
 .login-lowerdiv {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
 }
 
 /* ForgotPassword ? CSS */
 .login-lowerdiv a {
   text-decoration: none;
-  font-size: 1.1rem;
-  color: var(--color-faded);
-  border-bottom: 2px solid rgba(80, 80, 80, 0.205);
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6) !important;
+  transition: color 0.3s ease;
+}
+
+.login-lowerdiv a:hover {
+  color: #eb820a !important;
 }
 
 .login-lowerdiv #signupbtn-link {
@@ -105,60 +166,30 @@ button:active {
 
 /* Signup Button CSS */
 .login-lowerdiv button {
-  padding: 0.5rem 1rem;
+  padding: 8px 18px;
   background-color: transparent !important;
-  color: white !important;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0px 0px 5px black;
+  transition: all 0.3s ease;
 }
 
 .login-lowerdiv button:hover {
-  background-color: white !important;
-  color: #000 !important;
-  cursor: pointer;
+  background-color: rgba(235, 130, 10, 0.1) !important;
+  border-color: #eb820a !important;
+  color: #ffffff !important;
 }
 
-/* <-----------------------------------------------------------------> */
-
-/* CSS for responsiveness */
-
+/* Responsive adjustments */
 @media (max-width: 480px) {
-  /* Main DIV CSS */
   .login-maindiv {
-    margin: 5rem auto;
+    padding: 2rem 1.5rem;
+    margin: 2rem 1rem;
   }
-
-  /* Login Text CSS */
   .login-upperdiv h1 {
-    font-size: 3rem;
+    font-size: 1.8rem;
   }
-
-  /* Input Fields CSS */
-  .login-middlediv input[type='text'] {
-    margin-bottom: 1rem;
-  }
-
-  /* Login Button CSS */
-  .login-middlediv button {
-    margin-top: 1rem;
-  }
-
-  /* Lower Div CSS ( contains forgot password && signup) */
-  .login-lowerdiv {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 1rem;
-  }
-}
-
-/* Login FAIL or SUCCESS PROMPT CSS */
-#p-success {
-  color:  #3d2802;;
-}
-#p-fail {
-  color: red;
 }

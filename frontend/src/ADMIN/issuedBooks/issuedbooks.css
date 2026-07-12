@@ -31,21 +31,22 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.45rem 0.9rem;
-  background: #f1f5f9 !important;
-  color: var(--text-muted) !important;
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: all 0.2s ease;
   margin-top: 0.3rem;
   flex-shrink: 0;
 }
 .ib-back-btn:hover {
-  background: #e2e8f0 !important;
-  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-color: var(--accent);
 }
 
 /* ── Count + Issue btn ───────────────────────── */
@@ -53,8 +54,8 @@
   display: inline-flex;
   align-items: center;
   padding: 0.35rem 0.85rem;
-  background: rgba(59, 130, 246, 0.1);
-  color: #2563eb;
+  background: rgba(96, 165, 250, 0.12);
+  color: #60a5fa;
   border-radius: 999px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -66,27 +67,30 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.55rem 1.1rem;
-  background: var(--accent);
+  background: var(--accent) !important;
   color: #ffffff !important;
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.15s ease;
-  box-shadow: 0 2px 8px rgba(217,119,6,0.25);
+  transition: background 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.25);
   white-space: nowrap;
 }
 .ib-issue-btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-1px);
+  background: var(--accent-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(235, 130, 10, 0.45);
   text-decoration: none;
   color: #ffffff !important;
 }
 
 /* ── Table card ──────────────────────────────── */
 .ib-table-card {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  background: rgba(30, 26, 20, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
@@ -100,15 +104,15 @@
   font-size: 0.875rem;
 }
 .ib-table thead {
-  background: #f8fafc;
+  background: rgba(22, 18, 14, 0.8);
   border-bottom: 1px solid var(--border-color);
 }
 .ib-table thead th {
-  padding: 0.85rem 1rem;
+  padding: 0.95rem 1rem;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--text-muted);
   text-align: left;
   white-space: nowrap;
@@ -119,28 +123,28 @@
   gap: 0.3rem;
 }
 .ib-table tbody tr {
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   transition: background 0.15s ease;
 }
 .ib-table tbody tr:last-child { border-bottom: none; }
-.ib-table tbody tr:hover { background: #fafbfc; }
+.ib-table tbody tr:hover { background: rgba(255, 255, 255, 0.04); }
 .ib-table tbody td {
-  padding: 0.85rem 1rem;
+  padding: 0.95rem 1rem;
   color: var(--text-primary);
   vertical-align: middle;
 }
 
 /* Overdue row highlight */
 .ib-row--overdue {
-  background: rgba(239, 68, 68, 0.03) !important;
+  background: rgba(239, 68, 68, 0.08) !important;
 }
 .ib-row--overdue:hover {
-  background: rgba(239, 68, 68, 0.06) !important;
+  background: rgba(239, 68, 68, 0.12) !important;
 }
 
 .ib-td-num { color: var(--text-muted) !important; font-size: 0.8rem; width: 36px; }
 .ib-td-muted { color: var(--text-muted) !important; font-size: 0.84rem; }
-.ib-td-overdue { color: #dc2626 !important; font-size: 0.84rem; font-weight: 600; }
+.ib-td-overdue { color: #fb7185 !important; font-size: 0.84rem; font-weight: 600; }
 .ib-td-book {
   display: flex;
   align-items: center;
@@ -161,14 +165,16 @@
   letter-spacing: 0.04em;
   white-space: nowrap;
 }
-.ib-badge--active   { background: rgba(59,130,246,0.1);  color: #2563eb; }
-.ib-badge--overdue  { background: rgba(239,68,68,0.1);   color: #dc2626; }
-.ib-badge--returned { background: rgba(16,185,129,0.1);  color: #059669; }
+.ib-badge--active   { background: rgba(59,130,246,0.12);  color: #60a5fa; }
+.ib-badge--overdue  { background: rgba(239,68,68,0.1);   color: #fb7185; }
+.ib-badge--returned { background: rgba(16,185,129,0.12);  color: #10b981; }
 
 /* ── Skeleton ────────────────────────────────── */
 .ib-skeleton-wrap {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  background: rgba(30, 26, 20, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
   border-radius: var(--radius-lg);
   padding: 0.5rem 0;
   box-shadow: var(--shadow-card);
@@ -177,7 +183,7 @@
   height: 54px;
   margin: 0.25rem 1rem;
   border-radius: var(--radius-sm);
-  background: linear-gradient(90deg, #f1f5f9 25%, #e8edf2 50%, #f1f5f9 75%);
+  background: linear-gradient(90deg, #1e1a14 25%, #2a2218 50%, #1e1a14 75%);
   background-size: 200% 100%;
   animation: ib-shimmer 1.4s infinite;
 }
@@ -194,8 +200,10 @@
   justify-content: center;
   gap: 0.85rem;
   padding: 4rem 2rem;
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  background: rgba(30, 26, 20, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
   border-radius: var(--radius-lg);
   color: var(--text-muted);
   box-shadow: var(--shadow-card);
@@ -215,8 +223,10 @@
 
 /* ── Panel ───────────────────────────────────── */
 .ibu-panel {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  background: rgba(30, 26, 20, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
@@ -229,8 +239,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--border-color);
-  background: #f8fafc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(22, 18, 14, 0.8);
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -241,7 +251,7 @@
   display: flex;
   gap: 0.6rem;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .ibu-search-wrap {
   position: relative;
@@ -265,18 +275,18 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: #f8fafc;
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 .ibu-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(217,119,6,0.1);
-  background: #ffffff;
+  box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
+  background: rgba(255, 255, 255, 0.08);
 }
-.ibu-input::placeholder { color: #94a3b8; }
+.ibu-input::placeholder { color: rgba(255, 255, 255, 0.4); }
 
 .ibu-search-btn {
   height: 38px;
@@ -290,10 +300,13 @@
   font-family: 'Inter', sans-serif;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   flex-shrink: 0;
 }
-.ibu-search-btn:hover:not(:disabled) { background: var(--accent-hover) !important; }
+.ibu-search-btn:hover:not(:disabled) {
+  background: var(--accent-hover) !important;
+  box-shadow: 0 4px 10px rgba(235, 130, 10, 0.35);
+}
 .ibu-search-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* ── Results table ───────────────────────────── */
@@ -321,18 +334,18 @@
   align-items: center;
   gap: 0.3rem;
   padding: 0.28rem 0.65rem;
-  background: rgba(99,102,241,0.08) !important;
-  color: #4f46e5 !important;
+  background: rgba(235, 130, 10, 0.12) !important;
+  color: var(--accent) !important;
   border: none;
   border-radius: var(--radius-sm);
   font-size: 0.78rem;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   white-space: nowrap;
 }
-.ibu-copy-btn:hover { background: rgba(99,102,241,0.16) !important; }
+.ibu-copy-btn:hover { background: rgba(235, 130, 10, 0.22) !important; }
 
 /* ── Issue form ──────────────────────────────── */
 .ibu-issue-form {
@@ -365,7 +378,7 @@
 
 .ibu-actions {
   padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   justify-content: flex-end;
   margin-top: auto;
@@ -383,12 +396,13 @@
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-  box-shadow: 0 2px 8px rgba(217,119,6,0.25);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.25);
 }
 .ibu-submit-btn:hover:not(:disabled) {
   background: var(--accent-hover) !important;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(235, 130, 10, 0.45);
 }
 .ibu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 

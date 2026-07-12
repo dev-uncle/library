@@ -6,18 +6,18 @@ import './navbar.css'
 const UserIsNotLoggedIn = () => {
   const { navbarLinksNotAuthenticated } = navbarData
   return (
-    <div id='nav-conditional-rendering'>
+    <>
       {navbarLinksNotAuthenticated.map((map_para, index) => {
         const { name, url } = map_para
         return (
           <li className='nav-item' key={index}>
-            <Link to={url} className='nav-link'>
+            <Link to={url} className='nav-link modern-nav-link'>
               {name}
             </Link>
           </li>
         )
       })}
-    </div>
+    </>
   )
 }
 

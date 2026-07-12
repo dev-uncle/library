@@ -6,7 +6,7 @@
   display: flex;
   height: 100vh;
   overflow: hidden;
-  background-color: var(--bg-page);
+  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
 }
 
 /* ── Main content area ─────────────────────── */
@@ -38,9 +38,9 @@
   position: fixed;
   inset: 0;
   top: var(--topbar-height);
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(0, 0, 0, 0.55);
   z-index: 850;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
 }
 
 /* ============================================

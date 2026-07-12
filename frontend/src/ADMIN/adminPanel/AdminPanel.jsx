@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { backend_server } from '../../main'
 import axios from 'axios'
 import './adminpanel.css'
+import LibraryOverviewChart from './LibraryOverviewChart'
+import BookStatusChart from './BookStatusChart'
 
 import { HiOutlineBookOpen, HiOutlineUsers, HiOutlineInbox, HiOutlineClipboardDocumentList, HiOutlineUserGroup, HiOutlineTag } from 'react-icons/hi2'
 import { HiOutlinePlusCircle, HiOutlineArrowUpTray, HiOutlineArrowDownTray } from 'react-icons/hi2'
@@ -114,6 +116,14 @@ const AdminPanel = () => {
           )
         })}
       </div>
+
+      {/* ── Charts row ───────────────────────── */}
+      {!loading && (
+        <div className="charts-row">
+          <LibraryOverviewChart data={homepageData} />
+          <BookStatusChart data={homepageData} />
+        </div>
+      )}
 
       {/* ── Quick actions ────────────────────── */}
       <div className='dashboard-section'>
