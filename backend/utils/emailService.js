@@ -1,9 +1,14 @@
 const nodemailer = require('nodemailer');
+const dns = require('dns');
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
   secure: false, // Use TLS
+  lookup: (hostname, options, callback) => {
+    // Force resolving to IPv4 to prevent IPv6 ENETUNREACH errors on Render
+    return dns.lookup(hostname, { family: 4 }, callback);
+  },
   auth: {
     user: process.env.EMAIL_USERNAME,
     pass: process.env.EMAIL_PASSWORD,
