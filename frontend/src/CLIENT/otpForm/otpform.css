@@ -1,12 +1,5 @@
-/* In your CSS file or component's style */
-.otp-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.otp-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
+/* 
+   Note: The student OTP form has been redesigned to match the Login page layout 1-to-1.
+   It now directly imports and uses '../login/login.css'.
+   This file is kept for future local overrides if necessary.
+*/

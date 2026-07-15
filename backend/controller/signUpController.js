@@ -3,7 +3,7 @@
 const UserModel = require('../models/signUpModel')
 const bcrypt = require('bcrypt')
 const UserOtpVerificationModel = require('../models//userOtpVerificationModel')
-const nodemailer = require('nodemailer')
+const { sendOtpEmail, sendWelcomeEmail } = require('../utils/emailService')
 
 // Masking Email
 const maskEmail = async (email) => {
@@ -29,36 +29,6 @@ const maskEmail = async (email) => {
 const generateOtp = async (otp_Code) => {
   const hashed_otpCode = await bcrypt.hash(String(otp_Code), 10)
   return hashed_otpCode
-}
-
-// Mail SENDER - Create a transporter with Gmail SMTP settings
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USERNAME,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-})
-
-// Function to send an email
-const sendEmail = async (to, otp) => {
-  try {
-    const mailOptions = {
-      from: process.env.EMAIL_USERNAME,
-      to,
-      subject: 'Verify Email ! Library Management System',
-      html: `<p>Your OTP Code is <strong>${otp}</strong>. This will expire in 60 seconds!</p>`,
-    }
-
-    const info = await transporter.sendMail(mailOptions)
-    // console.log('Email sent:', info.envelope)
-    // console.log('Email sent:', info)
-  } catch (error) {
-    console.error('Error:', error)
-  }
 }
 
 const postUserSignup = async (req, res) => {
@@ -118,7 +88,7 @@ const postUserSignup = async (req, res) => {
       ENTER_OTP: true,
     })
 
-    await sendEmail(email, otp_Code)
+    await sendOtpEmail(email, otp_Code)
   }
 
   if (checkPrevUser && checkPrevUser.emailVerified == true) {
@@ -150,7 +120,7 @@ const postUserSignup = async (req, res) => {
       ENTER_OTP: true,
     })
 
-    await sendEmail(email, otp_Code)
+    await sendOtpEmail(email, otp_Code)
   }
 }
 
@@ -166,6 +136,9 @@ const verifyEmail = async (req, res) => {
   }
 
   const UserOtpData = await UserOtpVerificationModel.findOne({ userId: userId })
+  if (!UserOtpData) {
+    return res.status(400).json({ success: false, message: `OTP Session Expired or Invalid` })
+  }
 
   const validateOtp = await bcrypt.compare(userInputOtp, UserOtpData.otpCode)
 
@@ -178,7 +151,10 @@ const verifyEmail = async (req, res) => {
     return res.status(400).json({ success: false, message: `Otp Code Expired` })
   }
 
-  await UserModel.findByIdAndUpdate(userId, { emailVerified: true })
+  const updatedUser = await UserModel.findByIdAndUpdate(userId, { emailVerified: true }, { new: true })
+  if (updatedUser) {
+    await sendWelcomeEmail(updatedUser.email, updatedUser.username)
+  }
 
   return res
     .status(200)
@@ -230,14 +206,13 @@ const resendOtpCode = async (req, res) => {
     ENTER_OTP: true,
   })
 
-  await sendEmail(email, otp_Code)
+  await sendOtpEmail(email, otp_Code)
 }
 
 module.exports = {
   postUserSignup,
   verifyEmail,
   resendOtpCode,
-  sendEmail,
   generateOtp,
   maskEmail,
 }

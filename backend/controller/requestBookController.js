@@ -4,6 +4,7 @@ const PopularBookSchema = require("../models/PopularBooks");
 const UserSchema = require("../models/signUpModel");
 const UserLastBookModel = require("../models/userLastBook");
 const RequestActivityLog = require("../models/requestActivityLog");
+const { sendBookRequestedEmail, sendBookReadyForPickupEmail } = require("../utils/emailService");
 
 // Creates a new User book request transaction
 const postBooks = async (req, res) => {
@@ -108,6 +109,9 @@ const postBooks = async (req, res) => {
     await UserSchema.findByIdAndUpdate(userId, {
       totalRequestedBooks: updatedTotalRequestedBooks,
     });
+
+    // Send email notification to user about successful book request
+    sendBookRequestedEmail(userEmail, username, title).catch(err => console.error("Error sending book request email:", err));
 
     return res.status(200).json({ success: true, data: result });
   }
@@ -535,6 +539,10 @@ const patchRequestedBooks = async (req, res) => {
       performedBy: issuedBy || req.username || 'Admin',
       remark: remark || '',
     });
+
+    // Send email notifying student that the book is ready for pickup
+    sendBookReadyForPickupEmail(transactionDetail.userEmail, transactionDetail.username, transactionDetail.bookTitle)
+      .catch(err => console.error("Error sending ready for pickup email:", err));
   }
 
   res
