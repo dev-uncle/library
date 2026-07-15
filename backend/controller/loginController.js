@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken')
 const UserModels = require('../models/signUpModel')
 
 // For EMAIL verification
-const { generateOtp, maskEmail, sendEmail } = require('./signUpController')
+const { generateOtp, maskEmail } = require('./signUpController')
+const { sendOtpEmail } = require('../utils/emailService')
 const UserOtpVerificationModel = require('../models/userOtpVerificationModel')
 
 const postUserLogin = async (req, res) => {
@@ -66,7 +67,7 @@ const postUserLogin = async (req, res) => {
       ENTER_OTP: true,
     })
 
-    await sendEmail(email, otp_Code)
+    await sendOtpEmail(email, otp_Code)
   }
 
   // Generating json web token on success login
