@@ -12,8 +12,13 @@ const {
 } = require('../middleware/ErrorsMiddleware')
 
 const verifyToken = async (req, res, next) => {
-  const token = req.cookies['access-cookie']
+  let token = req.cookies['access-cookie']
   const refreshToken = req.cookies['refresh-cookie']
+
+  // Fallback to Authorization Header if cookie is missing
+  if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    token = req.headers.authorization.split(' ')[1]
+  }
 
   if (!token) {
     return cookieNotAvailable(req, res)

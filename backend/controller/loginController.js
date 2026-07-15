@@ -117,6 +117,7 @@ const postUserLogin = async (req, res) => {
   return res.status(StatusCodes.OK).json({
     success: true,
     userType: result.userType,
+    token: jwt_token,
   })
 }
 

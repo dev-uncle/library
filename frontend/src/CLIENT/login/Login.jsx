@@ -38,6 +38,11 @@ const Login = () => {
       const response = await axios.post(API_URL, { email, password })
       const userType = await response.data.userType
 
+      // Save JWT token in localStorage for cross-origin header auth fallback
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token)
+      }
+
       toast.dismiss(loadingToastId)
 
       // Passing user email to refrence user is logged in , userType to refrence what user ROLE is

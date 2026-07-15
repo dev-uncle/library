@@ -7,6 +7,20 @@ import "bootstrap/dist/js/bootstrap.js";
 import axios from "axios";
 axios.defaults.withCredentials = true;
 
+// Interceptor to automatically add Bearer Token from localStorage if present
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export const backend_server = import.meta.env.VITE_BACKEND_URL || `http://localhost:5000`;
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App></App>);

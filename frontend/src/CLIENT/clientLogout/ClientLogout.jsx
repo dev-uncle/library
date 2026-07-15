@@ -15,6 +15,7 @@ const ClientLogout = () => {
     try {
       // Reset user login state to null
       userLoginState.logout()
+      localStorage.clear()
 
       // Clear cookie using API
       await axios.post(logout_Api_url)
