@@ -46,11 +46,13 @@ const verifyToken = async (req, res, next) => {
                   { expiresIn: process.env.JWT_LIFE } // Short-lived access token
                 )
 
+                const isProduction = process.env.NODE_ENV === 'production' || !!process.env.PORT;
                 res.cookie('access-cookie', newAccessToken, {
                   path: '/',
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
                   httpOnly: true,
-                  sameSite: 'lax',
+                  sameSite: isProduction ? 'none' : 'lax',
+                  secure: isProduction ? true : false,
                 })
                 req.userId = id
                 req.userEmail = email

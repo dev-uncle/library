@@ -58,6 +58,8 @@ const postUserSignup = async (req, res) => {
   // Check if user already registered
   const checkPrevUser = await UserModel.findOne({ email }).select('-password')
 
+  const isProduction = process.env.NODE_ENV === 'production' || !!process.env.PORT;
+
   if (!checkPrevUser || checkPrevUser === null) {
     const result = await UserModel.create({
       username,
@@ -71,7 +73,8 @@ const postUserSignup = async (req, res) => {
       path: '/', //1000ms * sec * min * hr ->
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24hr otp cookie that stores userId
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: isProduction ? 'none' : 'lax',
+      secure: isProduction ? true : false,
     })
 
     await UserOtpVerificationModel.create({
@@ -102,7 +105,8 @@ const postUserSignup = async (req, res) => {
       path: '/', //1000ms * sec * min * hr ->
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24hr otp cookie that stores userId
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: isProduction ? 'none' : 'lax',
+      secure: isProduction ? true : false,
     })
 
     await UserOtpVerificationModel.findOneAndUpdate(
