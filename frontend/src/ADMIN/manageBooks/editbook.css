@@ -1,5 +1,5 @@
 /* ============================================
-   EDIT BOOK PAGE
+   EDIT BOOK PAGE — mirrors addnewbook.css
    ============================================ */
 
 .eb-page {
@@ -20,9 +20,9 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.45rem 0.9rem;
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 500;
@@ -33,8 +33,8 @@
   flex-shrink: 0;
 }
 .eb-back-btn:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
-  color: #ffffff !important;
+  background: var(--bg-hover) !important;
+  color: var(--text-primary) !important;
   border-color: var(--accent);
 }
 
@@ -53,20 +53,19 @@
 
 /* ── Form card ───────────────────────────────── */
 .eb-form-card {
-  background: rgba(30, 26, 20, 0.55);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
-  margin-bottom: 2rem;
 }
 
 /* ── Two-column grid ─────────────────────────── */
 .eb-form-grid {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 280px 1fr;
   min-height: 500px;
 }
 
@@ -84,54 +83,52 @@
 /* ── LEFT — Image column ─────────────────────── */
 .eb-image-col {
   padding: 1.75rem 1.5rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(30, 26, 20, 0.25);
+  border-right: 1px solid var(--border-inner);
+  background: var(--bg-card-inner);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Book Cover Preview */
 .eb-cover-container {
   width: 100%;
-  aspect-ratio: 3 / 4.5;
+  aspect-ratio: 3 / 4;
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-input);
+  background: var(--bg-input);
   margin-bottom: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.02);
 }
 
 .eb-cover-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-/* Custom upload input */
 .eb-file-label {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
   width: 100%;
-  padding: 0.55rem 0.85rem;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  padding: 0.65rem 0.85rem;
+  border: 1px dashed var(--border-input);
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-input-btn);
   color: var(--text-muted);
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
-  margin-bottom: 0.75rem;
+  margin-top: 0.5rem;
   text-align: center;
 }
 .eb-file-label:hover {
   border-color: var(--accent);
-  background: rgba(235, 130, 10, 0.08);
-  color: #ffffff;
+  background: var(--bg-active);
+  color: var(--text-primary);
 }
 
 .eb-file-input {
@@ -140,30 +137,31 @@
 
 .eb-image-actions {
   display: flex;
-  flex-direction: column;
   gap: 0.5rem;
   width: 100%;
+  margin-top: 0.5rem;
 }
 
 .eb-img-update-btn {
+  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  width: 100%;
-  padding: 0.55rem 0.85rem;
+  padding: 0.5rem 0.75rem;
   background: var(--accent) !important;
-  color: #ffffff !important;
+  color: #fff !important;
   border: none;
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 600;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .eb-img-update-btn:hover:not(:disabled) {
   background: var(--accent-hover) !important;
-  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.3);
+  transform: translateY(-1px);
 }
 .eb-img-update-btn:disabled {
   opacity: 0.6;
@@ -171,23 +169,20 @@
 }
 
 .eb-cancel-img-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 0.45rem 0.85rem;
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-input) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 500;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .eb-cancel-img-btn:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
-  color: #ffffff !important;
+  background: var(--bg-hover) !important;
+  color: var(--text-primary) !important;
 }
 
 /* ── RIGHT — Fields column ───────────────────── */
@@ -197,7 +192,6 @@
   flex-direction: column;
 }
 
-/* Fields grid — 2 cols */
 .eb-fields-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -205,23 +199,20 @@
   flex: 1;
 }
 
-/* Full-width field */
 .eb-field--full {
   grid-column: 1 / -1;
 }
 
-/* ── Field label ─────────────────────────────── */
 .eb-label {
   display: flex;
   align-items: center;
   gap: 0.35rem;
   font-size: 0.8rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9) !important;
+  color: var(--text-primary) !important;
   margin-bottom: 0.4rem;
 }
 
-/* ── Input / Select / Textarea ───────────────── */
 .eb-input {
   width: 100%;
   height: 40px;
@@ -229,8 +220,8 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -238,10 +229,10 @@
 .eb-input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--bg-input-focus);
 }
 .eb-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--input-placeholder);
 }
 
 .eb-textarea {
@@ -251,40 +242,61 @@
   line-height: 1.6;
 }
 
-/* Checkbox row container */
 .eb-checkbox-group {
   display: flex;
   align-items: center;
-  gap: 2rem;
   height: 40px;
 }
 
 .eb-checkbox-label {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+  gap: 0.55rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
   cursor: pointer;
   user-select: none;
 }
 
 .eb-checkbox-input {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
   accent-color: var(--accent);
   cursor: pointer;
 }
 
-/* ── Actions Row ────────────────────────────── */
+/* ── Actions row ─────────────────────────────── */
 .eb-actions {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   gap: 0.75rem;
   margin-top: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-inner);
+}
+
+.eb-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.2rem;
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.eb-delete-btn:hover {
+  background: rgba(239, 68, 68, 0.18) !important;
+  border-color: #ef4444;
+  color: #fca5a5 !important;
+  transform: translateY(-1px);
 }
 
 .eb-update-btn {
@@ -300,7 +312,7 @@
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease, box-shadow 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease;
   box-shadow: 0 4px 12px rgba(235, 130, 10, 0.25);
 }
 .eb-update-btn:hover:not(:disabled) {
@@ -313,26 +325,6 @@
   cursor: not-allowed;
 }
 
-.eb-delete-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.6rem 1.5rem;
-  background: rgba(239, 68, 68, 0.1) !important;
-  color: #fb7185 !important;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 600;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.eb-delete-btn:hover {
-  background: rgba(239, 68, 68, 0.2) !important;
-  border-color: #f43f5e;
-}
-
 /* ── Responsive ──────────────────────────────── */
 @media (max-width: 900px) {
   .eb-form-grid {
@@ -340,17 +332,12 @@
   }
   .eb-image-col {
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-inner);
   }
   .eb-cover-container {
-    max-width: 260px;
+    aspect-ratio: 16 / 7;
+    max-width: 420px;
     margin: 0 auto 1rem;
-  }
-  .eb-file-label {
-    max-width: 260px;
-  }
-  .eb-image-actions {
-    max-width: 260px;
   }
 }
 
@@ -361,4 +348,146 @@
   .eb-fields-col {
     padding: 1.25rem;
   }
+}
+
+/* ── Delete Confirmation Modal ─────────────────── */
+.eb-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: eb-overlay-in 0.2s ease;
+}
+
+@keyframes eb-overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.eb-modal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 20px;
+  padding: 2.5rem 2rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  animation: eb-modal-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes eb-modal-in {
+  from { opacity: 0; transform: scale(0.88) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.eb-modal-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid rgba(239, 68, 68, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  animation: eb-icon-pulse 2s ease infinite;
+}
+
+@keyframes eb-icon-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
+  50%       { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+}
+
+.eb-modal-icon { color: #ef4444; }
+
+.eb-modal-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.eb-modal-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 2rem;
+}
+.eb-modal-desc strong { color: var(--text-primary); }
+.eb-modal-warn { color: #f87171; font-weight: 600; }
+
+.eb-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.eb-modal-cancel-btn {
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-input);
+  background: var(--bg-input);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+.eb-modal-cancel-btn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+.eb-modal-confirm-btn {
+  flex: 1;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+.eb-modal-confirm-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+  transform: translateY(-1px);
+}
+.eb-modal-confirm-btn:disabled,
+.eb-modal-cancel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.eb-modal-spinner {
+  width: 15px;
+  height: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: eb-spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes eb-spin {
+  to { transform: rotate(360deg); }
 }

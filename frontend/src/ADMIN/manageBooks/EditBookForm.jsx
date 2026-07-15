@@ -2,11 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-
-// Are you sure you want to delete confirm prompt
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
-
 import { backend_server } from "../../main";
 import "./editbook.css";
 import {
@@ -75,6 +70,8 @@ const EditBookForm = () => {
   };
 
   const [updatingBook, setUpdatingBook] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const handleUpdateButton = async (e) => {
     e.preventDefault();
@@ -98,33 +95,18 @@ const EditBookForm = () => {
     }
   };
 
-  const showConfirmation = () => {
-    confirmAlert({
-      title: "Confirm Delete",
-      message: "Are you sure you want to delete this Book?",
-      buttons: [
-        {
-          label: "Yes, Delete",
-          onClick: handleDeleteButton,
-        },
-        {
-          label: "Cancel",
-          onClick: () => console.log("Cancelled!"),
-        },
-      ],
-    });
-  };
-
   const handleDeleteButton = async () => {
+    setDeleting(true);
     try {
       await axios.delete(`${API_URL}/${id}`);
-      toast.success("Delete Success");
-      setTimeout(() => {
-        navigate("/admin/managebooks");
-      }, 1000);
+      toast.success("Book deleted successfully");
+      setShowDeleteModal(false);
+      setTimeout(() => navigate("/admin/managebooks"), 900);
     } catch (error) {
       console.log(error.response);
       toast.error("Error deleting book");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -456,7 +438,7 @@ const EditBookForm = () => {
                     <button
                       type="button"
                       className="eb-delete-btn"
-                      onClick={showConfirmation}
+                      onClick={() => setShowDeleteModal(true)}
                     >
                       <HiOutlineTrash size={15} />
                       Delete Book
@@ -473,11 +455,47 @@ const EditBookForm = () => {
                 </form>
 
               </div>
-
             </div>
           </div>
         )}
       </div>
+
+      {/* ── Delete Confirmation Modal ─────────── */}
+      {showDeleteModal && (
+        <div className="eb-modal-overlay" onClick={() => !deleting && setShowDeleteModal(false)}>
+          <div className="eb-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="eb-modal-icon-wrap">
+              <HiOutlineTrash size={32} className="eb-modal-icon" />
+            </div>
+            <h2 className="eb-modal-title">Delete Book?</h2>
+            <p className="eb-modal-desc">
+              You are about to permanently delete <strong>"{bookData.title}"</strong>.
+              This action <span className="eb-modal-warn">cannot be undone</span>.
+            </p>
+            <div className="eb-modal-actions">
+              <button
+                className="eb-modal-cancel-btn"
+                onClick={() => setShowDeleteModal(false)}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                className="eb-modal-confirm-btn"
+                onClick={handleDeleteButton}
+                disabled={deleting}
+              >
+                {deleting ? (
+                  <span className="eb-modal-spinner" />
+                ) : (
+                  <HiOutlineTrash size={15} />
+                )}
+                {deleting ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
