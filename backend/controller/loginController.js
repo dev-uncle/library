@@ -7,10 +7,13 @@ const jwt = require('jsonwebtoken')
 const UserModels = require('../models/signUpModel')
 
 // For EMAIL verification
-const { generateOtp, maskEmail, sendEmail } = require('./signUpController')
+const { generateOtp, maskEmail } = require('./signUpController')
+const { sendOtpEmail } = require('../utils/emailService')
 const UserOtpVerificationModel = require('../models/userOtpVerificationModel')
 
 const postUserLogin = async (req, res) => {
+  const isProduction = process.env.NODE_ENV === 'production' || !!process.env.PORT
+
   // converting @gmail.com domain into lowercase to match with database
   const email = await ConvertEmail(req.body.email)
 
@@ -43,7 +46,8 @@ const postUserLogin = async (req, res) => {
       path: '/', //1000ms * sec * min * hr ->
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24), // 24hr otp cookie that stores userId
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: isProduction ? 'none' : 'lax',
+      secure: isProduction ? true : false,
     })
 
     await UserOtpVerificationModel.findOneAndUpdate(
@@ -63,7 +67,7 @@ const postUserLogin = async (req, res) => {
       ENTER_OTP: true,
     })
 
-    await sendEmail(email, otp_Code)
+    await sendOtpEmail(email, otp_Code)
   }
 
   // Generating json web token on success login
@@ -85,9 +89,8 @@ const postUserLogin = async (req, res) => {
     //1000ms * sec * min * hr ->
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     httpOnly: true,
-
-    // allows get request from same site or external site but , POST from external sites cookie wont be sent
-    sameSite: 'lax',
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction ? true : false,
   })
 
   // Generating Refresh Token
@@ -108,12 +111,14 @@ const postUserLogin = async (req, res) => {
     path: '/',
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365), //365days Cookie Expiry
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: isProduction ? 'none' : 'lax',
+    secure: isProduction ? true : false,
   })
 
   return res.status(StatusCodes.OK).json({
     success: true,
     userType: result.userType,
+    token: jwt_token,
   })
 }
 

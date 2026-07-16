@@ -66,6 +66,7 @@ const ManageBooks = () => {
           setAllBooks={setAllBooks}
           bookCategories={categories}
           setFilterActive={setFilterActive}
+          fetchData={fetchData}
         />
       </div>
 
@@ -85,6 +86,7 @@ const ManageBooks = () => {
                   <th>#</th>
                   <th>Title</th>
                   <th>Category</th>
+                  <th>Stock</th>
                   <th>Featured</th>
                   <th>Available</th>
                   <th>Action</th>
@@ -92,7 +94,7 @@ const ManageBooks = () => {
               </thead>
               <tbody>
                 {allBooks.map((book, index) => {
-                  const { _id, title, category, featured, available } = book
+                  const { _id, title, category, featured, available, quantity, bookFile } = book
                   return (
                     <tr key={_id}>
                       <td className='mb-td-num'>{index + 1}</td>
@@ -102,6 +104,9 @@ const ManageBooks = () => {
                       </td>
                       <td>
                         <span className='mb-badge mb-badge--category'>{category}</span>
+                      </td>
+                      <td>
+                        <span style={{ fontWeight: 600, paddingLeft: '8px' }}>{quantity ?? 0}</span>
                       </td>
                       <td>
                         <span className={`mb-badge ${featured ? 'mb-badge--yes' : 'mb-badge--no'}`}>
@@ -114,10 +119,31 @@ const ManageBooks = () => {
                         </span>
                       </td>
                       <td>
-                        <Link to={`/admin/managebooks/${_id}`} className='mb-edit-btn'>
-                          <HiOutlinePencilSquare size={15} />
-                          Edit
-                        </Link>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                          <Link to={`/admin/managebooks/${_id}`} className='mb-edit-btn'>
+                            <HiOutlinePencilSquare size={15} />
+                            Edit
+                          </Link>
+                          {bookFile && (
+                            <a
+                              href={`${backend_server}/${bookFile}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className='mb-edit-btn'
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                background: 'rgba(16, 185, 129, 0.1)',
+                                border: '1px solid rgba(16, 185, 129, 0.25)',
+                                color: '#10b981',
+                              }}
+                            >
+                              <HiOutlineBookOpen size={14} />
+                              View E-Book
+                            </a>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   )

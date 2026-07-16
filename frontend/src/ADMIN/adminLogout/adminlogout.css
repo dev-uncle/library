@@ -2,94 +2,186 @@
    ADMIN LOGOUT PAGE
    ============================================ */
 
-.logout-page-wrapper {
+.logout-page-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--topbar-height));
+}
+
+/* ── Card ─────────────────────────────────── */
+.lo-card {
   width: 100%;
-  max-width: 480px;
-  margin: 4rem auto;
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  max-width: 420px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  padding: 3rem 2rem;
-  font-family: 'Inter', sans-serif;
-  text-align: center;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  animation: loSlideUp 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+  text-align: center;
 }
 
-.logout-illustration {
-  width: 220px;
-  height: auto;
-  opacity: 0.85;
+@keyframes loSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-.logout-title {
-  font-size: 1.3rem !important;
+/* ── Icon ─────────────────────────────────── */
+.lo-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.15);
+  animation: loPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes loPulse {
+  0%, 100% { box-shadow: 0 0 24px rgba(239, 68, 68, 0.15); }
+  50%       { box-shadow: 0 0 36px rgba(239, 68, 68, 0.3); }
+}
+
+.lo-icon {
+  color: #f87171;
+}
+
+/* ── Text ─────────────────────────────────── */
+.lo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.lo-title {
+  font-size: 1.5rem !important;
   font-weight: 700 !important;
   color: var(--text-primary) !important;
   margin: 0 !important;
-  letter-spacing: -0.01em;
-  line-height: 1.4;
+  letter-spacing: -0.02em;
 }
 
-.logout-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+.lo-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted) !important;
+  margin: 0 !important;
+  line-height: 1.6;
+}
+
+/* ── Divider ──────────────────────────────── */
+.lo-divider {
   width: 100%;
-  margin-top: 0.5rem;
+  height: 1px;
+  background: var(--border-inner);
+  border-radius: 1px;
 }
 
-.logout-confirm-btn {
+/* ── Actions ──────────────────────────────── */
+.lo-actions {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Cancel / Go Back button */
+.lo-cancel-btn {
   flex: 1;
   height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--bg-input-btn) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lo-cancel-btn:hover:not(:disabled) {
+  background: var(--bg-hover) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-accent);
+  transform: translateY(-1px);
+}
+
+.lo-cancel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Confirm / Sign Out button */
+.lo-confirm-btn {
+  flex: 1;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
   background: #dc2626 !important;
   color: #ffffff !important;
   border: none;
   border-radius: var(--radius-md);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
-.logout-confirm-btn:hover {
+.lo-confirm-btn:hover:not(:disabled) {
   background: #b91c1c !important;
   transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.45);
 }
 
-.logout-back-btn {
-  flex: 1;
-  height: 42px;
-  background: #f1f5f9 !important;
-  color: var(--text-muted) !important;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.lo-confirm-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
 }
 
-.logout-back-btn:hover {
-  background: #e2e8f0 !important;
-  color: var(--text-primary) !important;
+/* ── Loading spinner ──────────────────────── */
+.lo-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: lo-spin 0.7s linear infinite;
+  flex-shrink: 0;
 }
 
-/* Responsive adjustments */
+@keyframes lo-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Responsive ───────────────────────────── */
 @media (max-width: 480px) {
-  .logout-page-wrapper {
-    margin: 2rem auto;
-    padding: 2rem 1.5rem;
+  .lo-card {
+    padding: 2rem 1.25rem;
   }
 }

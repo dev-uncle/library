@@ -8,27 +8,31 @@ const RequestBook = () => {
   const Request_API_URL = `${backend_server}/api/v1/requestBooks`;
 
   const navigate = useNavigate();
-
-  const userLoginState = useLoginState();
+  const { userLogState, addRequestedBookId, promptPassword } = useLoginState();
 
   const request_Book = async (book_id) => {
-    if (userLoginState.userLogState === null) {
+    if (userLogState === null) {
       console.log("Not Logged in ");
       toast(`Please 'Login' to request for books`, {
         icon: "ℹ️",
       });
       navigate("/login", { replace: true });
     } else {
+      // 1. Custom UI Password Prompt
+      const isVerified = await promptPassword();
+      if (!isVerified) return; // User cancelled or closed the modal
+
       try {
+        // If verified, proceed with making the borrow request
         const response = await axios.post(Request_API_URL, {
           bookId: book_id,
         });
-        console.log(response);
         toast.success("Book Requested successfully");
+        addRequestedBookId(book_id); // Update local requested state
       } catch (error) {
         console.log(error.response);
-        const message = error.response.data.message;
-        toast(message, { icon: "ℹ️" });
+        const message = error.response?.data?.message || "Failed to process request";
+        toast.error(message);
       }
     }
   };

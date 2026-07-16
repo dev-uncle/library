@@ -3,6 +3,7 @@ import { backend_server } from '../../main'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import RequestBook from '../requestBooks/RequestBook'
+import { useLoginState } from '../../LoginState'
 
 const RecentlyAddedBooks = () => {
   const recentBooks_Api_URL = `${backend_server}/api/v1/recentBooks`
@@ -23,6 +24,7 @@ const RecentlyAddedBooks = () => {
   }
 
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
 
   useEffect(() => {
     fetchData()
@@ -42,8 +44,9 @@ const RecentlyAddedBooks = () => {
           </div>
         ) : latestBooks.length > 0 ? (
           latestBooks.map((book) => {
-            const { _id, title, image, author, available } = book
+            const { _id, title, image, author, available, quantity, bookFile } = book
             const imgSrc = `${backend_server}/${image}`
+            const isRequested = requestedBookIds?.includes(_id)
 
             return (
               <div
@@ -53,9 +56,12 @@ const RecentlyAddedBooks = () => {
                 <div className='card'>
                   <div className='card-img-container'>
                     {available ? (
-                      <span className='status-badge available'>Available</span>
+                      <span className='status-badge available'>Available ({quantity ?? 1})</span>
                     ) : (
                       <span className='status-badge outofstock'>Out of Stock</span>
+                    )}
+                    {bookFile && (
+                      <span className='status-badge ebook-badge'>E-Book</span>
                     )}
                     <img
                       className='card-img-top'
@@ -69,7 +75,16 @@ const RecentlyAddedBooks = () => {
                     <h5 className='h5 card-title' title={title}>{title}</h5>
                     <p className='card-text'>{author}</p>
                     <div className='card-action-group'>
-                      {available ? (
+                      {isRequested ? (
+                        <button
+                          type='button'
+                          className='btn-card-primary'
+                          disabled
+                          style={{ backgroundColor: 'var(--accent)', opacity: 0.65 }}
+                        >
+                          Requested
+                        </button>
+                      ) : available ? (
                         <button
                           type='button'
                           className='btn-card-primary'

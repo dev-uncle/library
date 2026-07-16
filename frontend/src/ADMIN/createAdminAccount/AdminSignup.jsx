@@ -4,9 +4,10 @@ import './adminsignup.css'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
+import { backend_server } from '../../main'
 
 const AdminSignup = () => {
-  const API_URL = 'http://localhost:5000/api/v1/signup'
+  const API_URL = `${backend_server}/api/v1/signup`
 
   const refUsername = useRef(null)
 

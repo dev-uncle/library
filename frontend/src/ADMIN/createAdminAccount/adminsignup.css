@@ -6,29 +6,48 @@
   width: 100%;
   max-width: 480px;
   margin: 3rem auto;
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   padding: 2.25rem 2rem;
   font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
 }
 
 /* Header Section */
 .signup-upperdiv h2 {
-  font-size: 1.4rem !important;
+  font-size: 1.6rem !important;
   font-weight: 700 !important;
   color: var(--text-primary) !important;
   margin-top: 0 !important;
   margin-bottom: 1.5rem !important;
-  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   text-align: center;
+  position: relative;
+}
+
+.signup-upperdiv h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: #eb820a;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
 }
 
 /* Middle Form Section */
 .signup-middlediv {
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
 }
 
 .signup-middlediv form {
@@ -59,7 +78,7 @@
 .signup-middlediv label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-primary) !important;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 /* Inputs styling */
@@ -70,8 +89,8 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: #f8fafc;
-  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
@@ -79,12 +98,12 @@
 
 .signup-middlediv input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
-  background: #ffffff;
+  box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
+  background: var(--bg-input-focus);
 }
 
 .signup-middlediv input::placeholder {
-  color: #94a3b8;
+  color: var(--input-placeholder);
 }
 
 /* Password field with Eye toggle */
@@ -102,7 +121,7 @@
   top: 50%;
   right: 0.75rem;
   transform: translateY(-50%);
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -113,7 +132,7 @@
 }
 
 .password-field-toggle:hover {
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 /* Signup Button styling */
@@ -129,8 +148,8 @@
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,8 +157,8 @@
 
 .signup-middlediv button:hover:not(:disabled) {
   background: var(--accent-hover) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(235, 130, 10, 0.45);
 }
 
 .signup-middlediv button:disabled {

@@ -21,6 +21,11 @@ const getSingleUser = async (req, res) => {
   const { userId } = req.params
 
   const getUserData = await UserModel.findById(userId)
+  if (getUserData && (getUserData.totalAcceptedBooks < 0 || getUserData.totalRequestedBooks < 0)) {
+    if (getUserData.totalAcceptedBooks < 0) getUserData.totalAcceptedBooks = 0
+    if (getUserData.totalRequestedBooks < 0) getUserData.totalRequestedBooks = 0
+    await getUserData.save()
+  }
 
   const getUserBookTransaction = await BookTransactionSchema.find({
     userId,
@@ -48,6 +53,11 @@ const postSingleUser = async (req, res) => {
   const userId = req.userId
 
   const getUserData = await UserModel.findById(userId)
+  if (getUserData && (getUserData.totalAcceptedBooks < 0 || getUserData.totalRequestedBooks < 0)) {
+    if (getUserData.totalAcceptedBooks < 0) getUserData.totalAcceptedBooks = 0
+    if (getUserData.totalRequestedBooks < 0) getUserData.totalRequestedBooks = 0
+    await getUserData.save()
+  }
 
   // Fetch all 3 Status to show users - ACCEPTED / PENDING / CANCELLED / READY
   const getAllUserBookTransaction = await BookTransactionSchema.find({
@@ -183,6 +193,27 @@ const patchUserDetail = async (req, res) => {
   }
 }
 
+const verifyPassword = async (req, res) => {
+  const userId = req.userId
+  const { password } = req.body
+
+  if (!password) {
+    return res.status(400).json({ success: false, message: 'Password is required' })
+  }
+
+  const user = await UserModel.findById(userId).select('+password')
+  if (!user) {
+    return res.status(400).json({ success: false, message: 'User not found' })
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password)
+  if (!isMatch) {
+    return res.status(400).json({ success: false, message: 'Incorrect password' })
+  }
+
+  res.status(200).json({ success: true, message: 'Password verified successfully' })
+}
+
 // Converting @gmail.com to lower
 const ConvertEmail = async (email) => {
   const emailWithoutSpaces = email.replace(/\s/g, '') // Remove spaces using regular expression
@@ -193,4 +224,4 @@ const ConvertEmail = async (email) => {
   return (FinalEmail = firstEmailPart + '@' + secondEmailPart)
 }
 
-module.exports = { getAllUsers, getSingleUser, postSingleUser, patchUserDetail }
+module.exports = { getAllUsers, getSingleUser, postSingleUser, patchUserDetail, verifyPassword }

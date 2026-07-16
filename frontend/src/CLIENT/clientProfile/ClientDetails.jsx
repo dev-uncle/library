@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Modal, Row, Col, Form } from 'react-bootstrap'
 import { backend_server } from '../../main'
 import axios from 'axios'
@@ -7,13 +6,15 @@ import { Toaster, toast } from 'react-hot-toast'
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
 import { useLoginState } from '../../LoginState'
+import { HiOutlineUser, HiOutlinePhone, HiOutlineEnvelope, HiOutlineBookOpen } from 'react-icons/hi2'
 
-const ClientDetails = ({ userData }) => {
+const ClientDetails = ({ userData, onUpdate }) => {
   const UpdateUser_API_URL = `${backend_server}/api/v1/users`
   const [showEditModal, setShowEditModal] = useState(false)
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false)
-  const [showPassword, setShowPassword] = useState(false) // State variable to track password visibility
+  const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+  const userLoginState = useLoginState()
 
   const handleEditModalClose = () => {
     setShowEditModal(false)
@@ -25,6 +26,11 @@ const ClientDetails = ({ userData }) => {
 
   const handlePasswordModalClose = () => {
     setShowChangePasswordModal(false)
+    setInputFieldPassword({
+      old_password: '',
+      new_password: '',
+      confirm_password: '',
+    })
   }
 
   const handlePasswordModalShow = () => {
@@ -57,15 +63,11 @@ const ClientDetails = ({ userData }) => {
     })
   }
 
-  // Updates user Details
   const showLoadingToast = () => {
-    return toast.loading('Loading...', {
+    return toast.loading('Updating profile...', {
       position: 'top-center',
-      duration: Infinity, // The toast will not automatically close
     })
   }
-
-  const userLoginState = useLoginState()
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault()
@@ -74,10 +76,10 @@ const ClientDetails = ({ userData }) => {
     // Validate email format
     const emailRegex = /^[A-Za-z0-9._%+-]+@gmail\.com$/
     const isValid = emailRegex.test(email)
-    // console.log(isValid)
     if (!isValid) {
-      toast.error('Invalid Email Format')
+      return toast.error('Invalid Email Format')
     }
+
     const loadingToastId = showLoadingToast()
     try {
       const response = await axios.patch(UpdateUser_API_URL, {
@@ -87,29 +89,29 @@ const ClientDetails = ({ userData }) => {
       })
 
       toast.dismiss(loadingToastId)
-      if (response.data.ENTER_OTP == true) {
+      if (response.data.ENTER_OTP === true) {
         toast.success(response.data.message)
-
-        // reset OR set user login state to NULL
         userLoginState.logout()
-
         navigate('/otp', { replace: true })
       } else {
-        toast.success('Update Success')
+        toast.success('Profile updated successfully')
+        if (onUpdate) {
+          onUpdate()
+        }
+        handleEditModalClose()
       }
     } catch (error) {
       toast.dismiss(loadingToastId)
+      toast.error(error.response?.data?.message || 'Update failed')
       console.log(error.response)
     }
   }
 
-  // Updates password
   const handleUpdatePassword = async (e) => {
     e.preventDefault()
     const { confirm_password, new_password, old_password } = inputFieldPassword
 
     if (new_password === confirm_password) {
-      // Validate alphanumeric password with a must Special character
       const alphanumericRegex =
         /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/
 
@@ -126,83 +128,155 @@ const ClientDetails = ({ userData }) => {
           new_password,
         })
 
-        toast.success('Password Changed Successfully')
+        toast.success('Password changed successfully')
+        handlePasswordModalClose()
       } catch (error) {
         console.log(error)
-        console.log(error.response)
-        toast.error(error.response.data.message)
+        toast.error(error.response?.data?.message || 'Password update failed')
       }
     } else {
-      toast.error('Password Doesnt Match')
+      toast.error('New passwords do not match')
     }
   }
 
   useEffect(() => {
-    setInputFieldNormal({ ...userData })
-  }, [])
+    if (userData) {
+      setInputFieldNormal({
+        username: userData.username || '',
+        email: userData.email || '',
+        phone: userData.phone || '',
+      })
+    }
+  }, [userData])
 
   return (
-    <div className='container my-3'>
-      {/* Image + Userdetails Box Section */}
-      <Row className='align-items-center '>
-        {/* Image Section */}
-        <Col md={4} className='text-center mx-1 my-2'>
-          <div className='profile-details border p-4 shadow'>
-            <img
-              style={{ width: '100px' }}
-              className='img-fluid'
-              src='/clientprofile.png'
-            />
-            <h5 className='mt-3'>{userData.username.toUpperCase()}</h5>
-          </div>
-        </Col>
+    <div className='dashboard'>
+      <div className='dashboard-header mb-4'>
+        <h1 className='dashboard-title'>My Details</h1>
+        <p className='dashboard-subtitle'>Manage your profile parameters, credentials, and contact info.</p>
+      </div>
 
-        {/* Other user INFO */}
-        <Col md={6}>
-          <div className='profile-details border p-4 shadow mx-1 my-2'>
-            <h5>Email: {userData.email}</h5>
-            <hr />
-
-            <h5>Phone: {userData.phone}</h5>
-            <hr />
-            <h5>Total Books: {userData.totalAcceptedBooks}</h5>
-          </div>
-        </Col>
-      </Row>
-
-      {/* Edit and Change Button */}
-      <Row>
-        <div className='profile-buttons text-center'>
-          {/* Edit PROFILE btn */}
-          <Button
-            variant='primary'
-            onClick={handleEditModalShow}
-            className='mx-2 my-3'
+      <div className='row g-4'>
+        {/* Left Avatar Card */}
+        <div className='col-md-4'>
+          <div 
+            className='chart-card text-center d-flex flex-column align-items-center justify-content-center py-5 h-100'
+            style={{ minHeight: '300px' }}
           >
-            Edit Profile
-          </Button>
-
-          {/* Change PASSWORD btn */}
-          <Button
-            variant='secondary'
-            onClick={handlePasswordModalShow}
-            className='mx-2 my-3'
-          >
-            Change Password
-          </Button>
+            <div 
+              style={{
+                width: '100px',
+                height: '100px',
+                borderRadius: '50%',
+                background: 'linear-gradient(135deg, #ff9d2b, #eb820a)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '2.5rem',
+                fontWeight: '800',
+                color: '#ffffff',
+                boxShadow: 'var(--shadow-glow)',
+                marginBottom: '1.5rem'
+              }}
+            >
+              {userData.username ? userData.username.charAt(0).toUpperCase() : 'S'}
+            </div>
+            <h4 style={{ color: 'var(--text-primary)', fontWeight: '700', marginBottom: '0.25rem' }}>
+              {userData.username ? userData.username.toUpperCase() : 'STUDENT'}
+            </h4>
+            <span 
+              className='status-badge status-badge--ready'
+              style={{ padding: '0.35rem 0.85rem', fontSize: '0.7rem' }}
+            >
+              Library Member
+            </span>
+          </div>
         </div>
-      </Row>
+
+        {/* Right Info Card */}
+        <div className='col-md-8'>
+          <div className='chart-card p-4 h-100 d-flex flex-column justify-content-between'>
+            <div>
+              <h3 className='mb-4' style={{ fontSize: '1.1rem', fontWeight: '700', color: 'var(--text-primary)' }}>Personal Information</h3>
+              
+              <div className='d-flex align-items-center mb-3 py-2 border-bottom' style={{ borderColor: 'var(--border-inner)' }}>
+                <span style={{ color: 'var(--accent)', marginRight: '1rem', display: 'flex' }}><HiOutlineUser size={20} /></span>
+                <div className='d-flex flex-column'>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Username</span>
+                  <span style={{ fontWeight: '500', color: 'var(--text-primary)' }}>{userData.username}</span>
+                </div>
+              </div>
+
+              <div className='d-flex align-items-center mb-3 py-2 border-bottom' style={{ borderColor: 'var(--border-inner)' }}>
+                <span style={{ color: 'var(--accent)', marginRight: '1rem', display: 'flex' }}><HiOutlineEnvelope size={20} /></span>
+                <div className='d-flex flex-column'>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Email Address</span>
+                  <span style={{ fontWeight: '500', color: 'var(--text-primary)' }}>{userData.email}</span>
+                </div>
+              </div>
+
+              <div className='d-flex align-items-center mb-3 py-2 border-bottom' style={{ borderColor: 'var(--border-inner)' }}>
+                <span style={{ color: 'var(--accent)', marginRight: '1rem', display: 'flex' }}><HiOutlinePhone size={20} /></span>
+                <div className='d-flex flex-column'>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Phone Number</span>
+                  <span style={{ fontWeight: '500', color: 'var(--text-primary)' }}>{userData.phone || 'Not Provided'}</span>
+                </div>
+              </div>
+
+              <div className='d-flex align-items-center mb-3 py-2' style={{ borderColor: 'var(--border-inner)' }}>
+                <span style={{ color: 'var(--accent)', marginRight: '1rem', display: 'flex' }}><HiOutlineBookOpen size={20} /></span>
+                <div className='d-flex flex-column'>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Accepted Books</span>
+                  <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{userData.totalAcceptedBooks}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className='d-flex gap-3 mt-4'>
+              <Button
+                onClick={handleEditModalShow}
+                style={{
+                  background: 'var(--accent)',
+                  borderColor: 'var(--accent)',
+                  fontWeight: '600',
+                  padding: '0.6rem 1.5rem',
+                  borderRadius: 'var(--radius-md)',
+                  flex: 1
+                }}
+              >
+                Edit Profile
+              </Button>
+
+              <Button
+                variant='secondary'
+                onClick={handlePasswordModalShow}
+                style={{
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-primary)',
+                  fontWeight: '600',
+                  padding: '0.6rem 1.5rem',
+                  borderRadius: 'var(--radius-md)',
+                  flex: 1
+                }}
+              >
+                Change Password
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Edit Profile Modal */}
-      <Modal show={showEditModal} onHide={handleEditModalClose} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Profile</Modal.Title>
+      <Modal show={showEditModal} onHide={handleEditModalClose} centered contentClassName='client-modal-card-override'>
+        <Modal.Header closeButton style={{ borderBottom: '1px solid var(--border-color)', background: 'transparent' }}>
+          <Modal.Title style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '1.25rem' }}>Edit Profile</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          <Form onSubmit={(e) => handleUpdateProfile(e)}>
-            <Form.Group controlId='username'>
-              <Form.Label>Username</Form.Label>
+        <Modal.Body style={{ background: 'transparent', padding: '1.5rem' }}>
+          <Form onSubmit={handleUpdateProfile}>
+            <Form.Group className='mb-3' controlId='username'>
+              <Form.Label style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Username</Form.Label>
               <Form.Control
                 type='text'
                 minLength={5}
@@ -212,11 +286,12 @@ const ClientDetails = ({ userData }) => {
                 value={inputFieldNormal.username}
                 required
                 autoComplete='off'
+                className='client-modal-input-override'
               />
             </Form.Group>
 
-            <Form.Group controlId='email'>
-              <Form.Label>Email</Form.Label>
+            <Form.Group className='mb-3' controlId='email'>
+              <Form.Label style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Email</Form.Label>
               <Form.Control
                 type='email'
                 required
@@ -226,11 +301,13 @@ const ClientDetails = ({ userData }) => {
                 value={inputFieldNormal.email}
                 onChange={handleOnChangeNormal}
                 readOnly
+                className='client-modal-input-override'
+                style={{ opacity: 0.6, cursor: 'not-allowed' }}
               />
             </Form.Group>
 
-            <Form.Group controlId='phone'>
-              <Form.Label>Phone</Form.Label>
+            <Form.Group className='mb-4' controlId='phone'>
+              <Form.Label style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Phone</Form.Label>
               <Form.Control
                 type='text'
                 required
@@ -241,38 +318,54 @@ const ClientDetails = ({ userData }) => {
                 pattern='9\d{9}'
                 minLength='10'
                 maxLength='10'
+                className='client-modal-input-override'
               />
             </Form.Group>
 
-            <Form.Group className='text-center my-2'>
-              <button type='submit' className='btn btn-success'>
-                Update
-              </button>
-            </Form.Group>
+            <div className='d-flex gap-2 justify-content-end mt-4'>
+              <Button 
+                variant='secondary' 
+                onClick={handleEditModalClose}
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-primary)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.9rem',
+                  padding: '0.5rem 1.25rem'
+                }}
+              >
+                Cancel
+              </Button>
+              <Button 
+                type='submit'
+                style={{
+                  background: 'var(--accent)',
+                  border: 'none',
+                  color: '#fff',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.9rem',
+                  padding: '0.5rem 1.25rem',
+                  fontWeight: '600'
+                }}
+              >
+                Save Changes
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handleEditModalClose}>
-            Back
-          </Button>
-        </Modal.Footer>
       </Modal>
 
       {/* Change Password Modal */}
-      <Modal
-        show={showChangePasswordModal}
-        onHide={handlePasswordModalClose}
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Change Password</Modal.Title>
+      <Modal show={showChangePasswordModal} onHide={handlePasswordModalClose} centered contentClassName='client-modal-card-override'>
+        <Modal.Header closeButton style={{ borderBottom: '1px solid var(--border-color)', background: 'transparent' }}>
+          <Modal.Title style={{ color: 'var(--text-primary)', fontWeight: '700', fontSize: '1.25rem' }}>Change Password</Modal.Title>
         </Modal.Header>
 
-        <Modal.Body>
-          <Form onSubmit={(e) => handleUpdatePassword(e)}>
-            <Form.Group controlId='old password'>
-              <Form.Label>Old Password</Form.Label>
+        <Modal.Body style={{ background: 'transparent', padding: '1.5rem' }}>
+          <Form onSubmit={handleUpdatePassword}>
+            <Form.Group className='mb-3' controlId='old_password'>
+              <Form.Label style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Old Password</Form.Label>
               <Form.Control
                 type='password'
                 minLength={5}
@@ -281,11 +374,12 @@ const ClientDetails = ({ userData }) => {
                 name='old_password'
                 onChange={handleOnChangePassword}
                 value={inputFieldPassword.old_password}
+                className='client-modal-input-override'
               />
             </Form.Group>
 
-            <Form.Group controlId='new password'>
-              <Form.Label>New Password</Form.Label>
+            <Form.Group className='mb-3' controlId='new_password'>
+              <Form.Label style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>New Password</Form.Label>
               <Form.Control
                 required
                 minLength={5}
@@ -294,45 +388,72 @@ const ClientDetails = ({ userData }) => {
                 name='new_password'
                 onChange={handleOnChangePassword}
                 value={inputFieldPassword.new_password}
+                className='client-modal-input-override'
               />
             </Form.Group>
 
-            <Form.Group controlId='confirm password'>
-              <Form.Label>Confirm new Password</Form.Label>
-              <div className='password-field'>
+            <Form.Group className='mb-4' controlId='confirm_password'>
+              <Form.Label style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Confirm New Password</Form.Label>
+              <div className='position-relative d-flex align-items-center'>
                 <Form.Control
-                  type={showPassword ? 'text' : 'password'} // Toggle input type based on showPassword state
+                  type={showPassword ? 'text' : 'password'}
                   required
                   minLength={5}
                   placeholder='Re-enter new Password'
                   name='confirm_password'
                   onChange={handleOnChangePassword}
                   value={inputFieldPassword.confirm_password}
+                  className='client-modal-input-override w-100'
+                  style={{ paddingRight: '2.5rem' }}
                 />
                 <span
-                  onClick={() =>
-                    setShowPassword((prevShowPassword) => !prevShowPassword)
-                  }
-                  style={{ cursor: 'pointer' }}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  style={{ 
+                    cursor: 'pointer',
+                    position: 'absolute',
+                    right: '1rem',
+                    color: 'var(--text-muted)',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
                 >
-                  {showPassword ? <BsEye /> : <BsEyeSlash />}
+                  {showPassword ? <BsEye size={18} /> : <BsEyeSlash size={18} />}
                 </span>
               </div>
             </Form.Group>
 
-            <Form.Group className='text-center my-2'>
-              <button type='submit' className='btn btn-success'>
-                Update
-              </button>
-            </Form.Group>
+            <div className='d-flex gap-2 justify-content-end mt-4'>
+              <Button 
+                variant='secondary' 
+                onClick={handlePasswordModalClose}
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-primary)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.9rem',
+                  padding: '0.5rem 1.25rem'
+                }}
+              >
+                Cancel
+              </Button>
+              <Button 
+                type='submit'
+                style={{
+                  background: 'var(--accent)',
+                  border: 'none',
+                  color: '#fff',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '0.9rem',
+                  padding: '0.5rem 1.25rem',
+                  fontWeight: '600'
+                }}
+              >
+                Change Password
+              </Button>
+            </div>
           </Form>
         </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant='secondary' onClick={handlePasswordModalClose}>
-            Back
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   )

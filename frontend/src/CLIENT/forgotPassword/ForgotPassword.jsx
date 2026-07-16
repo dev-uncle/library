@@ -3,7 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import { backend_server } from '../../main'
 import './forgot.css'
 import axios from 'axios'
-import { toast, Toaster } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
+import { 
+  BsEnvelope, 
+  BsPhone, 
+  BsLock, 
+  BsEye, 
+  BsEyeSlash, 
+  BsArrowLeft, 
+  BsCheckCircleFill, 
+  BsShieldLock 
+} from 'react-icons/bs'
 
 const ForgotPassword = () => {
   const ForgotPassword_API = `${backend_server}/api/v1/forgotpassword`
@@ -14,6 +24,10 @@ const ForgotPassword = () => {
 
   const [isEmailPhoneValid, setIsEmailPhoneValid] = useState(false)
   const [userId, setUserId] = useState(null)
+  const [otpCode, setOtpCode] = useState('')
+
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,7 +37,7 @@ const ForgotPassword = () => {
         phone,
       })
 
-      toast.success(' Credentials validation Success')
+      toast.success('Credentials validation Success')
       setIsEmailPhoneValid(true)
       setUserId(validateEmailPhone.data.userId)
 
@@ -65,12 +79,14 @@ const ForgotPassword = () => {
         const response = await axios.patch(ForgotPassword_API, {
           userId,
           newPassword: password,
+          otpCode,
         })
 
         toast.success(response.data.message)
 
         setPassword('')
         setConfirmPassword('')
+        setOtpCode('')
         setPasswordMatch(true)
 
         navigate('/login', { replace: true })
@@ -87,97 +103,168 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className='container'>
-      <h1 className='h2 text-center my-3'>Recover Account </h1>
+    <div className='forgot-page-wrapper'>
+      <div className='forgot-maindiv'>
+        {/* Header */}
+        <div className='forgot-upperdiv'>
+          <h1>{isEmailPhoneValid ? 'Reset Password' : 'Recover Account'}</h1>
+          <p className='forgot-subtitle'>
+            {isEmailPhoneValid
+              ? 'Create a strong, secure new password for your account.'
+              : 'Enter your credentials to verify your account identity.'}
+          </p>
+        </div>
 
-      <div className='d-flex flex-column align-items-center '>
-        <form onSubmit={handleSubmit} className='w-50'>
-          <div className='form-group'>
-            <label>Email:</label>
-            <input
-              type='email'
-              className='form-control'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              name='email'
-              autoComplete='off'
-            />
+        {/* Stepper indicator */}
+        <div className='forgot-stepper'>
+          <div className={`step-item ${!isEmailPhoneValid ? 'active' : 'completed'}`}>
+            <span className='step-number'>
+              {isEmailPhoneValid ? <BsCheckCircleFill className='step-check-icon' /> : '1'}
+            </span>
+            <span className='step-label'>Verify</span>
           </div>
-
-          <div className='form-group'>
-            <label>Phone:</label>
-            <input
-              type='text'
-              className='form-control'
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-              name='phone'
-              pattern='9\d{9}'
-              minLength='10'
-              maxLength='10'
-              autoComplete='off'
-            />
+          <div className='step-line'></div>
+          <div className={`step-item ${isEmailPhoneValid ? 'active' : ''}`}>
+            <span className='step-number'>2</span>
+            <span className='step-label'>Reset</span>
           </div>
+        </div>
 
-          <div className='text-center recover-password-div'>
-            <button type='submit' className='btn btn-success my-2 btn-block '>
-              Recover Password
-            </button>
-          </div>
-        </form>
-
-        {/* Password FORM */}
-        {isEmailPhoneValid ? (
-          <form onSubmit={handlePasswordFormSubmit}>
-            <h1 className='h2 text-center my-3'>Update Password</h1>
-            <div className='form-group'>
-              <label>New Password:</label>
-              <input
-                type='password'
-                minLength={5}
-                className='form-control'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete='off'
-              />
-            </div>
-            <div className='form-group'>
-              <label>Confirm Password:</label>
-              <input
-                minLength={5}
-                type='password'
-                className='form-control'
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                autoComplete='off'
-              />
-            </div>
-            {!passwordMatch && (
-              <div className='alert alert-danger' role='alert'>
-                Password doesn't match
+        {/* Body content */}
+        <div className='forgot-middlediv'>
+          {!isEmailPhoneValid ? (
+            <form onSubmit={handleSubmit}>
+              <div className='input-group-custom'>
+                <label htmlFor='email'>Email Address</label>
+                <div className='input-with-icon'>
+                  <span className='input-icon'><BsEnvelope /></span>
+                  <input
+                    id='email'
+                    type='email'
+                    placeholder='name@example.com'
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    name='email'
+                    autoComplete='off'
+                  />
+                </div>
               </div>
-            )}
-            <div className='text-center'>
-              <button type='submit' className='btn btn-primary my-3'>
-                Submit
-              </button>
-            </div>
-          </form>
-        ) : (
-          ''
-        )}
 
-        {/* Go Back button */}
-        <button className='btn btn-secondary mt-3' onClick={handleGoBack}>
-          Back
-        </button>
+              <div className='input-group-custom'>
+                <label htmlFor='phone'>Phone Number</label>
+                <div className='input-with-icon'>
+                  <span className='input-icon'><BsPhone /></span>
+                  <input
+                    id='phone'
+                    type='text'
+                    placeholder='9XXXXXXXXX'
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                    name='phone'
+                    pattern='9\d{9}'
+                    minLength='10'
+                    maxLength='10'
+                    autoComplete='off'
+                  />
+                </div>
+                <span className='input-hint'>Must start with 9 and be 10 digits</span>
+              </div>
+
+              <button type='submit' className='forgot-btn-submit'>
+                Verify Credentials
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handlePasswordFormSubmit}>
+              <div className='input-group-custom'>
+                <label htmlFor='otpCode'>Verification OTP Code</label>
+                <div className='input-with-icon'>
+                  <span className='input-icon'><BsShieldLock /></span>
+                  <input
+                    id='otpCode'
+                    type='text'
+                    placeholder='Enter 4-digit code'
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value)}
+                    required
+                    maxLength='4'
+                    pattern='\d{4}'
+                    autoComplete='off'
+                  />
+                </div>
+                <span className='input-hint'>Enter the 4-digit code sent to your email</span>
+              </div>
+
+              <div className='input-group-custom'>
+                <label htmlFor='password'>New Password</label>
+                <div className='input-with-icon'>
+                  <span className='input-icon'><BsLock /></span>
+                  <input
+                    id='password'
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder='••••••••'
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    autoComplete='off'
+                  />
+                  <span
+                    className='password-toggle-icon'
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <BsEyeSlash /> : <BsEye />}
+                  </span>
+                </div>
+                <span className='input-hint'>Alphanumeric with at least 1 special char</span>
+              </div>
+
+              <div className='input-group-custom'>
+                <label htmlFor='confirmPassword'>Confirm Password</label>
+                <div className='input-with-icon'>
+                  <span className='input-icon'><BsShieldLock /></span>
+                  <input
+                    id='confirmPassword'
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    placeholder='••••••••'
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    autoComplete='off'
+                  />
+                  <span
+                    className='password-toggle-icon'
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <BsEyeSlash /> : <BsEye />}
+                  </span>
+                </div>
+              </div>
+
+              {!passwordMatch && (
+                <div className='forgot-alert-error' role='alert'>
+                  Passwords do not match. Please check and try again.
+                </div>
+              )}
+
+              <button type='submit' className='forgot-btn-submit'>
+                Update Password
+              </button>
+            </form>
+          )}
+        </div>
+
+        {/* Footer/Go Back */}
+        <div className='forgot-lowerdiv'>
+          <button type='button' className='forgot-btn-back' onClick={handleGoBack}>
+            <BsArrowLeft className='back-icon' /> Back
+          </button>
+        </div>
       </div>
     </div>
   )
 }
 
 export default ForgotPassword
+

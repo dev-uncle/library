@@ -6,12 +6,15 @@ import useFetch from '../../useFetch'
 import RequestBook from '../requestBooks/RequestBook'
 import SimilarBooks from './SimilarBooks'
 import { FaBook, FaLanguage, FaCheckCircle, FaTimesCircle, FaArrowLeft } from 'react-icons/fa'
+import { useLoginState } from '../../LoginState'
 
 const ViewBook = () => {
   const { id } = useParams() //fetching book id from url params
   const API_URL = `${backend_server}/api/v1/books/${id}`
 
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
+  const isRequested = requestedBookIds?.includes(id)
   const navigate = useNavigate()
 
   const getData = useFetch(API_URL)
@@ -77,28 +80,54 @@ const ViewBook = () => {
                 <p className='synopsis-text'>{bookData.description}</p>
               </div>
 
-              {/* Actions */}
-              <div className='book-actions mt-5'>
-                {bookData.available ? (
-                  <button
-                    type='button'
-                    className='request-action-btn'
-                    onClick={() => request_Book(bookData._id)}
-                  >
-                    Request This Book
-                  </button>
-                ) : (
-                  <button
-                    disabled
-                    type='button'
-                    className='request-action-btn disabled'
-                  >
-                    Currently Out of Stock
-                  </button>
-                )}
-              </div>
-              
-            </div>
+          {/* Request Books Button */}
+          <div className='text-center'>
+            {isRequested ? (
+              <button
+                disabled
+                type='button'
+                className='btn btn-warning me-2 mt-3'
+                style={{ color: '#ffffff' }}
+              >
+                Requested
+              </button>
+            ) : bookData.available ? (
+              <button
+                type='button'
+                className='btn btn-primary me-2 mt-3'
+                onClick={() => request_Book(bookData._id)}
+              >
+                Request
+              </button>
+            ) : (
+              <button
+                disabled
+                type='button'
+                className='btn btn-secondary me-2 mt-3'
+              >
+                Out of Stock
+              </button>
+            )}
+
+            {bookData.bookFile && (
+              <a
+                href={`${backend_server}/${bookData.bookFile}`}
+                target="_blank"
+                rel="noreferrer"
+                className='btn btn-success me-2 mt-3'
+                style={{ color: '#ffffff' }}
+              >
+                Read E-Book
+              </a>
+            )}
+
+            <button
+              type='button'
+              className='btn btn-secondary me-2 mt-3'
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
           </div>
         </div>
 

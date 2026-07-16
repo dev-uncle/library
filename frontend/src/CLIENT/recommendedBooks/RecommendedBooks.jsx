@@ -29,6 +29,7 @@ const RecommendedBooks = () => {
   };
 
   const { request_Book } = RequestBook()
+  const { requestedBookIds } = useLoginState()
 
   useEffect(() => {
     fetchData()
@@ -70,8 +71,9 @@ const RecommendedBooks = () => {
         <h2 className='home-section-header'>Recommended Books</h2>
         <div className='row mb-3 client-book-grid g-4'>
           {latestBooks.map((book) => {
-            const { _id, title, image, author, available } = book
+            const { _id, title, image, author, available, quantity, bookFile } = book
             const imgSrc = `${backend_server}/${image}`
+            const isRequested = requestedBookIds?.includes(_id)
 
             return (
               <div
@@ -81,9 +83,12 @@ const RecommendedBooks = () => {
                 <div className='card'>
                   <div className='card-img-container'>
                     {available ? (
-                      <span className='status-badge available'>Available</span>
+                      <span className='status-badge available'>Available ({quantity ?? 1})</span>
                     ) : (
                       <span className='status-badge outofstock'>Out of Stock</span>
+                    )}
+                    {bookFile && (
+                      <span className='status-badge ebook-badge'>E-Book</span>
                     )}
                     <img
                       className='card-img-top'
@@ -97,7 +102,16 @@ const RecommendedBooks = () => {
                     <h5 className='card-title' title={title}>{title}</h5>
                     <p className='card-text'>{author}</p>
                     <div className='card-action-group'>
-                      {available ? (
+                      {isRequested ? (
+                        <button
+                          type='button'
+                          className='btn-card-primary'
+                          disabled
+                          style={{ backgroundColor: 'var(--accent)', opacity: 0.65 }}
+                        >
+                          Requested
+                        </button>
+                      ) : available ? (
                         <button
                           type='button'
                           className='btn-card-primary'

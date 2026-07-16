@@ -1,60 +1,98 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+/* =========================
+   PAGE WRAPPER
+   ========================= */
+.client-signup-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, rgba(13, 11, 9, 0.7) 0%, rgba(6, 5, 4, 0.9) 100%),
+              url("/BannerOne.jpg") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
 /* =========================
    MAIN CONTAINER
-========================= */
-.signup-maindiv {
+   ========================= */
+.client-signup-maindiv {
   width: 100%;
   max-width: 32rem;
-  margin: 5rem auto;
-  padding: 25px;
-  box-shadow: 0 0 10px var(--color-faded);
-  background-color: transparent !important;
-  border-radius: 10px;
-  
-
- 
+  background: rgba(30, 26, 20, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.15);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  transition: all 0.3s ease;
 }
-.signup-maindiv button:hover { background-color: #454341 !important; }
+
 /* =========================
    HEADER
-========================= */
-.signup-upperdiv h4 {
+   ========================= */
+.client-signup-upperdiv h4 {
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: white;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  position: relative;
+}
+
+.client-signup-upperdiv h4::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: #eb820a;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
 }
 
 /* =========================
    LABELS
-========================= */
-.signup-maindiv label {
+   ========================= */
+.client-signup-maindiv label {
   display: block;
-  margin-top: 10px;
-  font-size: 1rem;
-  color: rgb(8, 0, 0);
+  margin-top: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85) !important;
 }
 
 /* =========================
    INPUT FIELDS
-========================= */
-.signup-maindiv input {
+   ========================= */
+.client-signup-maindiv input {
   width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-
-  border: none;
-  border-radius: 6px;
-
-  background-color: #f3f0ec;
-  color: #000000;
-
+  padding: 10px 14px;
+  margin-top: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
   font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.client-signup-maindiv input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.client-signup-maindiv input:focus {
+  border-color: #eb820a;
+  background-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
+  outline: none;
 }
 
 /* remove number arrows */
@@ -66,83 +104,144 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* =========================
    FLEX ROWS
-========================= */
+   ========================= */
 .first-row-form,
 .password-main-div {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+}
+
+.username-field-div,
+.email-field-div,
+.password-div-first,
+.password-div-second {
+  flex: 1;
+  min-width: 0;
 }
 
 /* =========================
    PASSWORD ICON AREA
-========================= */
+   ========================= */
 .password-field {
   position: relative;
 }
 
+.password-field input {
+  padding-right: 40px;
+}
+
 .password-field span {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+}
+
+.password-field span:hover {
+  color: #eb820a;
 }
 
 /* =========================
    MAIN BUTTON (SIGNUP)
-========================= */
-.signup-maindiv button {
+   ========================= */
+.client-signup-maindiv button {
   width: 100%;
-  margin-top: 15px;
-  padding: 10px;
-
-  background-color: transparent !important;
-  color: white !important;
- 
-
+  margin-top: 24px;
+  padding: 12px;
+  background-color: #eb820a !important;
+  color: #ffffff !important;
   border: none;
-  border-radius: 6px;
-
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s ease;
+  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.3);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
-.signup-maindiv button:hover {
-  background-color: white !important;
-  color: #090400 !important;
+.client-signup-maindiv button:hover:not(:disabled) {
+  background-color: #ff9d2b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(235, 130, 10, 0.5);
+  color: #ffffff !important;
 }
 
+.client-signup-maindiv button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.client-signup-maindiv button:disabled {
+  background-color: rgba(235, 130, 10, 0.5) !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 /* =========================
    LOWER SECTION
-========================= */
-.signup-lowerdiv {
+   ========================= */
+.client-signup-lowerdiv {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-
-  margin-top: 15px;
-  color: white;
+  gap: 12px;
+  margin-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.signup-lowerdiv p {
+.client-signup-lowerdiv p {
   margin: 0;
+  font-size: 0.95rem;
 }
 
 /* login button */
-.signup-lowerdiv button {
-  padding: 8px 14px;
-  background-color: #f3f0ec;
-  color: #090400;
-
-  border: none;
-  border-radius: 6px;
-
+.client-signup-lowerdiv button {
+  width: auto;
+  margin-top: 0;
+  padding: 8px 18px;
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-.signup-lowerdiv button:hover {
-  background-color: white !important;
+.client-signup-lowerdiv button:hover {
+  background-color: rgba(235, 130, 10, 0.1) !important;
+  border-color: #eb820a !important;
+  color: #ffffff !important;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .client-signup-maindiv {
+    padding: 2rem 1.5rem;
+    margin: 2rem 1rem;
+  }
+  .first-row-form,
+  .password-main-div {
+    flex-direction: column;
+    gap: 0;
+  }
+  .client-signup-upperdiv h4 {
+    font-size: 1.8rem;
+  }
 }

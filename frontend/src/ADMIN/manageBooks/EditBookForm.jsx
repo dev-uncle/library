@@ -2,11 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-
-// Are you sure you want to delete confirm prompt
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
-
 import { backend_server } from "../../main";
 import "./editbook.css";
 import {
@@ -19,6 +14,7 @@ import {
   HiOutlineDocumentText,
   HiOutlineTrash,
   HiOutlineArrowPath,
+  HiOutlineCheckCircle,
 } from "react-icons/hi2";
 
 const EditBookForm = () => {
@@ -30,6 +26,7 @@ const EditBookForm = () => {
     title: "",
     category: "",
     author: "",
+    quantity: 1,
     available: false,
     featured: false,
     description: "",
@@ -73,6 +70,8 @@ const EditBookForm = () => {
   };
 
   const [updatingBook, setUpdatingBook] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const handleUpdateButton = async (e) => {
     e.preventDefault();
@@ -96,33 +95,18 @@ const EditBookForm = () => {
     }
   };
 
-  const showConfirmation = () => {
-    confirmAlert({
-      title: "Confirm Delete",
-      message: "Are you sure you want to delete this Book?",
-      buttons: [
-        {
-          label: "Yes, Delete",
-          onClick: handleDeleteButton,
-        },
-        {
-          label: "Cancel",
-          onClick: () => console.log("Cancelled!"),
-        },
-      ],
-    });
-  };
-
   const handleDeleteButton = async () => {
+    setDeleting(true);
     try {
       await axios.delete(`${API_URL}/${id}`);
-      toast.success("Delete Success");
-      setTimeout(() => {
-        navigate("/admin/managebooks");
-      }, 1000);
+      toast.success("Book deleted successfully");
+      setShowDeleteModal(false);
+      setTimeout(() => navigate("/admin/managebooks"), 900);
     } catch (error) {
       console.log(error.response);
       toast.error("Error deleting book");
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -168,6 +152,36 @@ const EditBookForm = () => {
       toast.error("Error updating Image");
     } finally {
       setUpdatingImage(false);
+    }
+  };
+
+  const [selectedBookFile, setSelectedBookFile] = useState(null);
+  const [updatingBookFile, setUpdatingBookFile] = useState(false);
+
+  const handleBookFileChange = (event) => {
+    if (event.target.files?.[0]) {
+      setSelectedBookFile(event.target.files[0]);
+    }
+  };
+
+  const handleBookFileUpdateFormSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedBookFile) return;
+
+    setUpdatingBookFile(true);
+    const formData = new FormData();
+    formData.append("bookFile", selectedBookFile);
+
+    try {
+      await axios.patch(`${API_URL}/updateBookFile/${id}`, formData);
+      toast.success("E-Book File Updated Successfully");
+      fetchBookData();
+      setSelectedBookFile(null);
+    } catch (error) {
+      console.log(error.response);
+      toast.error("Error updating E-Book File");
+    } finally {
+      setUpdatingBookFile(false);
     }
   };
 
@@ -239,6 +253,59 @@ const EditBookForm = () => {
                     </div>
                   )}
                 </form>
+
+                {/* ── E-Book File Update Form ── */}
+                <div style={{ width: "100%", marginTop: "1.5rem", borderTop: "1px solid var(--border-inner)", paddingTop: "1.5rem" }}>
+                  <span className="eb-section-label" style={{ marginBottom: "0.5rem", display: "block" }}>E-Book Document</span>
+                  {bookData.bookFile ? (
+                    <div style={{ marginBottom: "1rem" }}>
+                      <a
+                        href={`${backend_server}/${bookData.bookFile}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ fontSize: "0.85rem", color: "var(--accent)", textDecoration: "underline", display: "block", marginBottom: "0.5rem" }}
+                      >
+                        Download/Read Current PDF
+                      </a>
+                    </div>
+                  ) : (
+                    <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginBottom: "1rem" }}>No E-Book file uploaded yet.</p>
+                  )}
+
+                  <form onSubmit={handleBookFileUpdateFormSubmit}>
+                    <label className="eb-file-label" htmlFor="eb-bookfile-input" style={{ background: "var(--bg-input-btn)", border: "1px solid var(--border-input)" }}>
+                      <HiOutlineDocumentText size={16} />
+                      {selectedBookFile ? "Change Selected PDF" : "Choose PDF File"}
+                    </label>
+                    <input
+                      id="eb-bookfile-input"
+                      type="file"
+                      accept=".pdf,.doc,.docx,.epub"
+                      className="eb-file-input"
+                      onChange={handleBookFileChange}
+                    />
+
+                    {selectedBookFile && (
+                      <div className="eb-image-actions" style={{ marginTop: "0.5rem" }}>
+                        <button
+                          type="submit"
+                          className="eb-img-update-btn"
+                          disabled={updatingBookFile}
+                        >
+                          <HiOutlineArrowPath size={14} />
+                          {updatingBookFile ? "Saving..." : "Save PDF"}
+                        </button>
+                        <button
+                          type="button"
+                          className="eb-cancel-img-btn"
+                          onClick={() => setSelectedBookFile(null)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+                  </form>
+                </div>
               </div>
 
               {/* ── RIGHT — Details Form column ── */}
@@ -314,22 +381,26 @@ const EditBookForm = () => {
                     />
                   </div>
 
-                  {/* Checkboxes (Available / Featured) */}
+                  {/* Quantity */}
+                  <div className="eb-field">
+                    <label className="eb-label" htmlFor="quantity">
+                      <HiOutlineCheckCircle size={14} /> Quantity (Stock)
+                    </label>
+                    <input
+                      id="quantity"
+                      type="number"
+                      className="eb-input"
+                      required
+                      value={bookData.quantity ?? 1}
+                      onChange={handleOnChange}
+                      name="quantity"
+                      min="0"
+                    />
+                  </div>
+
+                  {/* Featured */}
                   <div className="eb-field" style={{ display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
                     <div className="eb-checkbox-group">
-                      <label className="eb-checkbox-label" htmlFor="available">
-                        <input
-                          id="available"
-                          type="checkbox"
-                          className="eb-checkbox-input"
-                          checked={bookData.available}
-                          onChange={() =>
-                            setBookData({ ...bookData, available: !bookData.available })
-                          }
-                        />
-                        Available
-                      </label>
-
                       <label className="eb-checkbox-label" htmlFor="featured">
                         <input
                           id="featured"
@@ -367,7 +438,7 @@ const EditBookForm = () => {
                     <button
                       type="button"
                       className="eb-delete-btn"
-                      onClick={showConfirmation}
+                      onClick={() => setShowDeleteModal(true)}
                     >
                       <HiOutlineTrash size={15} />
                       Delete Book
@@ -384,11 +455,47 @@ const EditBookForm = () => {
                 </form>
 
               </div>
-
             </div>
           </div>
         )}
       </div>
+
+      {/* ── Delete Confirmation Modal ─────────── */}
+      {showDeleteModal && (
+        <div className="eb-modal-overlay" onClick={() => !deleting && setShowDeleteModal(false)}>
+          <div className="eb-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="eb-modal-icon-wrap">
+              <HiOutlineTrash size={32} className="eb-modal-icon" />
+            </div>
+            <h2 className="eb-modal-title">Delete Book?</h2>
+            <p className="eb-modal-desc">
+              You are about to permanently delete <strong>"{bookData.title}"</strong>.
+              This action <span className="eb-modal-warn">cannot be undone</span>.
+            </p>
+            <div className="eb-modal-actions">
+              <button
+                className="eb-modal-cancel-btn"
+                onClick={() => setShowDeleteModal(false)}
+                disabled={deleting}
+              >
+                Cancel
+              </button>
+              <button
+                className="eb-modal-confirm-btn"
+                onClick={handleDeleteButton}
+                disabled={deleting}
+              >
+                {deleting ? (
+                  <span className="eb-modal-spinner" />
+                ) : (
+                  <HiOutlineTrash size={15} />
+                )}
+                {deleting ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

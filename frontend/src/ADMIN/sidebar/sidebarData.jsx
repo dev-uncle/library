@@ -7,7 +7,6 @@ import {
   HiOutlineClipboardDocumentList,
   HiOutlineArrowUpTray,
   HiOutlineArrowDownTray,
-  HiOutlineArrowRightOnRectangle,
 } from 'react-icons/hi2'
 
 export const sidebarData = [
@@ -44,6 +43,12 @@ export const sidebarData = [
         url: '/admin/booksrequests',
         icon: HiOutlineInbox,
       },
+      {
+        id: 9,
+        title: "Activity Log",
+        url: '/admin/activitylog',
+        icon: HiOutlineClipboardDocumentList,
+      },
     ],
   },
   {
@@ -72,17 +77,6 @@ export const sidebarData = [
         title: 'Return Due Books',
         url: '/admin/returnedbooks',
         icon: HiOutlineArrowDownTray,
-      },
-    ],
-  },
-  {
-    group: 'SYSTEM',
-    items: [
-      {
-        id: 10,
-        title: 'Logout',
-        url: '/admin/logout',
-        icon: HiOutlineArrowRightOnRectangle,
       },
     ],
   },

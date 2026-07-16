@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { backend_server } from '../../main'
 import { HiOutlineMagnifyingGlass, HiOutlineXMark } from 'react-icons/hi2'
 
-const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive }) => {
+const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive, fetchData }) => {
   const API_URL = `${backend_server}/api/v1/filter`
 
   const empty_field = { title: '', category: '', featured: '', available: '' }
@@ -32,11 +32,10 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive }) => 
   const handleClearFilters = () => {
     setFilterFields(empty_field)
     setFilterActive && setFilterActive(false)
-    const ids = ['categorySelect', 'featuredSelect', 'availableSelect']
-    ids.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) el.selectedIndex = 0
-    })
+    // Re-fetch default list of books
+    if (fetchData) {
+      fetchData(1)
+    }
   }
 
   return (
@@ -59,7 +58,7 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive }) => 
       <select
         id='categorySelect'
         className='mb-select'
-        defaultValue=''
+        value={filterFields.category}
         onChange={(e) => setFilterFields({ ...filterFields, category: e.target.value })}
       >
         <option value=''>All Categories</option>
@@ -72,7 +71,7 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive }) => 
       <select
         id='featuredSelect'
         className='mb-select'
-        defaultValue=''
+        value={filterFields.featured}
         onChange={(e) => setFilterFields({ ...filterFields, featured: e.target.value })}
       >
         <option value=''>Featured</option>
@@ -84,7 +83,7 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive }) => 
       <select
         id='availableSelect'
         className='mb-select'
-        defaultValue=''
+        value={filterFields.available}
         onChange={(e) => setFilterFields({ ...filterFields, available: e.target.value })}
       >
         <option value=''>Available</option>

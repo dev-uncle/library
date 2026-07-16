@@ -36,6 +36,14 @@ const BookTransaction = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  remark: {
+    type: String,
+    default: '',
+  },
+  issuedBy: {
+    type: String,
+    default: '',
+  },
   // when user request a default date will be set, which will be Updated when ADMIN accepts the book request
   issueDate: {
     type: Date,
@@ -44,6 +52,15 @@ const BookTransaction = new mongoose.Schema({
   returnDate: {
     type: Date,
     default: null,
+  },
+  fineType: {
+    type: String,
+    enum: ['DAILY', 'FLAT'],
+    default: 'FLAT',
+  },
+  fineAmount: {
+    type: Number,
+    default: 100,
   },
 })
 

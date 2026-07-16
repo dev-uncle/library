@@ -1,21 +1,332 @@
-.recover-password-div {
-  --color-font-secondary: white;
-  --color-signup-button: rgb(118, 77, 0);
-  --color-signup-button-hover: rgb(255, 255, 255);
+/* Forgot Password Page Wrapper and Card */
+.forgot-page-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, rgba(13, 11, 9, 0.7) 0%, rgba(6, 5, 4, 0.9) 100%),
+              url("/BannerOne.jpg") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
 }
 
-.recover-password-div button {
-  padding: 0.5rem 1rem;
-  background-color: var(--color-signup-button);
-  color: var(--color-font-secondary);
+.forgot-maindiv {
+  width: 100%;
+  max-width: 30rem;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  box-shadow: var(--shadow-card);
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.forgot-maindiv:hover {
+  border-color: rgba(235, 130, 10, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), var(--shadow-glow);
+}
+
+/* Upper Div (Header) */
+.forgot-upperdiv {
+  text-align: center;
+}
+
+.forgot-upperdiv h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary) !important;
+  margin: 0 0 0.5rem 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+}
+
+.forgot-upperdiv h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.forgot-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Stepper Component */
+.forgot-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  z-index: 2;
+  position: relative;
+}
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.step-line {
+  flex-grow: 1;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 -10px 1.2rem -10px;
+  transition: all 0.3s ease;
+  max-width: 80px;
+}
+
+/* Stepper Active States */
+.step-item.active .step-number {
+  background: var(--bg-active);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.step-item.active .step-label {
+  color: var(--accent);
+}
+
+/* Stepper Completed States */
+.step-item.completed .step-number {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.step-check-icon {
+  font-size: 1.1rem;
+}
+
+.step-item.completed .step-label {
+  color: var(--accent);
+}
+
+/* Form Styles */
+.forgot-middlediv form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.input-group-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-group-custom label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary) !important;
+  letter-spacing: 0.3px;
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.input-with-icon input:focus {
+  border-color: var(--accent);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 10px rgba(235, 130, 10, 0.2);
+  outline: none;
+}
+
+.input-with-icon input:focus ~ .input-icon {
+  color: var(--accent);
+}
+
+/* Eye Password Toggle */
+.password-toggle-icon {
+  position: absolute;
+  right: 14px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+
+.password-toggle-icon:hover {
+  color: var(--accent);
+}
+
+.input-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+/* Alert Error Style */
+.forgot-alert-error {
+  padding: 10px 14px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Buttons */
+.forgot-btn-submit {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent) !important;
+  color: #ffffff !important;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0px 0px 5px black;
+  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.3);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
 }
 
-.recover-password-div button:hover {
-  background-color: var(--color-signup-button-hover);
+.forgot-btn-submit:hover {
+  background-color: var(--accent-hover) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(235, 130, 10, 0.5);
+}
+
+.forgot-btn-submit:active {
+  transform: translateY(0);
+}
+
+/* Footer / Back button */
+.forgot-lowerdiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.25rem;
+}
+
+.forgot-btn-back {
+  background: transparent !important;
+  color: var(--text-muted) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: var(--radius-md);
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.forgot-btn-back:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: var(--text-primary) !important;
+  transform: translateX(-2px);
+}
+
+.back-icon {
+  font-size: 0.95rem;
+  transition: transform 0.3s ease;
+}
+
+.forgot-btn-back:hover .back-icon {
+  transform: translateX(-3px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .forgot-maindiv {
+    padding: 2rem 1.25rem;
+    gap: 1.25rem;
+  }
+  .forgot-upperdiv h1 {
+    font-size: 1.75rem;
+  }
+  .forgot-stepper {
+    margin: 0.25rem 0;
+  }
 }

@@ -9,6 +9,7 @@ const {
   getSingleUser,
   postSingleUser,
   patchUserDetail,
+  verifyPassword,
 } = require('../controller/userController')
 
 userRouter
@@ -16,6 +17,8 @@ userRouter
   .get(adminAuthorization, getAllUsers)
   .post(postSingleUser)
   .patch(patchUserDetail)
+
+userRouter.route('/verify-password').post(verifyPassword)
 
 userRouter.route('/:userId').get(getSingleUser)
 

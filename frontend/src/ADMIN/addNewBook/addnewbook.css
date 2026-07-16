@@ -20,21 +20,22 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.45rem 0.9rem;
-  background: #f1f5f9 !important;
-  color: var(--text-muted) !important;
-  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
   font-weight: 500;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: all 0.2s ease;
   margin-top: 0.35rem;
   flex-shrink: 0;
 }
 .anb-back-btn:hover {
-  background: #e2e8f0 !important;
-  color: var(--text-primary) !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  border-color: var(--accent);
 }
 
 .anb-title {
@@ -52,8 +53,10 @@
 
 /* ── Form card ───────────────────────────────── */
 .anb-form-card {
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
   overflow: hidden;
@@ -80,8 +83,8 @@
 /* ── LEFT — Image column ─────────────────────── */
 .anb-image-col {
   padding: 1.75rem 1.5rem;
-  border-right: 1px solid var(--border-color);
-  background: #fafbfc;
+  border-right: 1px solid var(--border-inner);
+  background: var(--bg-card-inner);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,7 +94,7 @@
 .anb-dropzone {
   width: 100%;
   aspect-ratio: 3 / 4;
-  border: 2px dashed var(--border-color);
+  border: 2px dashed var(--border-input);
   border-radius: var(--radius-md);
   cursor: pointer;
   display: flex;
@@ -100,15 +103,15 @@
   overflow: hidden;
   transition: border-color 0.2s ease, background 0.2s ease;
   position: relative;
-  background: #ffffff;
+  background: var(--bg-input);
 }
 .anb-dropzone:hover {
   border-color: var(--accent);
-  background: rgba(245, 158, 11, 0.03);
+  background: rgba(235, 130, 10, 0.08);
 }
 .anb-dropzone--has-image {
   border-style: solid;
-  border-color: var(--border-color);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .anb-dropzone-placeholder {
@@ -152,9 +155,9 @@
 
 .anb-remove-img-btn {
   margin-top: 0.75rem;
-  background: rgba(239, 68, 68, 0.08) !important;
-  color: #dc2626 !important;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #fb7185 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: var(--radius-sm);
   padding: 0.35rem 0.85rem;
   font-size: 0.8rem;
@@ -164,7 +167,8 @@
   transition: background 0.2s ease;
 }
 .anb-remove-img-btn:hover {
-  background: rgba(239, 68, 68, 0.14) !important;
+  background: rgba(239, 68, 68, 0.2) !important;
+  border-color: #f43f5e;
 }
 
 /* ── RIGHT — Fields column ───────────────────── */
@@ -211,24 +215,28 @@
   font-size: 0.875rem;
   font-family: 'Inter', sans-serif;
   color: var(--text-primary);
-  background: #f8fafc;
-  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-sm);
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 .anb-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
-  background: #ffffff;
+  box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
+  background: var(--bg-input-focus);
 }
 .anb-input::placeholder {
-  color: #94a3b8;
+  color: var(--input-placeholder);
 }
 
 .anb-select {
   cursor: pointer;
   appearance: auto;
+}
+.anb-select option {
+  background-color: var(--select-bg-option);
+  color: var(--text-primary);
 }
 
 .anb-textarea {
@@ -244,10 +252,12 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: #ffffff;
-  border: 1px solid var(--border-color);
+  background: var(--bg-card-solid);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(235, 130, 10, 0.2);
   border-radius: var(--radius-sm);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   z-index: 100;
   overflow: hidden;
   margin-top: 2px;
@@ -277,7 +287,7 @@
   justify-content: flex-end;
   margin-top: 1.5rem;
   padding-top: 1.25rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-inner);
 }
 
 .anb-submit-btn {
@@ -293,13 +303,13 @@
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
-  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.25);
 }
 .anb-submit-btn:hover:not(:disabled) {
   background: var(--accent-hover) !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(235, 130, 10, 0.45);
 }
 .anb-submit-btn:disabled {
   opacity: 0.65;
@@ -313,7 +323,7 @@
   }
   .anb-image-col {
     border-right: none;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   .anb-dropzone {
     aspect-ratio: 16 / 7;
@@ -329,4 +339,29 @@
   .anb-fields-col {
     padding: 1.25rem;
   }
+}
+
+/* Custom upload input */
+.anb-file-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px dashed var(--border-input);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input-btn);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+.anb-file-label:hover {
+  border-color: var(--accent);
+  background: var(--bg-active);
+  color: var(--text-primary);
 }

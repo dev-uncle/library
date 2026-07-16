@@ -8,25 +8,7 @@ import {
   HiOutlineUser,
   HiOutlineEnvelope,
   HiOutlineBookOpen,
-  HiOutlineCheckCircle,
 } from 'react-icons/hi2'
-
-const STATUS_OPTIONS = [
-  { value: 'PENDING',   label: 'Pending' },
-  { value: 'READY',     label: 'Ready to Pick' },
-  { value: 'ACCEPTED',  label: 'Accepted' },
-  { value: 'CANCELLED', label: 'Cancelled' },
-]
-
-const statusClass = (status) => {
-  switch (status?.toUpperCase()) {
-    case 'PENDING':   return 'br-badge--pending'
-    case 'READY':     return 'br-badge--ready'
-    case 'ACCEPTED':  return 'br-badge--accepted'
-    case 'CANCELLED': return 'br-badge--cancelled'
-    default:          return ''
-  }
-}
 
 const BooksRequests = () => {
   const API_URL = `${backend_server}/api/v1/requestBooks`
@@ -35,10 +17,20 @@ const BooksRequests = () => {
   const [loading, setLoading] = useState(true)
   const [hasRequests, setHasRequests] = useState(true)
 
-  // Per-row selected status
-  const [rowStatus, setRowStatus] = useState({})
-  // Per-row updating spinner
-  const [updating, setUpdating] = useState({})
+  // Modals state
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false)
+  const [selectedRequest, setSelectedRequest] = useState(null)
+  
+  const [formData, setFormData] = useState({
+    issueStatus: 'READY',
+    remark: '',
+    issuedBy: 'Admin',
+    returnDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  })
+  
+  const [adminPassword, setAdminPassword] = useState('')
+  const [submittingModal, setSubmittingModal] = useState(false)
 
   const fetchPendingBooks = async () => {
     try {
@@ -46,13 +38,11 @@ const BooksRequests = () => {
       const totalHits = response.data.totalHits
       if (totalHits === 0) {
         setHasRequests(false)
+        setPendingBooks([])
       } else {
         const books = response.data.data
         setPendingBooks(books)
-        // Seed per-row status from current issueStatus
-        const initial = {}
-        books.forEach((b) => { initial[b._id] = b.issueStatus?.toUpperCase() || 'PENDING' })
-        setRowStatus(initial)
+        setHasRequests(true)
       }
     } catch (error) {
       console.log(error.response)
@@ -61,23 +51,64 @@ const BooksRequests = () => {
     }
   }
 
-  useEffect(() => { fetchPendingBooks() }, [])
+  useEffect(() => {
+    fetchPendingBooks()
+  }, [])
 
-  const handleSelectChange = (id, value) => {
-    setRowStatus((prev) => ({ ...prev, [id]: value }))
+  const handleOpenModal = (request) => {
+    setSelectedRequest(request)
+    setFormData({
+      issueStatus: 'READY',
+      remark: request.remark || '',
+      issuedBy: 'Admin',
+      returnDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      fineType: 'DAILY',
+      fineAmount: 10
+    })
+    setIsModalOpen(true)
   }
 
-  const handleUpdate = async (id) => {
-    setUpdating((prev) => ({ ...prev, [id]: true }))
+  const handleMainFormSubmit = (e) => {
+    e.preventDefault()
+    setAdminPassword('')
+    setIsVerifyModalOpen(true)
+  }
+
+  const handleVerifyAndConfirm = async (e) => {
+    e.preventDefault()
+    if (!adminPassword) {
+      toast.error('Admin password is required')
+      return
+    }
+
+    setSubmittingModal(true)
     try {
-      await axios.patch(API_URL, { id, issueStatus: rowStatus[id] })
-      toast.success('Request updated successfully')
+      // 1. Password Verification API Call
+      await axios.post(`${backend_server}/api/v1/users/verify-password`, {
+        password: adminPassword
+      })
+
+      // 2. Update Request Status API Call
+      await axios.patch(API_URL, {
+        id: selectedRequest._id,
+        issueStatus: formData.issueStatus,
+        remark: formData.remark,
+        issuedBy: formData.issuedBy,
+        returnDate: formData.issueStatus !== 'CANCELLED' ? formData.returnDate : undefined,
+        fineType: formData.issueStatus !== 'CANCELLED' ? formData.fineType : undefined,
+        fineAmount: formData.issueStatus !== 'CANCELLED' ? Number(formData.fineAmount) : undefined
+      })
+
+      toast.success('Book request processed successfully')
+      setIsVerifyModalOpen(false)
+      setIsModalOpen(false)
       fetchPendingBooks()
     } catch (error) {
-      toast.error('Failed to update request')
       console.log(error.response)
+      const msg = error.response?.data?.message || 'Verification or update failed'
+      toast.error(msg)
     } finally {
-      setUpdating((prev) => ({ ...prev, [id]: false }))
+      setSubmittingModal(false)
     }
   }
 
@@ -89,9 +120,9 @@ const BooksRequests = () => {
         <div className='br-header'>
           <div>
             <h1 className='br-title'>Book Requests</h1>
-            <p className='br-subtitle'>Review and update pending borrow requests from users.</p>
+            <p className='br-subtitle'>Review and process pending borrow requests from students.</p>
           </div>
-          {!loading && hasRequests && (
+          {!loading && hasRequests && pendingBooks.length > 0 && (
             <span className='br-count-badge'>
               {pendingBooks.length} request{pendingBooks.length !== 1 ? 's' : ''}
             </span>
@@ -115,11 +146,11 @@ const BooksRequests = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th><span className='br-th-inner'><HiOutlineUser size={13} />Username</span></th>
+                    <th><span className='br-th-inner'><HiOutlineUser size={13} />Student</span></th>
                     <th><span className='br-th-inner'><HiOutlineEnvelope size={13} />Email</span></th>
                     <th><span className='br-th-inner'><HiOutlineBookOpen size={13} />Book</span></th>
                     <th>Current Status</th>
-                    <th>Update Status</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -135,30 +166,17 @@ const BooksRequests = () => {
                           {bookTitle}
                         </td>
                         <td>
-                          <span className={`br-badge ${statusClass(issueStatus)}`}>
+                          <span className={`br-badge br-badge--pending`}>
                             {issueStatus}
                           </span>
                         </td>
                         <td>
-                          <div className='br-action-row'>
-                            <select
-                              className='br-select'
-                              value={rowStatus[_id] || issueStatus?.toUpperCase()}
-                              onChange={(e) => handleSelectChange(_id, e.target.value)}
-                            >
-                              {STATUS_OPTIONS.map((opt) => (
-                                <option key={opt.value} value={opt.value}>{opt.label}</option>
-                              ))}
-                            </select>
-                            <button
-                              className='br-update-btn'
-                              onClick={() => handleUpdate(_id)}
-                              disabled={updating[_id]}
-                            >
-                              <HiOutlineCheckCircle size={15} />
-                              {updating[_id] ? 'Saving…' : 'Update'}
-                            </button>
-                          </div>
+                          <button
+                            className='br-process-btn'
+                            onClick={() => handleOpenModal(book)}
+                          >
+                            Process Request
+                          </button>
                         </td>
                       </tr>
                     )
@@ -169,6 +187,184 @@ const BooksRequests = () => {
           </div>
         )}
       </div>
+
+      {/* ── Main Process Request Modal ────────── */}
+      {isModalOpen && (
+        <div className='br-modal-overlay'>
+          <div className='br-modal-card br-modal-card--wide'>
+            <div className='br-modal-header'>
+              <h3 className='br-modal-title'>Process Book Request</h3>
+              <button type='button' className='br-modal-close' onClick={() => setIsModalOpen(false)}>×</button>
+            </div>
+
+            <form onSubmit={handleMainFormSubmit} className='br-modal-form'>
+              <div className='br-modal-form-grid'>
+                
+                {/* Left Column */}
+                <div className='br-modal-form-col'>
+                  <div className='br-modal-details-card-wrap'>
+                    <div className='br-modal-detail-item'>
+                      <strong>Student Name</strong>
+                      <span>{selectedRequest?.username}</span>
+                    </div>
+                    <div className='br-modal-detail-item'>
+                      <strong>Student Email</strong>
+                      <span>{selectedRequest?.userEmail}</span>
+                    </div>
+                    <div className='br-modal-detail-item br-modal-detail-item--full'>
+                      <strong>Book Requested</strong>
+                      <span>{selectedRequest?.bookTitle}</span>
+                    </div>
+                  </div>
+
+                  <div className='br-modal-field'>
+                    <label htmlFor='modal-issue-status'>Action / Status</label>
+                    <select
+                      id='modal-issue-status'
+                      className='br-modal-select'
+                      value={formData.issueStatus}
+                      onChange={(e) => setFormData({ ...formData, issueStatus: e.target.value })}
+                    >
+                      <option value='READY'>Ready to Pick</option>
+                      <option value='ACCEPTED'>Accept & Issue Book</option>
+                      <option value='CANCELLED'>Cancel / Reject Request</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Right Column */}
+                <div className='br-modal-form-col'>
+                  {formData.issueStatus !== 'CANCELLED' && (
+                    <>
+                      <div className='br-modal-field'>
+                        <label htmlFor='modal-return-date'>Return Date Limit</label>
+                        <input
+                          id='modal-return-date'
+                          type='date'
+                          className='br-modal-input'
+                          value={formData.returnDate}
+                          onChange={(e) => setFormData({ ...formData, returnDate: e.target.value })}
+                          required
+                        />
+                      </div>
+
+                      <div className='br-modal-field'>
+                        <label htmlFor='modal-fine-type'>Overdue Fine Type</label>
+                        <select
+                          id='modal-fine-type'
+                          className='br-modal-select'
+                          value={formData.fineType}
+                          onChange={(e) => {
+                            const type = e.target.value
+                            setFormData({
+                              ...formData,
+                              fineType: type,
+                              fineAmount: type === 'DAILY' ? 10 : 100
+                            })
+                          }}
+                        >
+                          <option value='DAILY'>Daily Fee</option>
+                          <option value='FLAT'>Flat Fee</option>
+                        </select>
+                      </div>
+
+                      <div className='br-modal-field'>
+                        <label htmlFor='modal-fine-amount'>
+                          {formData.fineType === 'DAILY' ? 'Daily Rate (Nrs / day)' : 'Flat Fee Amount (Nrs)'}
+                        </label>
+                        <input
+                          id='modal-fine-amount'
+                          type='number'
+                          className='br-modal-input'
+                          value={formData.fineAmount}
+                          onChange={(e) => setFormData({ ...formData, fineAmount: e.target.value })}
+                          min={0}
+                          required
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  <div className='br-modal-field'>
+                    <label htmlFor='modal-issued-by'>Issued By</label>
+                    <input
+                      id='modal-issued-by'
+                      type='text'
+                      className='br-modal-input'
+                      value={formData.issuedBy}
+                      onChange={(e) => setFormData({ ...formData, issuedBy: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  <div className='br-modal-field'>
+                    <label htmlFor='modal-remark'>Remarks / Notes</label>
+                    <textarea
+                      id='modal-remark'
+                      className='br-modal-textarea'
+                      placeholder='E.g., Checked conditions, ID verified...'
+                      value={formData.remark}
+                      onChange={(e) => setFormData({ ...formData, remark: e.target.value })}
+                      rows={2}
+                    />
+                  </div>
+                </div>
+
+              </div>
+
+              <div className='br-modal-actions'>
+                <button type='button' className='br-modal-btn br-modal-btn--cancel' onClick={() => setIsModalOpen(false)}>
+                  Cancel
+                </button>
+                <button type='submit' className='br-modal-btn br-modal-btn--submit'>
+                  Confirm & Process
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Secondary Admin Password Verification Modal ── */}
+      {isVerifyModalOpen && (
+        <div className='br-modal-overlay br-modal-overlay--verify'>
+          <div className='br-modal-card br-modal-card--verify'>
+            <div className='br-modal-header'>
+              <h3 className='br-modal-title'>Verify Admin Credentials</h3>
+              <button type='button' className='br-modal-close' onClick={() => setIsVerifyModalOpen(false)}>×</button>
+            </div>
+
+            <form onSubmit={handleVerifyAndConfirm} className='br-modal-form'>
+              <p className='br-modal-verify-text'>
+                Please enter your administrator password to authorize and complete this action.
+              </p>
+
+              <div className='br-modal-field'>
+                <label htmlFor='verify-password'>Admin Password</label>
+                <input
+                  id='verify-password'
+                  type='password'
+                  placeholder='Confirm with your password'
+                  className='br-modal-input'
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  autoFocus
+                  required
+                />
+              </div>
+
+              <div className='br-modal-actions'>
+                <button type='button' className='br-modal-btn br-modal-btn--cancel' onClick={() => setIsVerifyModalOpen(false)}>
+                  Go Back
+                </button>
+                <button type='submit' className='br-modal-btn br-modal-btn--submit' disabled={submittingModal}>
+                  {submittingModal ? 'Authorizing...' : 'Authorize & Submit'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

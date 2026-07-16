@@ -31,6 +31,11 @@ const getFilterData = async (req, res) => {
 
   const result = await BookList.find(queryObject)
 
+  if (title && result.length > 0) {
+    const bookIds = result.map((book) => book._id)
+    await BookList.updateMany({ _id: { $in: bookIds } }, { $inc: { searchCount: 1 } }).catch((err) => console.log(err))
+  }
+
   res.status(StatusCodes.OK).json({ total: result.length, data: result })
 }
 
