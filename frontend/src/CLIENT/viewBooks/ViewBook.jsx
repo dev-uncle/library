@@ -5,6 +5,7 @@ import './viewBooks.css'
 import useFetch from '../../useFetch'
 import RequestBook from '../requestBooks/RequestBook'
 import SimilarBooks from './SimilarBooks'
+import { FaBook, FaLanguage, FaCheckCircle, FaTimesCircle, FaArrowLeft } from 'react-icons/fa'
 
 const ViewBook = () => {
   const { id } = useParams() //fetching book id from url params
@@ -16,7 +17,7 @@ const ViewBook = () => {
   const getData = useFetch(API_URL)
 
   // Destructuring fetched data
-  const data = getData.fetched_data.data
+  const data = getData.fetched_data?.data || {}
   const imageFullPath = getData.imagePath
 
   const [bookData, setBookData] = useState({})
@@ -24,71 +25,87 @@ const ViewBook = () => {
   useEffect(() => {
     setBookData({ ...data, image: imageFullPath })
     window.scrollTo(0, 0)
-  }, [data])
+  }, [data, imageFullPath])
 
   return (
-    <div className='container'>
-      <h1 className='h1 text-center my-4'>Book Details</h1>
+    <div className='view-book-wrapper'>
+      <div className='container py-5'>
+        {/* Back Button */}
+        <button className='back-ghost-btn mb-4' onClick={() => navigate(-1)}>
+          <FaArrowLeft className="me-2" /> Back to Catalog
+        </button>
 
-      <div className='row mt-1 mb-3 shadow'>
-        <div className='col-lg-6 col-sm-12 mx-5 my-2  image-div'>
-          <img
-            src={bookData.image}
-            alt=''
-            style={{ height: '90%', width: '300px' }}
-            className='img-fluid'
-          />
-        </div>
+        {/* Glassmorphic Detail Card */}
+        <div className='glass-detail-card mb-5'>
+          <div className='row g-0'>
+            
+            {/* Left Col: Book Image Section */}
+            <div className='col-lg-4 col-md-5 d-flex justify-content-center align-items-start p-4 image-container'>
+              <div className='book-cover-wrapper'>
+                <img
+                  src={bookData.image}
+                  alt={bookData.title}
+                  className='img-fluid book-cover-img'
+                />
+              </div>
+            </div>
 
-        <div className='col mx-5 my-5 '>
-          <h2>{bookData.title} </h2>
-          <p>by '{bookData.author}' </p>
-          <h5 className='h5'>Category : {bookData.category} </h5>
-          <h5>Language : {bookData.language} </h5>
-          <h5>
-            Available :
-            {bookData.available ? (
-              <span> In Stock</span>
-            ) : (
-              <span> Out of Stock</span>
-            )}{' '}
-          </h5>
+            {/* Right Col: Book Details Section */}
+            <div className='col-lg-8 col-md-7 p-4 p-md-5 details-container'>
+              <div className='book-header-info'>
+                <h1 className='book-detail-title'>{bookData.title}</h1>
+                <h4 className='book-detail-author'>by {bookData.author}</h4>
+              </div>
 
-          <h5 className='h5 my-1 mt-3 '>Sypnosis :</h5>
-          <h6 className='h6  my-2'> {bookData.description}</h6>
+              {/* Metadata Badges */}
+              <div className='book-meta-badges my-4'>
+                <span className='meta-badge category-badge'>
+                  <FaBook className='me-2' /> {bookData.category}
+                </span>
+                <span className='meta-badge language-badge'>
+                  <FaLanguage className='me-2' /> {bookData.language}
+                </span>
+                <span className={`meta-badge status-badge ${bookData.available ? 'in-stock' : 'out-of-stock'}`}>
+                  {bookData.available ? <FaCheckCircle className='me-2' /> : <FaTimesCircle className='me-2' />}
+                  {bookData.available ? 'In Stock' : 'Out of Stock'}
+                </span>
+              </div>
 
-          {/* Request Books Button */}
-          <div className='text-center'>
-            {bookData.available ? (
-              <button
-                type='button'
-                className='btn btn-primary me-2 mt-3'
-                onClick={() => request_Book(bookData._id)}
-              >
-                Request
-              </button>
-            ) : (
-              <button
-                disabled
-                type='button'
-                className='btn btn-primary me-2 mt-3'
-              >
-                Out of Stock
-              </button>
-            )}
+              {/* Synopsis */}
+              <div className='book-synopsis-section'>
+                <h5 className='synopsis-title'>Synopsis</h5>
+                <p className='synopsis-text'>{bookData.description}</p>
+              </div>
 
-            <button
-              type='button'
-              className='btn btn-secondary me-2 mt-3'
-              onClick={() => navigate(-1)}
-            >
-              Back
-            </button>
+              {/* Actions */}
+              <div className='book-actions mt-5'>
+                {bookData.available ? (
+                  <button
+                    type='button'
+                    className='request-action-btn'
+                    onClick={() => request_Book(bookData._id)}
+                  >
+                    Request This Book
+                  </button>
+                ) : (
+                  <button
+                    disabled
+                    type='button'
+                    className='request-action-btn disabled'
+                  >
+                    Currently Out of Stock
+                  </button>
+                )}
+              </div>
+              
+            </div>
           </div>
         </div>
-      </div>
 
-      <SimilarBooks />
+        {/* Similar Books Section */}
+        <SimilarBooks />
+        g
+      </div>
     </div>
   )
 }
