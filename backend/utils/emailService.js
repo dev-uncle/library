@@ -144,6 +144,97 @@ const getEmailWrapper = (title, contentHTML) => `
 
 
 
+// Helper to send transactional emails via Gmail HTTP API (bypasses SMTP port blocking on cloud providers)
+const sendMailViaGmailAPI = async (to, subject, htmlContent) => {
+  try {
+    // 1. Get access token from refresh token
+    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: process.env.GMAIL_CLIENT_ID,
+        client_secret: process.env.GMAIL_CLIENT_SECRET,
+        refresh_token: process.env.GMAIL_REFRESH_TOKEN,
+        grant_type: 'refresh_token',
+      }),
+    });
+
+    if (!tokenResponse.ok) {
+      const errorText = await tokenResponse.text();
+      throw new Error(`Failed to refresh access token: ${errorText}`);
+    }
+
+    const tokenData = await tokenResponse.json();
+    const accessToken = tokenData.access_token;
+
+    // 2. Construct raw MIME message (RFC 822)
+    const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+    const messageParts = [
+      `From: "Library System" <${process.env.EMAIL_USERNAME}>`,
+      `To: ${to}`,
+      `Content-Type: text/html; charset=utf-8`,
+      `MIME-Version: 1.0`,
+      `Subject: ${utf8Subject}`,
+      ``,
+      htmlContent,
+    ];
+    const message = messageParts.join('\n');
+
+    // Gmail API expects raw message to be base64url encoded
+    const encodedMessage = Buffer.from(message)
+      .toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+
+    // 3. Send email via Gmail API
+    const sendResponse = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        raw: encodedMessage,
+      }),
+    });
+
+    if (!sendResponse.ok) {
+      const errorText = await sendResponse.text();
+      throw new Error(`Gmail API send failed: ${errorText}`);
+    }
+
+    const sendData = await sendResponse.json();
+    console.log(`[EmailService] Email sent successfully via Gmail API to ${to}. MessageId: ${sendData.id}`);
+    return true;
+  } catch (error) {
+    console.error(`[EmailService] Error sending email via Gmail API to ${to}:`, error);
+    return false;
+  }
+};
+
+// Unified helper to route between Gmail API (Production HTTPS) and SMTP (Local)
+const sendEmail = async (to, subject, fullHtml) => {
+  if (process.env.GMAIL_REFRESH_TOKEN) {
+    const success = await sendMailViaGmailAPI(to, subject, fullHtml);
+    if (success) return;
+  }
+
+  // Fallback to standard SMTP (Local Development)
+  try {
+    const mailOptions = {
+      from: `"Library System" <${process.env.EMAIL_USERNAME}>`,
+      to,
+      subject,
+      html: fullHtml,
+    };
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`[EmailService] Email sent successfully via SMTP to ${to}. MessageId: ${info.messageId}`);
+  } catch (error) {
+    console.error(`[EmailService] Error sending email via SMTP to ${to}:`, error);
+  }
+};
+
 // 1. Send OTP Verification Email (Signup)
 const sendOtpEmail = async (to, otp) => {
   const htmlContent = `
@@ -156,21 +247,7 @@ const sendOtpEmail = async (to, otp) => {
   const subject = 'Verify Your Email - Library Management System';
   const fullHtml = getEmailWrapper('Email Verification', htmlContent);
 
-
-
-  // Fallback to Gmail SMTP
-  try {
-    const mailOptions = {
-      from: `"Library System" <${process.env.EMAIL_USERNAME}>`,
-      to,
-      subject,
-      html: fullHtml,
-    };
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`[EmailService] OTP email sent successfully to ${to}. MessageId: ${info.messageId}`);
-  } catch (error) {
-    console.error(`[EmailService] Error sending OTP email to ${to}:`, error);
-  }
+  await sendEmail(to, subject, fullHtml);
 };
 
 // 2. Send Welcome Email (Account Created)
@@ -191,21 +268,7 @@ const sendWelcomeEmail = async (to, username) => {
   const subject = 'Welcome to the Library Management System!';
   const fullHtml = getEmailWrapper('Account Created Successfully', htmlContent);
 
-
-
-  // Fallback to Gmail SMTP
-  try {
-    const mailOptions = {
-      from: `"Library System" <${process.env.EMAIL_USERNAME}>`,
-      to,
-      subject,
-      html: fullHtml,
-    };
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`[EmailService] Welcome email sent successfully to ${to}. MessageId: ${info.messageId}`);
-  } catch (error) {
-    console.error(`[EmailService] Error sending Welcome email to ${to}:`, error);
-  }
+  await sendEmail(to, subject, fullHtml);
 };
 
 // 3. Send Password Reset OTP Email
@@ -220,21 +283,7 @@ const sendPasswordResetOtpEmail = async (to, otp) => {
   const subject = 'Reset Your Password - Library Management System';
   const fullHtml = getEmailWrapper('Password Reset Request', htmlContent);
 
-
-
-  // Fallback to Gmail SMTP
-  try {
-    const mailOptions = {
-      from: `"Library System" <${process.env.EMAIL_USERNAME}>`,
-      to,
-      subject,
-      html: fullHtml,
-    };
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`[EmailService] Password reset OTP sent successfully to ${to}. MessageId: ${info.messageId}`);
-  } catch (error) {
-    console.error(`[EmailService] Error sending password reset OTP to ${to}:`, error);
-  }
+  await sendEmail(to, subject, fullHtml);
 };
 
 // 4. Send Password Reset Success Notification
@@ -249,21 +298,7 @@ const sendPasswordResetSuccessEmail = async (to, username) => {
   const subject = 'Password Changed Successfully - Library Management System';
   const fullHtml = getEmailWrapper('Password Security Alert', htmlContent);
 
-
-
-  // Fallback to Gmail SMTP
-  try {
-    const mailOptions = {
-      from: `"Library System" <${process.env.EMAIL_USERNAME}>`,
-      to,
-      subject,
-      html: fullHtml,
-    };
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`[EmailService] Password change alert email sent successfully to ${to}. MessageId: ${info.messageId}`);
-  } catch (error) {
-    console.error(`[EmailService] Error sending password change alert to ${to}:`, error);
-  }
+  await sendEmail(to, subject, fullHtml);
 };
 
 // 5. Send Book Requested Email
@@ -280,21 +315,7 @@ const sendBookRequestedEmail = async (to, username, bookTitle) => {
   const subject = 'Book Request Received - Library Management System';
   const fullHtml = getEmailWrapper('Book Request Confirmed', htmlContent);
 
-
-
-  // Fallback to Gmail SMTP
-  try {
-    const mailOptions = {
-      from: `"Library System" <${process.env.EMAIL_USERNAME}>`,
-      to,
-      subject,
-      html: fullHtml,
-    };
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`[EmailService] Book request confirmation sent successfully to ${to}. MessageId: ${info.messageId}`);
-  } catch (error) {
-    console.error(`[EmailService] Error sending book request confirmation to ${to}:`, error);
-  }
+  await sendEmail(to, subject, fullHtml);
 };
 
 // 6. Send Book Ready For Pickup Email
@@ -311,21 +332,7 @@ const sendBookReadyForPickupEmail = async (to, username, bookTitle) => {
   const subject = 'Book Ready for Pickup! - Library Management System';
   const fullHtml = getEmailWrapper('Ready for Pickup', htmlContent);
 
-
-
-  // Fallback to Gmail SMTP
-  try {
-    const mailOptions = {
-      from: `"Library System" <${process.env.EMAIL_USERNAME}>`,
-      to,
-      subject,
-      html: fullHtml,
-    };
-    const info = await transporter.sendMail(mailOptions);
-    console.log(`[EmailService] Book ready-for-pickup email sent successfully to ${to}. MessageId: ${info.messageId}`);
-  } catch (error) {
-    console.error(`[EmailService] Error sending book ready email to ${to}:`, error);
-  }
+  await sendEmail(to, subject, fullHtml);
 };
 
 module.exports = {
