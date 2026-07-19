@@ -127,12 +127,11 @@ const FeaturedBooks = () => {
                   const count = allFeaturedBooks.filter((b) => b.category === cat).length
                   return (
                     <div 
-                      className="col-xxl-4 col-md-6 col-sm-6 col-12"
+                      className="col-xxl-4 col-md-6 col-sm-6 col-12 mb-4 d-flex"
                       key={index}
-
                     >
                       <div 
-                        className="category-discovery-card"
+                        className="category-discovery-card w-100"
                         onClick={() => setSelectedCategory(cat)}
                       >
                         <div className="category-icon-wrapper">

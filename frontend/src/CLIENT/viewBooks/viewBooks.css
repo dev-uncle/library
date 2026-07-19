@@ -10,12 +10,12 @@
 
 /* Glassmorphic Card */
 .glass-detail-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(30, 122, 58, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: 20px;
-  box-shadow: 0 16px 40px rgba(30, 122, 58, 0.05);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
   transition: all 0.3s ease;
 }
@@ -48,8 +48,8 @@
   max-width: 300px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(30, 122, 58, 0.08);
-  border: 1px solid rgba(30, 122, 58, 0.15);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-card);
 }
 
 .book-cover-img {
@@ -179,4 +179,10 @@
   .book-cover-wrapper {
     max-width: 250px;
   }
+}
+
+/* Dark theme overrides for book details page */
+html[data-theme="dark"] .request-action-btn.disabled {
+  background: rgba(255, 255, 255, 0.05) !important;
+  color: rgba(255, 255, 255, 0.3) !important;
 }

@@ -55,13 +55,13 @@
   z-index: 2;
   text-align: center;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-card);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(30, 122, 58, 0.2);
+  border: 1px solid var(--border-card);
   border-radius: 16px;
   max-width: 800px;
-  box-shadow: 0 12px 30px rgba(30, 122, 58, 0.08);
+  box-shadow: var(--shadow-card);
 }
 
 .about-hero-title {
@@ -109,15 +109,15 @@
 
 /* Glassmorphic Information Cards */
 .about-glass-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-card);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(30, 122, 58, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: 20px;
   padding: 2.5rem 2rem;
   height: 100%;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  box-shadow: 0 8px 32px rgba(30, 122, 58, 0.05);
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
 }
@@ -126,7 +126,7 @@
   transform: translateY(-8px);
   border-color: var(--accent) !important;
   box-shadow: 0 16px 40px rgba(30, 122, 58, 0.1);
-  background: #ffffff;
+  background: var(--bg-card-solid);
 }
 
 .about-card-icon-wrapper {
@@ -176,4 +176,13 @@
   .about-glass-card {
     padding: 2rem 1.5rem;
   }
+}
+
+/* Dark theme overrides for about us page */
+html[data-theme="dark"] .about-hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 18, 14, 0.4) 0%,
+    rgba(11, 18, 14, 0.85) 100%
+  );
 }

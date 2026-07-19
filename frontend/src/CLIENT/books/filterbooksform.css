@@ -4,22 +4,22 @@
 
 /* Form Container */
 .books-filter-container {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 122, 58, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: 16px;
   padding: 1.5rem 2rem;
   margin: 0 auto 2rem auto;
   max-width: 100%;
-  box-shadow: 0 8px 24px rgba(30, 122, 58, 0.05);
+  box-shadow: var(--shadow-card);
 }
 
-/* Light Form Controls */
+/* Light/Dark Form Controls */
 .books-filter-container .form-control,
 .books-filter-container select.form-control {
-  background: #ffffff !important;
-  border: 1px solid rgba(30, 122, 58, 0.15) !important;
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-input) !important;
   color: var(--text-primary) !important;
   border-radius: 10px !important;
   padding: 10px 14px;
@@ -40,7 +40,7 @@
 
 /* Select dropdown option styling */
 .books-filter-container select.form-control option {
-  background: #ffffff;
+  background: var(--select-bg-option);
   color: var(--text-primary);
 }
 

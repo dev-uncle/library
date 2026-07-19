@@ -1,10 +1,10 @@
 /* MODERN FOOTER STYLING */
 
 footer {
-  background-color: #ffffff !important; /* Pure white background */
+  background-color: var(--bg-card-solid) !important;
   color: var(--text-muted);
   font-family: var(--font-body);
-  border-top: 1px solid rgba(30, 122, 58, 0.15); /* Subtle green divider */
+  border-top: 1px solid var(--border-card) !important;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
   padding: 2.5rem 0 1.5rem 0;
   width: 100%;

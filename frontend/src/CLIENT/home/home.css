@@ -150,6 +150,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100%;
 }
 
 .category-discovery-card:hover {
@@ -199,9 +200,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   margin-top: 4rem !important;
   margin-bottom: 2.5rem !important;
+  max-width: 100%;
 }
 
 .breadcrumb-root-link {
