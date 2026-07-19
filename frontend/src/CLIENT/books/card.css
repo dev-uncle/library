@@ -7,13 +7,13 @@
 
 /* Card Container */
 .client-book-grid .card {
-  background: rgba(30, 26, 20, 0.7);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid rgba(30, 122, 58, 0.15);
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 24px rgba(30, 122, 58, 0.05);
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   position: relative;
   width: 100%;
@@ -22,8 +22,8 @@
 /* Hover Zoom and Lift Animation */
 .client-book-grid .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 36px rgba(235, 130, 10, 0.25);
-  border-color: rgba(235, 130, 10, 0.4);
+  box-shadow: 0 16px 36px rgba(30, 122, 58, 0.15);
+  border-color: var(--accent) !important;
 }
 
 /* Image Container & Settings */
@@ -51,7 +51,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(18, 15, 12, 0.9) 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0.7) 100%);
   pointer-events: none;
 }
 
@@ -66,20 +66,20 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   z-index: 10;
   backdrop-filter: blur(5px);
 }
 
 .client-book-grid .status-badge.available {
-  background-color: rgba(46, 117, 89, 0.85);
-  border: 1px solid rgba(46, 117, 89, 0.5);
+  background-color: var(--accent) !important;
+  border: 1px solid var(--accent-hover) !important;
   color: #ffffff !important;
 }
 
 .client-book-grid .status-badge.outofstock {
-  background-color: rgba(186, 45, 50, 0.85);
-  border: 1px solid rgba(186, 45, 50, 0.5);
+  background-color: #ef4444 !important;
+  border: 1px solid #dc2626 !important;
   color: #ffffff !important;
 }
 
@@ -89,16 +89,17 @@
   display: flex;
   flex-direction: column;
   background: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   white-space: normal;
   overflow: visible;
 }
 
 .client-book-grid .card-title {
+  font-family: var(--font-headings);
   font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.35;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
   margin-bottom: 0.4rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -111,7 +112,7 @@
 .client-book-grid .card-text {
   font-size: 0.9rem;
   font-weight: 500;
-  color: rgba(235, 130, 10, 0.85) !important;
+  color: var(--text-muted) !important;
   margin-bottom: 1.25rem;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -120,7 +121,7 @@
 
 .client-book-grid .card-text::before {
   content: 'by ';
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(26, 47, 34, 0.45);
   font-weight: 400;
 }
 
@@ -138,7 +139,7 @@
 }
 
 .client-book-grid .btn-card-primary {
-  background-color: #eb820a !important;
+  background-color: var(--accent) !important;
   color: #ffffff !important;
   font-weight: 600;
   border: none;
@@ -146,27 +147,28 @@
   padding: 10px 14px;
   font-size: 0.85rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.2);
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.2);
 }
 
 .client-book-grid .btn-card-primary:hover:not(:disabled) {
-  background-color: #ff9d2b !important;
+  background-color: var(--accent-hover) !important;
+  color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(235, 130, 10, 0.35);
+  box-shadow: 0 6px 16px rgba(30, 122, 58, 0.2);
 }
 
 .client-book-grid .btn-card-primary:disabled {
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  color: rgba(255, 255, 255, 0.3) !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: rgba(0, 0, 0, 0.3) !important;
   box-shadow: none;
   cursor: not-allowed;
 }
 
 .client-book-grid .btn-card-secondary {
   background-color: transparent !important;
-  color: #ffffff !important;
+  color: var(--accent) !important;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid var(--accent) !important;
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 0.85rem;
@@ -174,9 +176,11 @@
 }
 
 .client-book-grid .btn-card-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.08) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.2);
 }
 
 /* Responsive adjustments */
@@ -224,9 +228,9 @@
 .client-book-grid .status-badge.ebook-badge {
   left: 15px;
   right: auto;
-  background-color: rgba(235, 130, 10, 0.85);
-  border: 1px solid rgba(235, 130, 10, 0.5);
-  color: #ffffff !important;
+  background-color: var(--secondary) !important;
+  border: 1px solid var(--secondary-hover) !important;
+  color: #060e0a !important;
 }
 
 @media screen and (max-width: 576px) {

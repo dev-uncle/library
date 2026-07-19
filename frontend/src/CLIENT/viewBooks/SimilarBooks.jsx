@@ -30,7 +30,7 @@ const SimilarBooks = () => {
 
   useEffect(() => {
     fetchSimilarBooks()
-  }, [])
+  }, [id])
 
   return (
     <div className='similar-books-section mt-5'>
@@ -111,7 +111,7 @@ const SimilarBooks = () => {
             )
           })
         ) : (
-          <p className='p text-center' style={{ color: 'rgba(255, 255, 255, 0.5)' }}>Loading ...</p>
+          <p className='p text-center' style={{ color: 'var(--text-muted)' }}>Loading ...</p>
         )}
       </div>
     </div>

@@ -5,6 +5,7 @@ import './viewBooks.css'
 import useFetch from '../../useFetch'
 import RequestBook from '../requestBooks/RequestBook'
 import SimilarBooks from './SimilarBooks'
+import { FaBook, FaLanguage, FaCheckCircle, FaTimesCircle, FaArrowLeft } from 'react-icons/fa'
 import { useLoginState } from '../../LoginState'
 
 const ViewBook = () => {
@@ -19,7 +20,7 @@ const ViewBook = () => {
   const getData = useFetch(API_URL)
 
   // Destructuring fetched data
-  const data = getData.fetched_data.data
+  const data = getData.fetched_data?.data || {}
   const imageFullPath = getData.imagePath
 
   const [bookData, setBookData] = useState({})
@@ -27,92 +28,96 @@ const ViewBook = () => {
   useEffect(() => {
     setBookData({ ...data, image: imageFullPath })
     window.scrollTo(0, 0)
-  }, [data])
+  }, [data, imageFullPath])
 
   return (
-    <div className='container'>
-      <h1 className='h1 text-center my-4'>Book Details</h1>
-
-      <div className='row mt-1 mb-3 shadow'>
-        <div className='col-lg-6 col-sm-12 mx-5 my-2  image-div'>
-          <img
-            src={bookData.image}
-            alt=''
-            style={{ height: '90%', width: '300px' }}
-            className='img-fluid'
-          />
+    <div className='view-book-wrapper py-5'>
+      <div className='container'>
+        {/* Back button */}
+        <div className='mb-4 text-start'>
+          <button
+            type='button'
+            className='back-ghost-btn'
+            onClick={() => navigate(-1)}
+          >
+            <FaArrowLeft className='me-2' /> Back to Catalog
+          </button>
         </div>
 
-        <div className='col mx-5 my-5 '>
-          <h2>{bookData.title} </h2>
-          <p>by '{bookData.author}' </p>
-          <h5 className='h5'>Category : {bookData.category} </h5>
-          <h5>Language : {bookData.language} </h5>
-          <h5>
-            Available :
-            {bookData.available ? (
-              <span> In Stock ({bookData.quantity ?? 0} left)</span>
-            ) : (
-              <span> Out of Stock</span>
-            )}{' '}
-          </h5>
+        {/* Premium Glass Details Card */}
+        <div className='glass-detail-card p-4 p-md-5'>
+          <div className='row g-5 align-items-center'>
+            <div className='col-lg-4 col-md-5 col-12 d-flex justify-content-center'>
+              <div className='book-cover-wrapper'>
+                <img
+                  src={bookData.image}
+                  alt={bookData.title}
+                  className='book-cover-img img-fluid'
+                />
+              </div>
+            </div>
 
-          <h5 className='h5 my-1 mt-3 '>Synopsis :</h5>
-          <h6 className='h6  my-2'> {bookData.description}</h6>
+            <div className='col-lg-8 col-md-7 col-12 text-md-start text-center'>
+              <h1 className='book-detail-title'>{bookData.title}</h1>
+              <p className='book-detail-author'>by {bookData.author}</p>
 
-          {/* Request Books Button */}
-          <div className='text-center'>
-            {isRequested ? (
-              <button
-                disabled
-                type='button'
-                className='btn btn-warning me-2 mt-3'
-                style={{ color: '#ffffff' }}
-              >
-                Requested
-              </button>
-            ) : bookData.available ? (
-              <button
-                type='button'
-                className='btn btn-primary me-2 mt-3'
-                onClick={() => request_Book(bookData._id)}
-              >
-                Request
-              </button>
-            ) : (
-              <button
-                disabled
-                type='button'
-                className='btn btn-secondary me-2 mt-3'
-              >
-                Out of Stock
-              </button>
-            )}
+              <div className='book-meta-badges my-4 justify-content-md-start justify-content-center'>
+                <span className='meta-badge category-badge'>
+                  <FaBook className='me-2' /> {bookData.category}
+                </span>
+                <span className='meta-badge language-badge'>
+                  <FaLanguage className='me-2' /> {bookData.language}
+                </span>
+                {bookData.available ? (
+                  <span className='meta-badge status-badge in-stock'>
+                    <FaCheckCircle className='me-2' /> In Stock
+                  </span>
+                ) : (
+                  <span className='meta-badge status-badge out-of-stock'>
+                    <FaTimesCircle className='me-2' /> Out of Stock
+                  </span>
+                )}
+              </div>
 
-            {bookData.bookFile && (
-              <a
-                href={`${backend_server}/${bookData.bookFile}`}
-                target="_blank"
-                rel="noreferrer"
-                className='btn btn-success me-2 mt-3'
-                style={{ color: '#ffffff' }}
-              >
-                Read E-Book
-              </a>
-            )}
+              <div className='stats-divider my-4'></div>
 
-            <button
-              type='button'
-              className='btn btn-secondary me-2 mt-3'
-              onClick={() => navigate(-1)}
-            >
-              Back
-            </button>
+              <h5 className='synopsis-title'>Synopsis</h5>
+              <p className='synopsis-text'>{bookData.description || 'No description available for this book.'}</p>
+
+              <div className='mt-4 pt-2 text-md-start text-center'>
+                {isRequested ? (
+                  <button
+                    type='button'
+                    className='request-action-btn disabled'
+                    disabled
+                  >
+                    Requested
+                  </button>
+                ) : bookData.available ? (
+                  <button
+                    type='button'
+                    className='request-action-btn'
+                    onClick={() => request_Book(bookData._id)}
+                  >
+                    Request Copy
+                  </button>
+                ) : (
+                  <button
+                    type='button'
+                    className='request-action-btn disabled'
+                    disabled
+                  >
+                    Out of Stock
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <SimilarBooks />
+        {/* Similar Books Section */}
+        <SimilarBooks />
+      </div>
     </div>
   )
 }

@@ -1,53 +1,52 @@
 /* ============================================
-   FILTER BOOKS FORM — Dark Glassmorphic Theme
+   FILTER BOOKS FORM — Light Theme
    ============================================ */
 
 /* Form Container */
 .books-filter-container {
-  background: rgba(30, 26, 20, 0.5);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(235, 130, 10, 0.12);
+  border: 1px solid rgba(30, 122, 58, 0.15);
   border-radius: 16px;
   padding: 1.5rem 2rem;
   margin: 0 auto 2rem auto;
   max-width: 100%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px rgba(30, 122, 58, 0.05);
 }
 
-/* Dark Form Controls */
+/* Light Form Controls */
 .books-filter-container .form-control,
 .books-filter-container select.form-control {
-  background: rgba(18, 15, 12, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  color: #ffffff !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(30, 122, 58, 0.15) !important;
+  color: var(--text-primary) !important;
   border-radius: 10px !important;
   padding: 10px 14px;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  backdrop-filter: blur(6px);
 }
 
 .books-filter-container .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.35) !important;
+  color: var(--input-placeholder) !important;
 }
 
 .books-filter-container .form-control:focus,
 .books-filter-container select.form-control:focus {
-  border-color: rgba(235, 130, 10, 0.5) !important;
-  box-shadow: 0 0 0 3px rgba(235, 130, 10, 0.12) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px rgba(30, 122, 58, 0.15) !important;
   outline: none !important;
 }
 
 /* Select dropdown option styling */
 .books-filter-container select.form-control option {
-  background: #1a1612;
-  color: #ffffff;
+  background: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Search Button */
 .books-filter-container .btn-filter-search {
-  background: #eb820a !important;
+  background: var(--accent) !important;
   color: #ffffff !important;
   font-weight: 600;
   border: none !important;
@@ -55,22 +54,23 @@
   padding: 10px 20px;
   font-size: 0.9rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.2);
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.2);
   white-space: nowrap;
 }
 
 .books-filter-container .btn-filter-search:hover {
-  background: #ff9d2b !important;
+  background: var(--accent-hover) !important;
+  color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(235, 130, 10, 0.35);
+  box-shadow: 0 6px 16px rgba(30, 122, 58, 0.25);
 }
 
 /* Clear Filter Button */
 .books-filter-container .btn-filter-clear {
   background: transparent !important;
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: var(--text-muted) !important;
   font-weight: 600;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(30, 122, 58, 0.2) !important;
   border-radius: 10px !important;
   padding: 10px 20px;
   font-size: 0.9rem;
@@ -79,18 +79,19 @@
 }
 
 .books-filter-container .btn-filter-clear:hover {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
   color: #ffffff !important;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.2);
 }
 
 /* Advanced Filter Toggle Button */
 .books-filter-container .btn-advanced-filter {
-  background: rgba(235, 130, 10, 0.1) !important;
-  color: #eb820a !important;
+  background: rgba(30, 122, 58, 0.06) !important;
+  color: var(--accent) !important;
   font-weight: 600;
-  border: 1px solid rgba(235, 130, 10, 0.3) !important;
+  border: 1px solid rgba(30, 122, 58, 0.2) !important;
   border-radius: 10px !important;
   padding: 10px 16px;
   font-size: 0.9rem;
@@ -99,17 +100,17 @@
 }
 
 .books-filter-container .btn-advanced-filter:hover {
-  background: rgba(235, 130, 10, 0.2) !important;
-  color: #ff9d2b !important;
-  border-color: rgba(235, 130, 10, 0.6) !important;
+  background: var(--accent-hover) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-hover) !important;
   transform: translateY(-2px);
 }
 
 /* Advanced Filter Panel */
 .advanced-filter-panel {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(30, 122, 58, 0.03);
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(30, 122, 58, 0.1);
 }
 
 /* Responsive — Stack form on smaller screens */

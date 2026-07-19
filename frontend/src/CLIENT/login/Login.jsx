@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import './login.css'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
-import toast, { Toaster } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { backend_server } from '../../main'
 import { BsEye, BsEyeSlash } from 'react-icons/bs'
-
+import { FaGraduationCap, FaEnvelope, FaLock, FaBookOpen } from 'react-icons/fa'
 import { useLoginState } from '../../LoginState'
 
 const Login = () => {
@@ -16,59 +16,50 @@ const Login = () => {
 
   const Empty_Field_Object = { email: '', password: '' }
   const [textfield, setTextField] = useState(Empty_Field_Object)
-  const [showPassword, setShowPassword] = useState(false) // State variable to track password visibility
+  const [showPassword, setShowPassword] = useState(false)
 
   const showLoadingToast = () => {
-    return toast.loading('Loggin in...', {
+    return toast.loading('Logging in...', {
       position: 'top-center',
-      duration: Infinity, // The toast will not automatically close
+      duration: Infinity,
     })
   }
 
   const userLoginState = useLoginState()
 
-  // Login Form submit
   const HandleSubmit = async (e) => {
+    e.preventDefault()
     const loadingToastId = showLoadingToast()
     try {
-      e.preventDefault()
       const email = textfield.email
       const password = textfield.password
 
       const response = await axios.post(API_URL, { email, password })
       const userType = await response.data.userType
 
-      // Save JWT token in localStorage for cross-origin header auth fallback
       if (response.data.token) {
         localStorage.setItem('token', response.data.token)
       }
 
       toast.dismiss(loadingToastId)
 
-      // Passing user email to refrence user is logged in , userType to refrence what user ROLE is
       userLoginState.login(email, userType)
       if (userType === 'normal_user') {
         toast.success('Login Success')
         navigate('/', { replace: true })
       } else if (userType === 'admin_user') {
-        // Hard reload into ADMIN Page
         window.location.href = '/admin'
       }
     } catch (error) {
       toast.dismiss(loadingToastId)
-      // console.log('ERROR : ', error.response)
 
-      if (error.response.data.ENTER_OTP === true) {
+      if (error.response?.data?.ENTER_OTP === true) {
         navigate('/otp', { replace: true })
-      } else if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        // Display the 'if' error message from the backend to frontend
+      } else if (error.response && error.response.data && error.response.data.message) {
         const error_message = error.response.data.message
-        // console.log(error_message)
         toast.error(error_message)
+      } else {
+        toast.error('Unable to connect to server. Please try again.')
       }
     }
   }
@@ -81,64 +72,122 @@ const Login = () => {
   }
 
   useEffect(() => {
-    refUsername.current.focus()
+    if (refUsername.current) {
+      refUsername.current.focus()
+    }
   }, [])
 
   return (
-    <div className='login-page-wrapper'>
-    <div className='login-maindiv '>
-      {/* TOP DIV */}
-      <div className='login-upperdiv'>
-        <h1>Login</h1>
+    <div className='login-split-wrapper'>
+      {/* ── LEFT PANEL: Hero Image & Branding ───────────────── */}
+      <div className='login-left-panel'>
+        <div className='login-left-overlay'></div>
+        <div className='login-left-content'>
+          <div className='login-left-badge'>
+            <FaGraduationCap size={24} />
+            <span>Colegio de Montalban</span>
+          </div>
+          <h1 className='login-left-heading'>
+            Gateway to Knowledge <br />& Academic Excellence
+          </h1>
+          <p className='login-left-subtext'>
+            Empowering students and faculty of CdM with instant access to cataloged books, research publications, and e-learning resources.
+          </p>
+
+          <div className='login-left-feature-card'>
+            <div className='feature-icon'>
+              <FaBookOpen />
+            </div>
+            <div>
+              <h5 className='feature-title'>Digital Library Portal</h5>
+              <p className='feature-desc'>Browse collections, check availability, and request books online.</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* MIDDLE DIV */}
-      <div className='login-middlediv'>
-        <form onSubmit={HandleSubmit} method='post'>
-          <input
-            type='email'
-            placeholder='Enter Email'
-            value={textfield.email}
-            onChange={HandleOnChange}
-            name='email'
-            autoComplete='off'
-            required
-            ref={refUsername}
-          />
+      {/* ── RIGHT PANEL: Login Form ───────────────────────────── */}
+      <div className='login-right-panel'>
+        {/* Background Grid Pattern */}
+        <div className='login-grid-pattern'></div>
+        <div className='login-ambient-glow'></div>
 
-          <div className='password-field'>
-            <input
-              type={showPassword ? 'text' : 'password'} // Toggle input type based on showPassword state
-              placeholder='Enter Password'
-              value={textfield.password}
-              onChange={HandleOnChange}
-              name='password'
-              autoComplete='off'
-              required
-            />
-            <span
-              onClick={() =>
-                setShowPassword((prevShowPassword) => !prevShowPassword)
-              }
-              style={{ cursor: 'pointer' }}
-            >
-              {showPassword ? <BsEye /> : <BsEyeSlash />}
-            </span>
+        <div className='login-form-container'>
+          {/* Header */}
+          <div className='login-header'>
+            <span className='login-kicker'>CdM Library Management System</span>
+            <h2 className='login-title'>Welcome Back</h2>
+            <p className='login-subtitle'>Enter your credentials to access your account</p>
           </div>
 
-          <button type='submit'>Login</button>
-        </form>
-        <br />
-      </div>
+          {/* Form */}
+          <form onSubmit={HandleSubmit} method='post' className='login-form'>
+            <div className='form-group mb-3'>
+              <label className='login-label' htmlFor='login-email'>Email Address</label>
+              <div className='input-with-icon'>
+                <span className='input-icon'><FaEnvelope /></span>
+                <input
+                  id='login-email'
+                  type='email'
+                  placeholder='student@cdm.edu.ph'
+                  value={textfield.email}
+                  onChange={HandleOnChange}
+                  name='email'
+                  autoComplete='off'
+                  required
+                  ref={refUsername}
+                  className='login-input'
+                />
+              </div>
+            </div>
 
-      {/* LOWER DIV */}
-      <div className='login-lowerdiv'>
-        <Link to='/forgotpassword'>Forgot Password ?</Link>
-        <Link to='/signup' id='signupbtn-link'>
-          <button>SignUp</button>
-        </Link>
+            <div className='form-group mb-4'>
+              <div className='d-flex justify-content-between align-items-center mb-1'>
+                <label className='login-label' htmlFor='login-password'>Password</label>
+                <Link to='/forgotpassword' className='login-forgot-link'>
+                  Forgot Password?
+                </Link>
+              </div>
+              <div className='input-with-icon password-field'>
+                <span className='input-icon'><FaLock /></span>
+                <input
+                  id='login-password'
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder='Enter your password'
+                  value={textfield.password}
+                  onChange={HandleOnChange}
+                  name='password'
+                  autoComplete='off'
+                  required
+                  className='login-input'
+                />
+                <button
+                  type='button'
+                  className='password-toggle-btn'
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <BsEye /> : <BsEyeSlash />}
+                </button>
+              </div>
+            </div>
+
+            <button type='submit' className='login-submit-btn'>
+              Sign In
+            </button>
+          </form>
+
+          {/* Footer */}
+          <div className='login-footer mt-4 pt-3 text-center'>
+            <p className='m-0 login-footer-text'>
+              Don't have an account?{' '}
+              <Link to='/signup' className='login-signup-link'>
+                Create Account
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   )
 }

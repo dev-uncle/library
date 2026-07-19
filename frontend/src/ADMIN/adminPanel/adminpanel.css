@@ -411,36 +411,41 @@
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  background: transparent;
+  background: transparent !important;
+  background-color: transparent !important;
   border: none;
   padding: 0.5rem 0.85rem;
   border-radius: var(--radius-sm);
-  color: var(--text-muted);
+  color: var(--text-muted) !important;
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.recs-tab:hover {
-  color: var(--text-primary);
+.recs-tab:hover:not(.active) {
+  color: var(--text-primary) !important;
+  background: rgba(30, 122, 58, 0.1) !important;
+  background-color: rgba(30, 122, 58, 0.1) !important;
 }
 
 .recs-tab.active {
-  background: var(--bg-card);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(30, 122, 58, 0.3);
 }
 
-.recs-tab--viewed.active {
-  color: #3b82f6;
+.recs-tab.active:hover {
+  background: var(--accent-hover) !important;
+  background-color: var(--accent-hover) !important;
+  color: #ffffff !important;
 }
 
-.recs-tab--requested.active {
-  color: #10b881;
-}
-
+.recs-tab--viewed.active,
+.recs-tab--requested.active,
 .recs-tab--searched.active {
-  color: #8b5cf6;
+  color: #ffffff !important;
 }
 
 .recs-content-grid {

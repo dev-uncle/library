@@ -44,13 +44,13 @@
   text-decoration: none;
   transition: background 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), transform 0.2s ease, box-shadow 0.3s ease;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.25);
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.25);
 }
 
 .mb-add-btn:hover {
   background: var(--accent-hover) !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(235, 130, 10, 0.45);
+  box-shadow: 0 6px 18px rgba(30, 122, 58, 0.45);
   text-decoration: none;
   color: #ffffff !important;
 }
@@ -118,7 +118,7 @@
 .mb-input:focus,
 .mb-select:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
+  box-shadow: 0 0 10px rgba(30, 122, 58, 0.25);
   background: var(--bg-input-focus);
 }
 
@@ -153,12 +153,13 @@
 .mb-filter-btn--search {
   background: var(--accent) !important;
   color: #ffffff;
-  box-shadow: 0 4px 10px rgba(235, 130, 10, 0.25);
+  box-shadow: 0 4px 10px rgba(30, 122, 58, 0.25);
 }
 .mb-filter-btn--search:hover {
   background: var(--accent-hover) !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(235, 130, 10, 0.35);
+  box-shadow: 0 6px 14px rgba(30, 122, 58, 0.35);
+  color: #ffffff !important;
 }
 
 .mb-filter-btn--clear {
@@ -167,8 +168,9 @@
   border: 1px solid var(--border-color);
 }
 .mb-filter-btn--clear:hover {
-  background: var(--bg-hover) !important;
-  color: var(--text-primary);
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
 }
 
 /* ── Table card ──────────────────────────────── */
@@ -260,8 +262,8 @@
 }
 
 .mb-badge--yes {
-  background: rgba(16, 185, 129, 0.12);
-  color: #10b981;
+  background: rgba(30, 122, 58, 0.12);
+  color: var(--accent);
 }
 
 .mb-badge--no {
@@ -270,8 +272,8 @@
 }
 
 .mb-badge--category {
-  background: rgba(99, 102, 241, 0.12);
-  color: #818cf8;
+  background: rgba(242, 194, 48, 0.12);
+  color: #d1a520;
 }
 
 /* ── Edit button ─────────────────────────────── */
@@ -280,7 +282,8 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.35rem 0.75rem;
-  background: rgba(235, 130, 10, 0.12);
+  background: rgba(30, 122, 58, 0.12);
+  border: 1px solid rgba(30, 122, 58, 0.25);
   color: var(--accent) !important;
   border-radius: var(--radius-sm);
   font-size: 0.8rem;
@@ -291,7 +294,9 @@
 }
 
 .mb-edit-btn:hover {
-  background: rgba(235, 130, 10, 0.22);
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
   transform: translateY(-1px);
   text-decoration: none;
 }
@@ -302,6 +307,39 @@
   border-top: 1px solid var(--border-row);
   display: flex;
   justify-content: center;
+}
+
+.mb-pagination .pagination .page-item .page-link {
+  background: var(--bg-input-btn) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-muted) !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  transition: all 0.3s ease;
+}
+
+.mb-pagination .pagination .page-item .page-link:hover {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.mb-pagination .pagination .page-item.active .page-link {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.25);
+}
+
+.mb-pagination .pagination .page-item.disabled .page-link {
+  background: transparent !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* ── Skeleton loader ─────────────────────────── */

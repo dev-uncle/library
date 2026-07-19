@@ -1,24 +1,25 @@
 /* CLIENT SIDE HOME PAGE MAIN STYLING */
 
 .home-main-div {
-  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
+  background: var(--bg-shell);
   min-height: 100vh;
-  color: #ffffff;
+  color: var(--text-primary);
   padding-bottom: 5rem;
 }
 
 /* Section Header Typography */
 .home-section-header {
+  font-family: var(--font-headings);
   font-size: 2.2rem;
   font-weight: 800;
-  color: #ffffff !important;
+  color: var(--accent) !important;
   text-align: center;
   position: relative;
   margin-top: 4rem !important;
   margin-bottom: 2.5rem !important;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: 0 2px 4px rgba(30, 122, 58, 0.08) !important;
 }
 
 .home-section-header::after {
@@ -29,41 +30,42 @@
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: #eb820a;
+  background: var(--accent);
   border-radius: 2px;
-  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+  box-shadow: 0 0 8px rgba(30, 122, 58, 0.3);
 }
 
 /* Glassmorphic Call to Action (CTA) block for unauthorized users */
 .login-cta-container {
-  background: rgba(235, 130, 10, 0.04);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid rgba(30, 122, 58, 0.2);
   border-radius: 16px;
   padding: 3rem 2rem;
   text-align: center;
   margin: 3rem auto;
   max-width: 720px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 32px rgba(30, 122, 58, 0.06);
 }
 
 .login-cta-title {
-  color: #ffffff !important;
+  font-family: var(--font-headings);
+  color: var(--accent) !important;
   font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .login-cta-text {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: var(--text-muted) !important;
   font-size: 1.05rem;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
 
 .login-cta-button {
-  background-color: #eb820a !important;
+  background-color: var(--accent) !important;
   color: #ffffff !important;
   font-weight: 700;
   font-size: 1rem;
@@ -73,13 +75,13 @@
   text-decoration: none;
   display: inline-block;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.3);
+  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.2);
 }
 
 .login-cta-button:hover {
-  background-color: #ff9d2b !important;
+  background-color: var(--accent-hover) !important;
   transform: translateY(-3px);
-  box-shadow: 0 6px 22px rgba(235, 130, 10, 0.5);
+  box-shadow: 0 6px 22px rgba(30, 122, 58, 0.35);
   color: #ffffff !important;
 }
 
@@ -103,8 +105,8 @@
 /* Category Filter Pill Buttons */
 .category-pill-btn {
   background-color: transparent !important;
-  color: rgba(255, 255, 255, 0.7) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid rgba(30, 122, 58, 0.25) !important;
   border-radius: 30px !important;
   padding: 8px 22px !important;
   font-size: 0.8rem !important;
@@ -117,31 +119,32 @@
 }
 
 .category-pill-btn.active {
-  background-color: #eb820a !important;
-  border-color: #eb820a !important;
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 14px rgba(235, 130, 10, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(30, 122, 58, 0.3) !important;
 }
 
 .category-pill-btn:hover:not(.active) {
-  border-color: rgba(235, 130, 10, 0.5) !important;
-  color: #eb820a !important;
-  background-color: rgba(235, 130, 10, 0.08) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  background-color: var(--accent) !important;
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(30, 122, 58, 0.2) !important;
 }
 
 /* Category Discovery Grid Card styles */
 .category-discovery-card {
-  background: rgba(30, 26, 20, 0.5);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(235, 130, 10, 0.12);
+  border: 1px solid rgba(30, 122, 58, 0.15);
   border-radius: 16px;
   padding: 2.2rem 2rem;
   text-align: center;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 24px rgba(30, 122, 58, 0.04);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -151,42 +154,43 @@
 
 .category-discovery-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(235, 130, 10, 0.35);
-  box-shadow: 0 16px 32px rgba(235, 130, 10, 0.2);
-  background: rgba(235, 130, 10, 0.06);
+  border-color: var(--accent);
+  box-shadow: 0 16px 32px rgba(30, 122, 58, 0.12);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .category-icon-wrapper {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: rgba(235, 130, 10, 0.08);
+  background: rgba(30, 122, 58, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 1.25rem;
-  color: #eb820a;
+  color: var(--accent);
   font-size: 1.6rem;
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .category-discovery-card:hover .category-icon-wrapper {
-  background: #eb820a;
+  background: var(--accent);
   color: #ffffff;
   transform: scale(1.1);
-  box-shadow: 0 0 15px rgba(235, 130, 10, 0.4);
+  box-shadow: 0 0 15px rgba(30, 122, 58, 0.35);
 }
 
 .category-card-title {
+  font-family: var(--font-headings);
   font-size: 1.25rem;
   font-weight: 700;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
   margin-bottom: 0.5rem;
 }
 
 .category-card-count {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: var(--text-muted) !important;
   margin-bottom: 0;
 }
 
@@ -201,32 +205,34 @@
 }
 
 .breadcrumb-root-link {
+  font-family: var(--font-headings);
   font-size: 2.2rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: rgba(255, 255, 255, 0.4) !important;
+  color: var(--text-muted) !important;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  text-shadow: none;
 }
 
 .breadcrumb-root-link:hover {
-  color: #ffffff !important;
+  color: var(--accent) !important;
 }
 
 .breadcrumb-separator-icon {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--text-muted);
   font-size: 1.4rem;
 }
 
 .breadcrumb-active-node {
+  font-family: var(--font-headings);
   font-size: 2.2rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: #eb820a !important;
-  text-shadow: 0 0 10px rgba(235, 130, 10, 0.4);
+  color: var(--accent) !important;
+  text-shadow: 0 0 10px rgba(30, 122, 58, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -253,15 +259,15 @@
   padding-bottom: 12px !important;
 }
 
-/* Pagination — Dark Theme Override for Featured Discovery Section */
+/* Pagination — Light Theme Override for Featured Discovery Section */
 .featured-discovery-section .pagination {
   gap: 6px;
 }
 
 .featured-discovery-section .pagination .page-item .page-link {
-  background: rgba(30, 26, 20, 0.7) !important;
-  border: 1px solid rgba(235, 130, 10, 0.15) !important;
-  color: rgba(255, 255, 255, 0.7) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(30, 122, 58, 0.15) !important;
+  color: var(--text-muted) !important;
   border-radius: 8px !important;
   font-weight: 600;
   font-size: 0.9rem;
@@ -271,23 +277,23 @@
 }
 
 .featured-discovery-section .pagination .page-item .page-link:hover {
-  background: rgba(235, 130, 10, 0.15) !important;
-  border-color: rgba(235, 130, 10, 0.4) !important;
-  color: #ffffff !important;
+  background: rgba(30, 122, 58, 0.08) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
   transform: translateY(-2px);
 }
 
 .featured-discovery-section .pagination .page-item.active .page-link {
-  background: #eb820a !important;
-  border-color: #eb820a !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.35);
+  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.25);
 }
 
 .featured-discovery-section .pagination .page-item.disabled .page-link {
-  background: rgba(30, 26, 20, 0.3) !important;
-  border-color: rgba(255, 255, 255, 0.05) !important;
-  color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(30, 122, 58, 0.05) !important;
+  color: rgba(0, 0, 0, 0.2) !important;
   cursor: not-allowed;
 }
 

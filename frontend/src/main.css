@@ -1,81 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 /* ============================================
-   DESIGN TOKENS — CDM Library Admin (Light)
+   DESIGN TOKENS — CDM Library (Colegio de Montalban Light Theme)
    ============================================ */
 :root {
+  /* Fonts */
+  --font-headings: 'Cinzel', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-alt: 'Inter', sans-serif;
+
   /* Layout */
   --topbar-height: 64px;
   --sidebar-width: 240px;
   --sidebar-collapsed-width: 72px;
   --transition-speed: 0.3s;
 
-  /* Colors — Dark Glassmorphic palette */
-  --bg-page: #0d0b09;
-  --bg-sidebar: rgba(22, 18, 14, 0.9);
-  --bg-topbar: rgba(13, 11, 9, 0.85);
-  --bg-hover: rgba(255, 255, 255, 0.06);
-  --bg-active: rgba(235, 130, 10, 0.12);
+  /* Colors — Light Glassmorphic CdM palette */
+  --bg-page: #FAFDFB; /* Clean, light mint-tinted background */
+  --bg-sidebar: rgba(255, 255, 255, 0.95);
+  --bg-topbar: rgba(255, 255, 255, 0.85);
+  --bg-hover: rgba(30, 122, 58, 0.05);
+  --bg-active: rgba(30, 122, 58, 0.08);
 
-  --accent: #eb820a;
-  --accent-hover: #ff9d2b;
-  --accent-glow: rgba(235, 130, 10, 0.3);
+  --accent: #1E7A3A; /* CdM Green */
+  --accent-hover: #165b2a; /* Dark Green hover */
+  --accent-glow: rgba(30, 122, 58, 0.15);
 
-  --text-primary: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.6);
-  --text-accent: #eb820a;
+  --secondary: #F2C230; /* CdM Gold */
+  --secondary-hover: #d1a520;
+  --secondary-glow: rgba(242, 194, 48, 0.2);
 
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-accent: rgba(235, 130, 10, 0.25);
+  --text-primary: #1A2F22; /* Deep dark green-gray for rich contrast */
+  --text-muted: #536C5C; /* Muted forest gray */
+  --text-accent: #1E7A3A; /* CdM Green for emphasized text */
 
-  --shadow-topbar: 0 4px 30px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 15px rgba(235, 130, 10, 0.35);
+  --border-color: rgba(30, 122, 58, 0.12);
+  --border-accent: rgba(30, 122, 58, 0.25);
+
+  --shadow-topbar: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 8px 30px rgba(30, 122, 58, 0.08);
+  --shadow-glow: 0 0 15px rgba(30, 122, 58, 0.15);
 
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
 
-  /* Semantic component tokens — dark defaults */
-  --bg-card: rgba(30, 26, 20, 0.55);
-  --bg-card-solid: rgba(22, 18, 14, 0.95);
-  --bg-card-inner: rgba(30, 26, 20, 0.25);
-  --bg-table-head: rgba(22, 18, 14, 0.8);
-  --bg-input: rgba(255, 255, 255, 0.05);
-  --bg-input-focus: rgba(255, 255, 255, 0.08);
-  --bg-input-btn: rgba(255, 255, 255, 0.08);
-  --bg-shell: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
-  --border-card: rgba(235, 130, 10, 0.15);
-  --border-input: rgba(255, 255, 255, 0.1);
-  --border-row: rgba(255, 255, 255, 0.06);
-  --border-inner: rgba(255, 255, 255, 0.08);
-  --bg-row-hover: rgba(255, 255, 255, 0.04);
-  --input-placeholder: rgba(255, 255, 255, 0.4);
-  --select-bg-option: #16120e;
-  --skeleton-from: #1e1a14;
-  --skeleton-to: #2a2218;
+  /* Semantic component tokens — light/white defaults */
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card-solid: #ffffff;
+  --bg-card-inner: rgba(244, 247, 245, 0.7);
+  --bg-table-head: rgba(30, 122, 58, 0.06);
+  --bg-input: #ffffff;
+  --bg-input-focus: #ffffff;
+  --bg-input-btn: rgba(30, 122, 58, 0.06);
+  --bg-shell: linear-gradient(135deg, #ffffff 0%, #FAFDFB 50%, #EDF3EF 100%);
+  --border-card: rgba(30, 122, 58, 0.15);
+  --border-input: rgba(30, 122, 58, 0.15);
+  --border-row: rgba(30, 122, 58, 0.08);
+  --border-inner: rgba(30, 122, 58, 0.08);
+  --bg-row-hover: rgba(30, 122, 58, 0.03);
+  --input-placeholder: rgba(26, 47, 34, 0.4);
+  --select-bg-option: #ffffff;
+  --skeleton-from: #e9edea;
+  --skeleton-to: #FAFDFB;
 }
 
 /* ============================================
-   LIGHT THEME OVERRIDES
+   LIGHT THEME OVERRIDES (Admin Dashboard fallback)
    ============================================ */
 html[data-theme="light"] {
   --bg-page:         #f0f2f7;
   --bg-sidebar:      rgba(255, 255, 255, 0.95);
   --bg-topbar:       rgba(255, 255, 255, 0.92);
   --bg-hover:        rgba(0, 0, 0, 0.04);
-  --bg-active:       rgba(235, 130, 10, 0.08);
+  --bg-active:       rgba(30, 122, 58, 0.08);
 
   --text-primary:    #0f172a;
   --text-muted:      #64748b;
-  --text-accent:     #c96e00;
+  --text-accent:     #1E7A3A;
 
   --border-color:    rgba(0, 0, 0, 0.08);
-  --border-accent:   rgba(235, 130, 10, 0.35);
+  --border-accent:   rgba(30, 122, 58, 0.35);
 
   --shadow-topbar:   0 1px 16px rgba(0, 0, 0, 0.08);
   --shadow-card:     0 2px 16px rgba(0, 0, 0, 0.07);
-  --shadow-glow:     0 0 10px rgba(235, 130, 10, 0.2);
+  --shadow-glow:     0 0 10px rgba(30, 122, 58, 0.2);
 
   /* Semantic tokens — light overrides */
   --bg-card:         rgba(255, 255, 255, 0.85);
@@ -113,14 +122,20 @@ body {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   background-color: var(--bg-page);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headings);
+  font-weight: 700;
+  color: var(--accent) !important;
+}
+
 h1 {
-  color: var(--text-primary) !important;
+  color: var(--accent) !important;
   margin-top: 2.5rem !important;
   margin-bottom: 1rem;
 }
@@ -167,9 +182,9 @@ p {
 }
 
 .page-link {
-  background: rgba(30, 26, 20, 0.7) !important;
-  border: 1px solid rgba(235, 130, 10, 0.15) !important;
-  color: rgba(255, 255, 255, 0.7) !important;
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-card) !important;
+  color: var(--text-muted) !important;
   border-radius: 8px !important;
   font-weight: 600;
   font-size: 0.9rem;
@@ -179,23 +194,25 @@ p {
 }
 
 .page-link:hover {
-  background: rgba(235, 130, 10, 0.15) !important;
-  border-color: rgba(235, 130, 10, 0.4) !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
   color: #ffffff !important;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.2);
 }
 
 .page-item.active .page-link {
-  background: #eb820a !important;
-  border-color: #eb820a !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.35);
+  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.25);
 }
 
 .page-item.disabled .page-link {
-  background: rgba(30, 26, 20, 0.3) !important;
-  border-color: rgba(255, 255, 255, 0.05) !important;
-  color: rgba(255, 255, 255, 0.2) !important;
+  background: var(--bg-card-inner) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-muted) !important;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
@@ -230,6 +247,7 @@ button {
 
 button:hover {
   background-color: var(--accent-hover) !important;
+  color: #ffffff !important;
 }
 
 /* ============================================
