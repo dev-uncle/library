@@ -2,7 +2,7 @@
 
 // cookie isnt available or doesnt exists
 const cookieNotAvailable = (req, res) => {
-  return res.status(StatusCodes.BAD_REQUEST).json({
+  return res.status(StatusCodes.UNAUTHORIZED).json({
     success: false,
     message: `Access-Cookie doesn't exists ! Login Please`,
   })
@@ -11,7 +11,7 @@ const cookieNotAvailable = (req, res) => {
 // token isnt available or doesnt exists
 const tokenNotAvailable = (req, res) => {
   return res
-    .status(StatusCodes.BAD_REQUEST)
+    .status(StatusCodes.UNAUTHORIZED)
     .json({ success: false, message: `Token doesn't exists` })
 }
 
@@ -24,20 +24,20 @@ const invalidTokenVerification = (req, res) => {
 
 const invalidRefreshTokenVerification = (req, res) => {
   return res
-    .status(StatusCodes.BAD_REQUEST)
+    .status(StatusCodes.UNAUTHORIZED)
     .json({ success: false, message: `Invalid Refresh Token` })
 }
 
 const refreshTokenNotAvailable = (req, res) => {
   return res
-    .status(StatusCodes.BAD_REQUEST)
+    .status(StatusCodes.UNAUTHORIZED)
     .json({ success: false, message: `Refresh Token Not Available` })
 }
 
 // token verfication PROCESS Failed (Catch Error)
 const tokenVerificationError = (req, res) => {
   return res
-    .status(StatusCodes.BAD_REQUEST)
+    .status(StatusCodes.UNAUTHORIZED)
     .json({ success: false, message: `Token Verification Error` })
 }
 

@@ -1,6 +1,7 @@
 // This JS verifies the user token .
 // If token has expired than validates the token and it creates new refresh Token
 const jwt = require('jsonwebtoken')
+const UserModel = require('../models/signUpModel')
 
 const {
   cookieNotAvailable,
@@ -39,6 +40,12 @@ const verifyToken = async (req, res, next) => {
 
               // Verify that the decoded refresh token is valid and matches the user
               if (decodedRefreshToken) {
+                const userExists = await UserModel.findById(id)
+                if (!userExists) {
+                  res.clearCookie('access-cookie')
+                  res.clearCookie('refresh-cookie')
+                  return res.status(401).json({ success: false, message: 'User session not found. Please log in again.' })
+                }
                 // Generate a new access token
                 const newAccessToken = jwt.sign(
                   {
@@ -78,7 +85,14 @@ const verifyToken = async (req, res, next) => {
         }
       }
 
-      // Token is valid, set the user information in the request and proceed
+      // Token is valid, check if user exists in database and proceed
+      const userExists = await UserModel.findById(payload.id)
+      if (!userExists) {
+        res.clearCookie('access-cookie')
+        res.clearCookie('refresh-cookie')
+        return res.status(401).json({ success: false, message: 'User session not found. Please log in again.' })
+      }
+
       req.userId = payload.id
       req.userEmail = payload.email
       req.username = payload.username
