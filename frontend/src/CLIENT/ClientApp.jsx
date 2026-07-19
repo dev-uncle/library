@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 
 import Navbar from './navbar/Navbar'
 import AuthPage from './auth/AuthPage'
@@ -9,7 +9,7 @@ import Books from './books/Books'
 import Footer from './footer/Footer'
 import AboutUsPage from './about/AboutUsPage'
 import PagenotFound from './404-pageNotFound/PagenotFound'
-import { LoginState } from '../LoginState'
+import { LoginState, useLoginState } from '../LoginState'
 import ClientProfile from './clientProfile/ClientProfile'
 import ViewBook from './viewBooks/ViewBook'
 import ForgotPassword from './forgotPassword/ForgotPassword'
@@ -20,6 +20,7 @@ const ClientAppContent = () => {
   const isProfilePage = location.pathname.startsWith('/profile')
   const authRoutes = ['/login', '/signup', '/forgotpassword', '/otp']
   const isAuthPage = authRoutes.includes(location.pathname)
+  const userLoginState = useLoginState()
 
   return (
     <div className='d-flex flex-column min-vh-100'>
@@ -27,16 +28,36 @@ const ClientAppContent = () => {
       <div className='flex-grow-1'>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<AuthPage />} />
-          <Route path='/signup' element={<AuthPage />} />
-          <Route path='/forgotpassword' element={<ForgotPassword />} />
+          
+          {/* Auth Routes: Redirect to Home if already authenticated */}
+          <Route 
+            path='/login' 
+            element={userLoginState.userLogState ? <Navigate to='/' replace /> : <AuthPage />} 
+          />
+          <Route 
+            path='/signup' 
+            element={userLoginState.userLogState ? <Navigate to='/' replace /> : <AuthPage />} 
+          />
+          <Route 
+            path='/forgotpassword' 
+            element={userLoginState.userLogState ? <Navigate to='/' replace /> : <ForgotPassword />} 
+          />
+          <Route 
+            path='/otp' 
+            element={userLoginState.userLogState ? <Navigate to='/' replace /> : <OtpForm />} 
+          />
+
           <Route path='/menu' element={<FeaturedBooks />} />
           <Route path='/books' element={<Books />} />
           <Route path='/books/:id' element={<ViewBook />} />
-          <Route path='/profile/*' element={<ClientProfile />} />
+          
+          {/* Private Routes: Redirect to Login if not authenticated */}
+          <Route 
+            path='/profile/*' 
+            element={userLoginState.userLogState ? <ClientProfile /> : <Navigate to='/login' replace />} 
+          />
+          
           <Route path='/about' element={<AboutUsPage />} />
-          <Route path='/otp' element={<OtpForm />} />
-
           <Route path='*' element={<PagenotFound />} />
         </Routes>
       </div>

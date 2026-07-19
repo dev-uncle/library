@@ -9,10 +9,8 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive, fetch
   const empty_field = { title: '', category: '', featured: '', available: '' }
   const [filterFields, setFilterFields] = useState(empty_field)
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault()
-    if (JSON.stringify(filterFields) === JSON.stringify(empty_field)) return
-    const { title, category, featured, available } = filterFields
+  const applyFilter = async (fields) => {
+    const { title, category, featured, available } = fields
     try {
       const response = await axios.get(API_URL, {
         params: { title, category, featured, available },
@@ -24,15 +22,25 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive, fetch
     }
   }
 
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    applyFilter(filterFields)
+  }
+
   const handleOnChange = (e) => {
     const { name, value } = e.target
     setFilterFields({ ...filterFields, [name]: value })
   }
 
+  const handleSelectChange = (name, value) => {
+    const updated = { ...filterFields, [name]: value }
+    setFilterFields(updated)
+    applyFilter(updated)
+  }
+
   const handleClearFilters = () => {
     setFilterFields(empty_field)
     setFilterActive && setFilterActive(false)
-    // Re-fetch default list of books
     if (fetchData) {
       fetchData(1)
     }
@@ -59,7 +67,7 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive, fetch
         id='categorySelect'
         className='mb-select'
         value={filterFields.category}
-        onChange={(e) => setFilterFields({ ...filterFields, category: e.target.value })}
+        onChange={(e) => handleSelectChange('category', e.target.value)}
       >
         <option value=''>All Categories</option>
         {bookCategories.map((cat) => (
@@ -72,7 +80,7 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive, fetch
         id='featuredSelect'
         className='mb-select'
         value={filterFields.featured}
-        onChange={(e) => setFilterFields({ ...filterFields, featured: e.target.value })}
+        onChange={(e) => handleSelectChange('featured', e.target.value)}
       >
         <option value=''>Featured</option>
         <option value='true'>Yes</option>
@@ -84,7 +92,7 @@ const ManageSearchBooks = ({ setAllBooks, bookCategories, setFilterActive, fetch
         id='availableSelect'
         className='mb-select'
         value={filterFields.available}
-        onChange={(e) => setFilterFields({ ...filterFields, available: e.target.value })}
+        onChange={(e) => handleSelectChange('available', e.target.value)}
       >
         <option value=''>Available</option>
         <option value='true'>Yes</option>

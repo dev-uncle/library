@@ -84,6 +84,7 @@ const ManageBooks = () => {
               <thead>
                 <tr>
                   <th>#</th>
+                  <th>Cover</th>
                   <th>Title</th>
                   <th>Category</th>
                   <th>Stock</th>
@@ -94,12 +95,26 @@ const ManageBooks = () => {
               </thead>
               <tbody>
                 {allBooks.map((book, index) => {
-                  const { _id, title, category, featured, available, quantity, bookFile } = book
+                  const { _id, title, image, category, featured, available, quantity, bookFile } = book
                   return (
                     <tr key={_id}>
                       <td className='mb-td-num'>{index + 1}</td>
+                      <td className='mb-td-cover'>
+                        <div className='mb-book-cover'>
+                          {image ? (
+                            <img 
+                              src={`${backend_server}/${image}`} 
+                              alt={title} 
+                              onError={(e) => {
+                                e.target.onerror = null
+                                e.target.style.display = 'none'
+                              }}
+                            />
+                          ) : null}
+                          <HiOutlineBookOpen size={16} className='mb-cover-fallback' />
+                        </div>
+                      </td>
                       <td className='mb-td-title'>
-                        <span className='mb-book-icon'><HiOutlineBookOpen size={15} /></span>
                         {title}
                       </td>
                       <td>
