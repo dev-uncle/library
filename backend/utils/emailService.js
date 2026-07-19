@@ -1,21 +1,38 @@
 const nodemailer = require('nodemailer');
 const dns = require('dns');
-const https = require('https');
 
-// Initialize transporter (for Gmail SMTP fallback)
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true, // Use SSL/TLS
-  lookup: (hostname, options, callback) => {
-    // Force resolving to IPv4 to prevent IPv6 ENETUNREACH errors on Render/Railway
-    return dns.lookup(hostname, { family: 4 }, callback);
-  },
-  auth: {
-    user: process.env.EMAIL_USERNAME,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
+// Initialize transporter. Uses Gmail API via OAuth2 if credentials are provided (recommended for production)
+// or falls back to standard Gmail SMTP (recommended for local development)
+let transportConfig;
+
+if (process.env.GMAIL_REFRESH_TOKEN) {
+  transportConfig = {
+    service: 'gmail',
+    auth: {
+      type: 'OAuth2',
+      user: process.env.EMAIL_USERNAME,
+      clientId: process.env.GMAIL_CLIENT_ID,
+      clientSecret: process.env.GMAIL_CLIENT_SECRET,
+      refreshToken: process.env.GMAIL_REFRESH_TOKEN,
+    },
+  };
+} else {
+  transportConfig = {
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // Use SSL/TLS
+    lookup: (hostname, options, callback) => {
+      // Force resolving to IPv4 to prevent IPv6 ENETUNREACH errors on Render/Railway
+      return dns.lookup(hostname, { family: 4 }, callback);
+    },
+    auth: {
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  };
+}
+
+const transporter = nodemailer.createTransport(transportConfig);
 
 // A helper function to compile email wrap styling for premium aesthetics
 const getEmailWrapper = (title, contentHTML) => `
@@ -125,52 +142,7 @@ const getEmailWrapper = (title, contentHTML) => `
 </html>
 `;
 
-// Helper to send transactional emails via Brevo HTTP API
-const sendEmailViaBrevo = (to, subject, htmlContent) => {
-  return new Promise((resolve) => {
-    const data = JSON.stringify({
-      sender: { name: "Library System", email: process.env.EMAIL_USERNAME || "noreply@library.com" },
-      to: [{ email: to }],
-      subject: subject,
-      htmlContent: htmlContent
-    });
 
-    const options = {
-      hostname: 'api.brevo.com',
-      port: 443,
-      path: '/v3/smtp/email',
-      method: 'POST',
-      headers: {
-        'api-key': process.env.BREVO_API_KEY,
-        'content-type': 'application/json',
-        'accept': 'application/json',
-        'content-length': Buffer.byteLength(data)
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      let body = '';
-      res.on('data', (chunk) => body += chunk);
-      res.on('end', () => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          console.log(`[EmailService] Email sent via Brevo HTTP API to ${to}.`);
-          resolve(true);
-        } else {
-          console.error(`[EmailService] Brevo API error (Status ${res.statusCode}): ${body}`);
-          resolve(false);
-        }
-      });
-    });
-
-    req.on('error', (error) => {
-      console.error(`[EmailService] Brevo connection error:`, error.message);
-      resolve(false);
-    });
-
-    req.write(data);
-    req.end();
-  });
-};
 
 // 1. Send OTP Verification Email (Signup)
 const sendOtpEmail = async (to, otp) => {
@@ -184,10 +156,7 @@ const sendOtpEmail = async (to, otp) => {
   const subject = 'Verify Your Email - Library Management System';
   const fullHtml = getEmailWrapper('Email Verification', htmlContent);
 
-  if (process.env.BREVO_API_KEY) {
-    const success = await sendEmailViaBrevo(to, subject, fullHtml);
-    if (success) return;
-  }
+
 
   // Fallback to Gmail SMTP
   try {
@@ -222,10 +191,7 @@ const sendWelcomeEmail = async (to, username) => {
   const subject = 'Welcome to the Library Management System!';
   const fullHtml = getEmailWrapper('Account Created Successfully', htmlContent);
 
-  if (process.env.BREVO_API_KEY) {
-    const success = await sendEmailViaBrevo(to, subject, fullHtml);
-    if (success) return;
-  }
+
 
   // Fallback to Gmail SMTP
   try {
@@ -254,10 +220,7 @@ const sendPasswordResetOtpEmail = async (to, otp) => {
   const subject = 'Reset Your Password - Library Management System';
   const fullHtml = getEmailWrapper('Password Reset Request', htmlContent);
 
-  if (process.env.BREVO_API_KEY) {
-    const success = await sendEmailViaBrevo(to, subject, fullHtml);
-    if (success) return;
-  }
+
 
   // Fallback to Gmail SMTP
   try {
@@ -286,10 +249,7 @@ const sendPasswordResetSuccessEmail = async (to, username) => {
   const subject = 'Password Changed Successfully - Library Management System';
   const fullHtml = getEmailWrapper('Password Security Alert', htmlContent);
 
-  if (process.env.BREVO_API_KEY) {
-    const success = await sendEmailViaBrevo(to, subject, fullHtml);
-    if (success) return;
-  }
+
 
   // Fallback to Gmail SMTP
   try {
@@ -320,10 +280,7 @@ const sendBookRequestedEmail = async (to, username, bookTitle) => {
   const subject = 'Book Request Received - Library Management System';
   const fullHtml = getEmailWrapper('Book Request Confirmed', htmlContent);
 
-  if (process.env.BREVO_API_KEY) {
-    const success = await sendEmailViaBrevo(to, subject, fullHtml);
-    if (success) return;
-  }
+
 
   // Fallback to Gmail SMTP
   try {
@@ -354,10 +311,7 @@ const sendBookReadyForPickupEmail = async (to, username, bookTitle) => {
   const subject = 'Book Ready for Pickup! - Library Management System';
   const fullHtml = getEmailWrapper('Ready for Pickup', htmlContent);
 
-  if (process.env.BREVO_API_KEY) {
-    const success = await sendEmailViaBrevo(to, subject, fullHtml);
-    if (success) return;
-  }
+
 
   // Fallback to Gmail SMTP
   try {
