@@ -1,23 +1,23 @@
 /* MODERN FOOTER STYLING */
 
 footer {
-  background-color: #120f0c !important; /* Solid dark coffee color for universal contrast */
-  color: rgba(255, 255, 255, 0.75);
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
-    'Lucida Sans', Arial, sans-serif;
-  border-top: 1px solid rgba(235, 130, 10, 0.2); /* Subtle warm amber divider */
-  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.4);
+  background-color: #ffffff !important; /* Pure white background */
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  border-top: 1px solid rgba(30, 122, 58, 0.15); /* Subtle green divider */
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
   padding: 2.5rem 0 1.5rem 0;
   width: 100%;
 }
 
 /* Footer Headers */
 footer h5 {
+  font-family: var(--font-headings);
   font-size: 1.15rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #eb820a !important; /* Warm amber accents */
+  color: var(--accent) !important; /* CdM Green accents */
   margin-bottom: 1.2rem;
   text-shadow: none !important;
 }
@@ -30,13 +30,13 @@ footer h5 {
 
 .list-unstyled a {
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
   transition: all 0.3s ease;
-  text-shadow: none !important; /* Removed outdated white blur glow */
+  text-shadow: none !important;
 }
 
 .list-unstyled a:hover {
-  color: #eb820a !important; /* Transition to warm amber on hover */
+  color: var(--accent) !important; /* Transition to CdM Green on hover */
   padding-left: 4px; /* Subtle interactive slide effect */
 }
 

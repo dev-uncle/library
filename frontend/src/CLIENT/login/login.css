@@ -1,195 +1,381 @@
-.login-page-wrapper {
-  min-height: 100vh;
-  background: linear-gradient(to bottom, rgba(13, 11, 9, 0.7) 0%, rgba(6, 5, 4, 0.9) 100%),
-              url("/BannerOne.jpg") no-repeat center center/cover;
+/* ============================================
+   SPLIT-SCREEN 50/50 LOGIN PAGE — Colegio de Montalban
+   ============================================ */
+
+.login-split-wrapper {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-shell);
+}
+
+/* ── LEFT PANEL: Hero Image & Branding ─────────────────── */
+.login-left-panel {
+  flex: 1;
+  width: 50%;
+  height: 100vh;
+  position: relative;
+  background-image: url('/cdm1.jpg');
+  background-size: cover;
+  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: 2.5rem 2.5rem;
+  overflow: hidden;
 }
 
-.login-maindiv {
-  width: 100%;
-  max-width: 28rem;
-  background: rgba(30, 26, 20, 0.55);
+/* Dark Green Depth Overlay for image readability */
+.login-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(6, 14, 10, 0.75) 0%,
+    rgba(11, 34, 20, 0.88) 60%,
+    rgba(30, 122, 58, 0.9) 100%
+  );
+  z-index: 1;
+}
+
+.login-left-content {
+  position: relative;
+  z-index: 5;
+  color: #ffffff;
+  max-width: 540px;
+}
+
+/* Left Panel Badge */
+.login-left-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(242, 194, 48, 0.15);
+  border: 1px solid rgba(242, 194, 48, 0.3);
+  color: var(--secondary) !important; /* CdM Gold */
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-family: var(--font-headings);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.login-left-heading {
+  font-family: var(--font-headings);
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #ffffff !important;
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.login-left-subtext {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+/* Left Feature Highlight Card */
+.login-left-feature-card {
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 16px;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-  font-family: 'Inter', sans-serif;
-  color: #ffffff;
-  transition: all 0.3s ease;
+  padding: 1.1rem 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Upper Div (Login text) ko CSS */
-.login-upperdiv h1 {
-  text-align: center;
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #ffffff !important;
-  margin-top: 0 !important;
-  margin-bottom: 1.5rem !important;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-  position: relative;
-}
-
-.login-upperdiv h1::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 3px;
-  background: #eb820a;
-  border-radius: 2px;
-  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
-}
-
-/* Middle Div CSS */
-.login-middlediv {
-  margin-top: 2rem;
-}
-
-/* Input Fields CSS (Username,Password) */
-.login-middlediv input {
-  display: block;
-  width: 100%;
-  padding: 12px 16px;
-  margin-bottom: 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  font-size: 1rem;
-  color: #ffffff;
-  transition: all 0.3s ease;
-}
-
-.login-middlediv input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.login-middlediv input:focus {
-  border-color: #eb820a;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 10px rgba(235, 130, 10, 0.25);
-  outline: none;
-}
-
-/* Password eye container style */
-.password-field {
-  position: relative;
-  width: 100%;
-}
-
-.password-field input {
-  padding-right: 45px;
-  margin-bottom: 0;
-}
-
-.password-field span {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: rgba(255, 255, 255, 0.6);
+.login-left-feature-card .feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--secondary);
+  color: #060e0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1.2rem;
-  transition: color 0.3s ease;
-  z-index: 10;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(242, 194, 48, 0.4);
+}
+
+.feature-title {
+  font-family: var(--font-headings);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff !important;
+  margin: 0 0 0.15rem 0;
+}
+
+.feature-desc {
+  font-size: 0.825rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* ── RIGHT PANEL: Login Form ───────────────────────────── */
+.login-right-panel {
+  flex: 1;
+  width: 50%;
+  height: 100vh;
+  position: relative;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 2rem;
+  overflow: hidden;
+}
+
+/* Dynamic Grid Pattern Overlay */
+.login-right-panel .login-grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(30, 122, 58, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 122, 58, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.login-ambient-glow {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  top: -80px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(30, 122, 58, 0.08) 0%, transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.login-form-container {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Header */
+.login-header {
+  margin-bottom: 1.5rem;
+}
+
+.login-kicker {
+  font-family: var(--font-headings);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--secondary) !important;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.login-title {
+  font-family: var(--font-headings);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent) !important;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.5px;
+}
+
+.login-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Form Inputs & Labels */
+.login-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary) !important;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.input-with-icon {
+  position: relative;
   display: flex;
   align-items: center;
 }
 
-.password-field span:hover {
-  color: #eb820a;
+.input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  pointer-events: none;
+  transition: color 0.2s ease;
+  z-index: 5;
 }
 
-/* Login Button CSS */
-.login-middlediv button[type='submit'] {
+.login-input {
   width: 100%;
-  padding: 12px;
-  margin-top: 1.5rem;
-  background-color: #eb820a !important;
-  color: #ffffff !important;
-  border: none;
-  border-radius: 8px;
+  height: 46px;
+  padding: 0 14px 0 42px;
+  background: #FAFDFB !important;
+  border: 1px solid rgba(30, 122, 58, 0.2) !important;
+  border-radius: 10px !important;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  color: var(--text-primary) !important;
+  outline: none !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.login-input::placeholder {
+  color: var(--input-placeholder) !important;
+}
+
+.login-input:focus {
+  border-color: var(--accent) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3.5px rgba(30, 122, 58, 0.12) !important;
+}
+
+.input-with-icon:focus-within .input-icon {
+  color: var(--accent);
+}
+
+/* Password Toggle Icon */
+.password-field .login-input {
+  padding-right: 44px;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent !important;
+  border: none !important;
+  color: var(--text-muted) !important;
   font-size: 1.1rem;
-  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.3);
-  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  z-index: 5;
+}
+
+.password-toggle-btn:hover {
+  color: var(--accent) !important;
+  background: rgba(30, 122, 58, 0.05) !important;
+}
+
+/* Links */
+.login-forgot-link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent) !important;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-forgot-link:hover {
+  color: var(--accent-hover) !important;
+  text-decoration: underline;
+}
+
+/* Primary Submit Button */
+.login-submit-btn {
+  width: 100%;
+  height: 46px;
+  margin-top: 0.25rem;
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-family: var(--font-body);
   letter-spacing: 0.5px;
-  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.22);
 }
 
-/* Login Button HOVER Effect */
-.login-middlediv button[type='submit']:hover {
-  background-color: #ff9d2b !important;
+.login-submit-btn:hover {
+  background: var(--accent-hover) !important;
+  color: #ffffff !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(235, 130, 10, 0.5);
+  box-shadow: 0 8px 24px rgba(30, 122, 58, 0.35);
 }
 
-.login-middlediv button[type='submit']:active {
+.login-submit-btn:active {
   transform: translateY(0);
 }
 
-/* Lower Div ko CSS (Forgot password && signup button) */
-.login-lowerdiv {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 1.5rem;
+/* Footer / Signup Prompt */
+.login-footer {
+  border-top: 1px solid rgba(30, 122, 58, 0.12);
 }
 
-/* ForgotPassword ? CSS */
-.login-lowerdiv a {
+.login-footer-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.login-signup-link {
+  font-weight: 700;
+  color: var(--accent) !important;
   text-decoration: none;
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.6) !important;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
-.login-lowerdiv a:hover {
-  color: #eb820a !important;
+.login-signup-link:hover {
+  color: var(--accent-hover) !important;
+  text-decoration: underline;
 }
 
-.login-lowerdiv #signupbtn-link {
-  border: none;
-}
-
-/* Signup Button CSS */
-.login-lowerdiv button {
-  padding: 8px 18px;
-  background-color: transparent !important;
-  color: rgba(255, 255, 255, 0.8) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.login-lowerdiv button:hover {
-  background-color: rgba(235, 130, 10, 0.1) !important;
-  border-color: #eb820a !important;
-  color: #ffffff !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 480px) {
-  .login-maindiv {
-    padding: 2rem 1.5rem;
-    margin: 2rem 1rem;
+/* ── Responsive Behavior ───────────────────────────────── */
+@media (max-width: 991px) {
+  .login-split-wrapper {
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column;
+    overflow-y: auto;
   }
-  .login-upperdiv h1 {
+
+  .login-left-panel {
+    width: 100%;
+    height: auto;
+    min-height: 260px;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .login-left-heading {
     font-size: 1.8rem;
+  }
+
+  .login-left-feature-card {
+    display: none;
+  }
+
+  .login-right-panel {
+    width: 100%;
+    height: auto;
+    padding: 2.5rem 1.5rem;
+    overflow-y: visible;
   }
 }

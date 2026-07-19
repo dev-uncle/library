@@ -30,15 +30,15 @@ const RecommendationsChart = ({ data }) => {
   if (activeTab === 'viewed') {
     currentData = data.mostViewed || []
     metricName = 'views'
-    tabColor = '#3b82f6' // Blue
+    tabColor = '#1E7A3A' // CdM Green
   } else if (activeTab === 'requested') {
     currentData = data.mostRequested || []
     metricName = 'requests'
-    tabColor = '#10b881' // Emerald
+    tabColor = '#1E7A3A' // CdM Green
   } else if (activeTab === 'searched') {
     currentData = data.mostSearched || []
     metricName = 'searches'
-    tabColor = '#8b5cf6' // Violet
+    tabColor = '#1E7A3A' // CdM Green
   }
 
   // Format data for chart

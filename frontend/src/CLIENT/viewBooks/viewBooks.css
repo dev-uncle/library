@@ -1,30 +1,30 @@
 /* ============================================
-   VIEW BOOK DETAILS - PREMIUM DARK UI
+   VIEW BOOK DETAILS - PREMIUM LIGHT UI
    ============================================ */
 
 .view-book-wrapper {
-  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
+  background: var(--bg-shell);
   min-height: 100vh;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Glassmorphic Card */
 .glass-detail-card {
-  background: rgba(30, 26, 20, 0.4);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(235, 130, 10, 0.15);
+  border: 1px solid rgba(30, 122, 58, 0.15);
   border-radius: 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 16px 40px rgba(30, 122, 58, 0.05);
   overflow: hidden;
   transition: all 0.3s ease;
 }
 
 /* Back Button */
 .back-ghost-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--accent) !important;
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
@@ -32,15 +32,14 @@
   align-items: center;
   padding: 10px 20px;
   transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
 }
 
 .back-ghost-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--accent-hover) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-hover) !important;
   transform: translateX(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(30, 122, 58, 0.25);
 }
 
 /* Book Cover Styling */
@@ -49,8 +48,8 @@
   max-width: 300px;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 30px rgba(30, 122, 58, 0.08);
+  border: 1px solid rgba(30, 122, 58, 0.15);
 }
 
 .book-cover-img {
@@ -66,9 +65,10 @@
 
 /* Typography */
 .book-detail-title {
+  font-family: var(--font-headings);
   font-size: 2.5rem;
   font-weight: 800;
-  color: #ffffff !important;
+  color: var(--accent) !important;
   margin-bottom: 0.5rem;
   line-height: 1.2;
 }
@@ -76,7 +76,7 @@
 .book-detail-author {
   font-size: 1.2rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -98,33 +98,34 @@
 }
 
 .category-badge {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(30, 122, 58, 0.06);
+  color: var(--accent);
+  border: 1px solid rgba(30, 122, 58, 0.15);
 }
 
 .language-badge {
-  background: rgba(66, 153, 225, 0.1);
-  color: #63b3ed;
-  border: 1px solid rgba(66, 153, 225, 0.2);
+  background: rgba(242, 194, 48, 0.1);
+  color: #d1a520;
+  border: 1px solid rgba(242, 194, 48, 0.25);
 }
 
 .status-badge.in-stock {
-  background: rgba(72, 187, 120, 0.1);
-  color: #68d391;
-  border: 1px solid rgba(72, 187, 120, 0.2);
+  background: rgba(30, 122, 58, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(30, 122, 58, 0.18);
 }
 
 .status-badge.out-of-stock {
-  background: rgba(245, 101, 101, 0.1);
-  color: #fc8181;
-  border: 1px solid rgba(245, 101, 101, 0.2);
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.18);
 }
 
 /* Synopsis */
 .synopsis-title {
+  font-family: var(--font-headings);
   font-size: 1.2rem;
-  color: #ffffff !important;
+  color: var(--accent) !important;
   font-weight: 700;
   margin-bottom: 1rem;
   text-transform: uppercase;
@@ -134,13 +135,13 @@
 .synopsis-text {
   font-size: 1.05rem;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--text-muted);
 }
 
 /* Primary Action Button */
 .request-action-btn {
-  background: linear-gradient(135deg, #eb820a 0%, #ff9d2b 100%);
-  color: #ffffff;
+  background: var(--accent) !important;
+  color: #ffffff !important;
   border: none;
   border-radius: 10px;
   padding: 14px 32px;
@@ -148,19 +149,21 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(235, 130, 10, 0.4);
+  box-shadow: 0 4px 15px rgba(30, 122, 58, 0.2);
   width: 100%;
   max-width: 300px;
 }
 
 .request-action-btn:hover:not(.disabled) {
+  background: var(--accent-hover) !important;
+  color: #ffffff !important;
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(235, 130, 10, 0.6);
+  box-shadow: 0 8px 25px rgba(30, 122, 58, 0.25);
 }
 
 .request-action-btn.disabled {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.4);
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: rgba(0, 0, 0, 0.3) !important;
   box-shadow: none;
   cursor: not-allowed;
 }

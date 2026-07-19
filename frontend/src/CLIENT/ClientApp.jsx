@@ -2,8 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 
 import Navbar from './navbar/Navbar'
-import Login from './login/Login'
-import Signup from './signup/Signup'
+import AuthPage from './auth/AuthPage'
 import Home from './home/Home'
 import FeaturedBooks from './featuredBooks/FeaturedBooks'
 import Books from './books/Books'
@@ -19,6 +18,8 @@ import OtpForm from './otpForm/OtpForm'
 const ClientAppContent = () => {
   const location = useLocation()
   const isProfilePage = location.pathname.startsWith('/profile')
+  const authRoutes = ['/login', '/signup', '/forgotpassword', '/otp']
+  const isAuthPage = authRoutes.includes(location.pathname)
 
   return (
     <div className='d-flex flex-column min-vh-100'>
@@ -26,8 +27,8 @@ const ClientAppContent = () => {
       <div className='flex-grow-1'>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<AuthPage />} />
+          <Route path='/signup' element={<AuthPage />} />
           <Route path='/forgotpassword' element={<ForgotPassword />} />
           <Route path='/menu' element={<FeaturedBooks />} />
           <Route path='/books' element={<Books />} />
@@ -39,7 +40,7 @@ const ClientAppContent = () => {
           <Route path='*' element={<PagenotFound />} />
         </Routes>
       </div>
-      {!isProfilePage && <Footer />}
+      {!isProfilePage && !isAuthPage && <Footer />}
     </div>
   )
 }

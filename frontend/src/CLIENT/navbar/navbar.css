@@ -3,11 +3,11 @@
    ============================================ */
 
 .modern-glass-navbar {
-  background: rgba(13, 11, 9, 0.85); /* Deep dark tint */
+  background: rgba(255, 255, 255, 0.85); /* Transparent light tint */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(30, 122, 58, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   z-index: 1030;
 }
@@ -23,23 +23,21 @@
 }
 
 .navbar-logo-img {
-  filter: drop-shadow(0 0 4px rgba(235, 130, 10, 0.4));
+  filter: drop-shadow(0 0 4px rgba(30, 122, 58, 0.2));
 }
 
 .navbar-title-text {
+  font-family: var(--font-headings);
   font-size: 1.4rem;
   font-weight: 800;
-  color: #ffffff;
+  color: var(--accent) !important; /* Colegio de Montalban Green */
   letter-spacing: 1px;
-  background: linear-gradient(135deg, #ffffff 0%, #eb820a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba(235, 130, 10, 0.2);
+  text-shadow: 0 2px 10px rgba(30, 122, 58, 0.1);
 }
 
 /* Modern Navigation Links */
 .modern-nav-link {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: var(--text-muted) !important;
   font-weight: 500;
   font-size: 0.95rem;
   padding: 0.5rem 1rem !important;
@@ -49,7 +47,7 @@
 }
 
 .modern-nav-link:hover {
-  color: #ffffff !important;
+  color: var(--accent) !important;
 }
 
 /* Elegant Underline Animation instead of bulky box */
@@ -60,11 +58,11 @@
   height: 2px;
   bottom: 0;
   left: 50%;
-  background-color: #eb820a;
+  background-color: var(--secondary);
   transition: all 0.3s ease;
   transform: translateX(-50%);
   border-radius: 2px;
-  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+  box-shadow: 0 0 8px rgba(242, 194, 48, 0.5);
 }
 
 .modern-nav-link:hover::after,
@@ -73,29 +71,29 @@
 }
 
 .modern-nav-link.active {
-  color: #ffffff !important;
+  color: var(--accent) !important;
   font-weight: 700;
 }
 
 /* Toggler / Hamburger Button */
 #navbar-mobileview-btn {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(30, 122, 58, 0.15);
   border-radius: 8px;
   padding: 0.4rem 0.6rem;
 }
 
 #navbar-mobileview-btn:focus {
-  box-shadow: 0 0 0 0.25rem rgba(235, 130, 10, 0.25);
+  box-shadow: 0 0 0 0.25rem rgba(30, 122, 58, 0.2);
 }
 
 /* Responsive Overrides */
 @media screen and (max-width: 1199px) {
   .navbar-collapse {
-    background: rgba(13, 11, 9, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     border-radius: 12px;
     padding: 1rem;
     margin-top: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(30, 122, 58, 0.1);
   }
 
   .modern-nav-link {

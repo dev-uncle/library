@@ -1,77 +1,37 @@
 /* ============================================
-   SMALL BANNER — Dark Parallax Quote Section
+   SMALL BANNER — Light Parallax Slideshow Section
    ============================================ */
 
 .div-with-background {
-  height: 400px;
+  height: 520px;
   overflow: hidden;
-  background-image: linear-gradient(
-      rgba(6, 5, 4, 0.55),
-      rgba(13, 11, 9, 0.75)
-    ),
-    url('/intothewildBanner.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: bottom;
-  background-attachment: fixed;
   border: none !important;
-  border-top: 1px solid rgba(235, 130, 10, 0.1) !important;
-  border-bottom: 1px solid rgba(235, 130, 10, 0.1) !important;
+  border-top: 1px solid rgba(30, 122, 58, 0.15) !important;
+  border-bottom: 1px solid rgba(30, 122, 58, 0.15) !important;
   display: flex;
   align-items: center;
   position: relative;
 }
 
-/* Subtle amber glow overlay */
-.div-with-background::after {
-  content: '';
+.small-banner-slide {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(235, 130, 10, 0.06) 0%,
-    transparent 70%
-  );
-  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  background-attachment: fixed;
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  z-index: 1;
 }
 
-.quote-container {
-  text-align: right;
-  width: auto;
-  color: white;
-  position: relative;
-  z-index: 2;
-}
-
-.quote-container h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  font-style: italic;
-  color: #ffffff !important;
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-  line-height: 1.4;
-}
-
-.quote-container p {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #eb820a !important;
-  margin-top: 1rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.5px;
+.small-banner-slide.active {
+  opacity: 1;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .div-with-background {
-    height: 280px;
-  }
-
-  .quote-container h1 {
-    font-size: 1.3rem;
-  }
-
-  .quote-container p {
-    font-size: 0.85rem;
+    height: 320px;
   }
 }

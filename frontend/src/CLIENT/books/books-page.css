@@ -1,27 +1,28 @@
 /* ============================================
-   BOOKS PAGE — Dark Theme Wrapper & Components
+   BOOKS PAGE — Light Theme Wrapper & Components
    ============================================ */
 
 /* Page Wrapper — matches home-main-div gradient */
 .books-page-wrapper {
-  background: linear-gradient(135deg, #16120e 0%, #0d0b09 50%, #060504 100%);
+  background: var(--bg-shell);
   min-height: 100vh;
-  color: #ffffff;
+  color: var(--text-primary);
   padding-bottom: 5rem;
 }
 
 /* Section Headers — reuses home-section-header design */
 .books-page-wrapper .books-section-header {
+  font-family: var(--font-headings);
   font-size: 2.2rem;
   font-weight: 800;
-  color: #ffffff !important;
+  color: var(--accent) !important;
   text-align: center;
   position: relative;
   margin-top: 4rem !important;
   margin-bottom: 2.5rem !important;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: 0 2px 4px rgba(30, 122, 58, 0.08) !important;
 }
 
 .books-page-wrapper .books-section-header::after {
@@ -32,25 +33,24 @@
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: #eb820a;
+  background: var(--accent);
   border-radius: 2px;
-  box-shadow: 0 0 8px rgba(235, 130, 10, 0.6);
+  box-shadow: 0 0 8px rgba(30, 122, 58, 0.3);
 }
 
 /* ============================================
-   BRAND NEW POPULAR BOOKS HEADING
+   POPULAR BOOKS HEADING
    ============================================ */
 .modern-popular-heading {
+  font-family: var(--font-headings);
   font-size: 2.2rem;
   font-weight: 800;
-  color: #ffffff !important;
+  color: var(--accent) !important;
   text-align: center;
   padding-top: 4rem;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
-  
-
+  text-shadow: 0 2px 4px rgba(30, 122, 58, 0.08) !important;
 }
 
 @keyframes pulse-star {
@@ -61,22 +61,22 @@
 /* Section Subtitle */
 .books-page-wrapper .books-section-subtitle {
   text-align: center;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
   font-size: 1rem;
   font-weight: 400;
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
 
-/* Pagination — Dark Theme Override */
+/* Pagination — Light Theme Override */
 .books-page-wrapper .pagination {
   gap: 6px;
 }
 
 .books-page-wrapper .pagination .page-item .page-link {
-  background: rgba(30, 26, 20, 0.7) !important;
-  border: 1px solid rgba(235, 130, 10, 0.15) !important;
-  color: rgba(255, 255, 255, 0.7) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(30, 122, 58, 0.15) !important;
+  color: var(--text-muted) !important;
   border-radius: 8px !important;
   font-weight: 600;
   font-size: 0.9rem;
@@ -86,29 +86,29 @@
 }
 
 .books-page-wrapper .pagination .page-item .page-link:hover {
-  background: rgba(235, 130, 10, 0.15) !important;
-  border-color: rgba(235, 130, 10, 0.4) !important;
-  color: #ffffff !important;
+  background: rgba(30, 122, 58, 0.08) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
   transform: translateY(-2px);
 }
 
 .books-page-wrapper .pagination .page-item.active .page-link {
-  background: #eb820a !important;
-  border-color: #eb820a !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.35);
+  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.25);
 }
 
 .books-page-wrapper .pagination .page-item.disabled .page-link {
-  background: rgba(30, 26, 20, 0.3) !important;
-  border-color: rgba(255, 255, 255, 0.05) !important;
-  color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(30, 122, 58, 0.05) !important;
+  color: rgba(0, 0, 0, 0.2) !important;
   cursor: not-allowed;
 }
 
 /* Loading / Empty State */
 .books-page-wrapper .books-loading-text {
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-muted);
   font-size: 1.1rem;
   padding: 3rem 0;
 }
@@ -120,7 +120,7 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(235, 130, 10, 0.2) 50%,
+    rgba(30, 122, 58, 0.2) 50%,
     transparent 100%
   );
   margin: 2rem 0;

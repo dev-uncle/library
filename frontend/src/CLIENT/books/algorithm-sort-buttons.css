@@ -18,10 +18,10 @@
   gap: 8px;
   padding: 10px 14px;
   border-radius: 10px;
-  border: 1px solid #eb820a;
+  border: 1px solid var(--accent);
   background: transparent !important;
   background-color: transparent !important;
-  color: #eb820a;
+  color: var(--accent);
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
@@ -30,22 +30,33 @@
   letter-spacing: 0.3px;
 }
 
-.algo-sort-btn:hover {
-  border-color: rgba(235, 130, 10, 0.4);
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* Active state — solid amber bg, white text */
-.algo-sort-btn.active {
-  background: #eb820a !important;
-  border-color: #eb820a !important;
+/* Hover inactive button — fills background green with white text */
+.algo-sort-btn:hover:not(.active) {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(235, 130, 10, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(30, 122, 58, 0.25);
 }
 
+/* Active state — solid green bg, white text */
+.algo-sort-btn.active {
+  background: var(--accent) !important;
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.2);
+}
+
+/* Hover active button — dark green bg, white text */
 .algo-sort-btn.active:hover {
-  background: #ff9d2b !important;
-  border-color: #ff9d2b !important;
+  background: var(--accent-hover) !important;
+  background-color: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(30, 122, 58, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Icon inside button */
