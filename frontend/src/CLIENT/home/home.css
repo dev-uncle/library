@@ -37,10 +37,10 @@
 
 /* Glassmorphic Call to Action (CTA) block for unauthorized users */
 .login-cta-container {
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--bg-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(30, 122, 58, 0.2);
+  border: 1px solid var(--border-card);
   border-radius: 16px;
   padding: 3rem 2rem;
   text-align: center;
@@ -135,10 +135,10 @@
 
 /* Category Discovery Grid Card styles */
 .category-discovery-card {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bg-card);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(30, 122, 58, 0.15);
+  border: 1px solid var(--border-card);
   border-radius: 16px;
   padding: 2.2rem 2rem;
   text-align: center;
@@ -156,7 +156,7 @@
   transform: translateY(-6px);
   border-color: var(--accent);
   box-shadow: 0 16px 32px rgba(30, 122, 58, 0.12);
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--bg-card-solid);
 }
 
 .category-icon-wrapper {
@@ -259,47 +259,4 @@
   padding-bottom: 12px !important;
 }
 
-/* Pagination — Light Theme Override for Featured Discovery Section */
-.featured-discovery-section .pagination {
-  gap: 6px;
-}
 
-.featured-discovery-section .pagination .page-item .page-link {
-  background: rgba(255, 255, 255, 0.8) !important;
-  border: 1px solid rgba(30, 122, 58, 0.15) !important;
-  color: var(--text-muted) !important;
-  border-radius: 8px !important;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 8px 14px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
-}
-
-.featured-discovery-section .pagination .page-item .page-link:hover {
-  background: rgba(30, 122, 58, 0.08) !important;
-  border-color: var(--accent) !important;
-  color: var(--accent) !important;
-  transform: translateY(-2px);
-}
-
-.featured-discovery-section .pagination .page-item.active .page-link {
-  background: var(--accent) !important;
-  border-color: var(--accent) !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.25);
-}
-
-.featured-discovery-section .pagination .page-item.disabled .page-link {
-  background: rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(30, 122, 58, 0.05) !important;
-  color: rgba(0, 0, 0, 0.2) !important;
-  cursor: not-allowed;
-}
-
-@media (max-width: 768px) {
-  .featured-discovery-section .pagination .page-item .page-link {
-    padding: 6px 10px;
-    font-size: 0.8rem;
-  }
-}

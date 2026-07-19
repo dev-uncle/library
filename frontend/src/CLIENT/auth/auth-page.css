@@ -9,7 +9,7 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--bg-shell);
 }
 
 .auth-panel {
@@ -157,7 +157,7 @@
 
 /* ── Form Panel (shared) ──────────────────────────────── */
 .auth-form-panel {
-  background: #ffffff;
+  background: var(--bg-card-solid);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -264,8 +264,8 @@
   width: 100%;
   height: 46px;
   padding: 0 14px 0 42px;
-  background: #FAFDFB !important;
-  border: 1px solid rgba(30, 122, 58, 0.2) !important;
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border-input) !important;
   border-radius: 10px !important;
   font-size: 0.9rem;
   font-family: var(--font-body);
@@ -280,8 +280,8 @@
 
 .auth-input:focus {
   border-color: var(--accent) !important;
-  background: #ffffff !important;
-  box-shadow: 0 0 0 3.5px rgba(30, 122, 58, 0.12) !important;
+  background: var(--bg-input-focus) !important;
+  box-shadow: 0 0 0 3.5px var(--accent-glow) !important;
 }
 
 .auth-input-group:focus-within .auth-input-icon {
@@ -373,7 +373,7 @@
 
 /* ── Footer / Switch Link ─────────────────────────────── */
 .auth-footer {
-  border-top: 1px solid rgba(30, 122, 58, 0.12);
+  border-top: 1px solid var(--border-color);
 }
 
 .auth-footer-text {

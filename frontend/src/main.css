@@ -107,6 +107,56 @@ html[data-theme="light"] {
 }
 
 /* ============================================
+   DARK THEME OVERRIDES (Admin & Client Profile)
+   ============================================ */
+html[data-theme="dark"] {
+  --bg-page:         #0B120E;
+  --bg-sidebar:      rgba(13, 23, 18, 0.95);
+  --bg-topbar:       rgba(11, 18, 14, 0.85);
+  --bg-hover:        rgba(46, 184, 88, 0.1);
+  --bg-active:       rgba(46, 184, 88, 0.15);
+
+  --accent:          #2EB858;
+  --accent-hover:    #3ae06e;
+  --accent-glow:     rgba(46, 184, 88, 0.25);
+
+  --secondary:       #F4D068;
+  --secondary-hover: #f6da86;
+  --secondary-glow:  rgba(244, 208, 104, 0.3);
+
+  --text-primary:    #ECFDF5;
+  --text-muted:      #8FA296;
+  --text-accent:     #2EB858;
+
+  --border-color:    rgba(46, 184, 88, 0.2);
+  --border-accent:   rgba(46, 184, 88, 0.4);
+
+  --shadow-topbar:   0 4px 30px rgba(0, 0, 0, 0.4);
+  --shadow-card:     0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow:     0 0 20px rgba(46, 184, 88, 0.2);
+
+  /* Semantic component tokens — dark overrides */
+  --bg-card:         rgba(20, 32, 26, 0.65);
+  --bg-card-solid:   #14201A;
+  --bg-card-inner:   rgba(28, 44, 37, 0.6);
+  --bg-table-head:   rgba(46, 184, 88, 0.15);
+  --bg-input:        rgba(13, 23, 18, 0.8);
+  --bg-input-focus:  #1c2c25;
+  --bg-input-btn:    rgba(46, 184, 88, 0.15);
+  --bg-shell:        linear-gradient(135deg, #070D0A 0%, #0B120E 50%, #101B15 100%);
+  --border-card:     rgba(46, 184, 88, 0.2);
+  --border-input:    rgba(46, 184, 88, 0.25);
+  --border-row:      rgba(46, 184, 88, 0.12);
+  --border-inner:    rgba(46, 184, 88, 0.15);
+  --bg-row-hover:    rgba(46, 184, 88, 0.08);
+  --input-placeholder: rgba(236, 253, 245, 0.4);
+  --select-bg-option: #14201A;
+  --skeleton-from:   #1c2c25;
+  --skeleton-to:     #0B120E;
+}
+
+
+/* ============================================
    GLOBAL BASE
    ============================================ */
 

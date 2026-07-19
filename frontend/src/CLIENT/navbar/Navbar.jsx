@@ -13,11 +13,14 @@ import UserSignin from './UserIsNotLoggedIn'
 import NavbarSearch from './NavbarSearch'
 
 import { useLoginState } from '../../LoginState'
+import { HiOutlineSun, HiOutlineMoon } from 'react-icons/hi2'
+import { useTheme } from '../../ADMIN/context/ThemeContext'
 
 const Navbar = () => {
   const [isLoggedin, setIsLoggedin] = useState(false)
 
   const userLoginState = useLoginState()
+  const { theme, toggleTheme } = useTheme()
 
   const { navbarLinks, navbarTitle, navbarImage } = navbarData
 
@@ -63,6 +66,18 @@ const Navbar = () => {
             })}
             {/* {isLoggedin ? <UserLogin /> : <UserSignin />} */}
             {userLoginState.userLogState ? <UserLogin /> : <UserSignin />}
+            
+            {/* Theme Toggle Button */}
+            <li className='nav-item ms-xl-2'>
+              <button
+                className='navbar-theme-toggle-btn'
+                onClick={toggleTheme}
+                aria-label='Toggle theme'
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? <HiOutlineSun size={20} /> : <HiOutlineMoon size={20} />}
+              </button>
+            </li>
           </ul>
 
           {/* NAV BAR SEARCH  */}

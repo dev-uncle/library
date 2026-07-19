@@ -1,10 +1,11 @@
-import React from 'react'
-import '../login/login.css' // Import login CSS to match the style 1-to-1
+import React, { useState } from 'react'
+import '../auth/auth-page.css' // Import the beautiful auth page styles
 import { backend_server } from '../../main'
 import axios from 'axios'
-import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { BsShieldLock } from 'react-icons/bs'
+import { FaGraduationCap, FaBookOpen } from 'react-icons/fa'
 
 const OtpForm = () => {
   const OTP_VERIFY_API = `${backend_server}/api/v1/signup/verifyEmail`
@@ -65,110 +66,111 @@ const OtpForm = () => {
   }
 
   return (
-    <div className='login-page-wrapper'>
-      <div className='login-maindiv'>
-        {/* TOP DIV */}
-        <div className='login-upperdiv'>
-          <h1>Verify OTP</h1>
-        </div>
+    <div className='auth-wrapper' data-mode='signup'>
+      
+      {/* ━━━ PANEL 1: Form (Left) ━━━━━━━━━━━━━━━━━━ */}
+      <div className='auth-panel auth-form-panel auth-signup-form'>
+        <div className='auth-grid-pattern'></div>
+        <div className='auth-ambient-glow'></div>
+        <div className='auth-form-container'>
+          <div className='mb-4'>
+            <span className='auth-kicker'>CdM Library Management System</span>
+            <h2 className='auth-title'>Verify OTP</h2>
+            <p className='auth-subtitle'>
+              Please enter the 4-digit code sent to your registered email to activate your account.
+            </p>
+          </div>
 
-        {/* MIDDLE DIV */}
-        <div className='login-middlediv'>
-          <p style={{
-            textAlign: 'center',
-            color: 'rgba(255, 255, 255, 0.7)',
-            fontSize: '0.95rem',
-            marginBottom: '1.75rem',
-            lineHeight: '1.5',
-            fontFamily: "'Inter', sans-serif"
-          }}>
-            Please enter the 4-digit code sent to your registered email to activate your account.
-          </p>
-          
           <form onSubmit={handleVerifyFormSubmit} method='post'>
-            <input
-              type='text'
-              placeholder='Enter 4-Digit OTP Code'
-              value={otp_code}
-              onChange={(e) => setOtp_code(e.target.value)}
-              maxLength='4'
-              pattern='\d{4}'
-              required
-              autoComplete='off'
-              style={{
-                letterSpacing: '0.4em',
-                textAlign: 'center',
-                fontWeight: '700',
-                fontSize: '1.35rem',
-                fontFamily: 'monospace',
-                padding: '12px 16px'
-              }}
-            />
+            <div className='form-group mb-4'>
+              <label className='auth-label' htmlFor='otp-input'>Verification Code</label>
+              <div className='auth-input-group'>
+                <span className='auth-input-icon'><BsShieldLock size={18} /></span>
+                <input
+                  id='otp-input'
+                  type='text'
+                  placeholder='0000'
+                  value={otp_code}
+                  onChange={(e) => setOtp_code(e.target.value)}
+                  maxLength='4'
+                  pattern='\d{4}'
+                  required
+                  autoComplete='off'
+                  className='auth-input'
+                  style={{
+                    letterSpacing: '0.4em',
+                    textAlign: 'center',
+                    fontWeight: '700',
+                    fontSize: '1.25rem',
+                    fontFamily: 'monospace',
+                    paddingLeft: '14px' // Center align properly
+                  }}
+                />
+              </div>
+            </div>
 
-            <button type='submit'>Verify & Activate</button>
+            <div className='d-flex gap-3 mt-4'>
+              <button type='submit' className='auth-submit-btn m-0' style={{ flex: 2 }}>
+                Verify & Activate
+              </button>
+              <button 
+                type='button' 
+                onClick={handleResendFormSubmit}
+                disabled={loading}
+                className='auth-submit-btn m-0' 
+                style={{ 
+                  flex: 1.2,
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-primary)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'var(--bg-hover)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.08)'
+                }}
+              >
+                {loading ? 'Sending...' : 'Resend OTP'}
+              </button>
+            </div>
           </form>
-        </div>
 
-        {/* LOWER DIV */}
-        <div className='login-lowerdiv'>
-          <button 
-            type='button' 
-            onClick={handleResendFormSubmit}
-            disabled={loading}
-            style={{
-              padding: '8px 18px',
-              backgroundColor: 'transparent',
-              color: 'rgba(255, 255, 255, 0.8)',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
-              borderRadius: '8px',
-              fontSize: '0.95rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(235, 130, 10, 0.1)';
-              e.currentTarget.style.borderColor = '#eb820a';
-              e.currentTarget.style.color = '#ffffff';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-              e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-            }}
-          >
-            {loading ? 'Sending...' : 'Resend Code'}
-          </button>
-
-          <button 
-            type='button' 
-            onClick={handleGoBack}
-            style={{
-              padding: '8px 18px',
-              backgroundColor: 'transparent',
-              color: 'rgba(255, 255, 255, 0.8)',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
-              borderRadius: '8px',
-              fontSize: '0.95rem',
-              fontWeight: '600',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-              e.currentTarget.style.color = '#ffffff';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent';
-              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-              e.currentTarget.style.color = 'rgba(255, 255, 255, 0.8)';
-            }}
-          >
-            Back
-          </button>
+          <div className='auth-footer mt-4 pt-3 text-center'>
+            <p className='m-0 auth-footer-text'>
+              Having trouble?{' '}
+              <button type='button' className='auth-switch-link' onClick={handleGoBack}>
+                Go Back
+              </button>
+            </p>
+          </div>
         </div>
       </div>
+
+      {/* ━━━ PANEL 2: Hero (Right) ━━━━━━━━━━━━━━━━━ */}
+      <div className='auth-panel auth-hero-panel auth-signup-hero'>
+        <div className='auth-overlay'></div>
+        <div className='auth-hero-content'>
+          <div className='auth-hero-badge'>
+            <FaGraduationCap size={24} />
+            <span>Colegio de Montalban</span>
+          </div>
+          <h1 className='auth-hero-heading'>
+            Confirm Registration
+          </h1>
+          <p className='auth-hero-subtext'>
+            Enter the one-time passcode to verify your identity and finalize your registration with the CdM Library.
+          </p>
+          <div className='auth-feature-card'>
+            <div className='feature-icon'><FaBookOpen /></div>
+            <div>
+              <h5 className='feature-title'>Activate Library Account</h5>
+              <p className='feature-desc'>Unlock full privileges to reserve materials and view personal records.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   )
 }

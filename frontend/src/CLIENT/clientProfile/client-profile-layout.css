@@ -135,7 +135,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-muted);
+  color: var(--text-primary);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
   padding: 0;
@@ -748,6 +748,20 @@
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
   text-decoration: none;
 }
+
+/* ============================================
+   CHART CARD GLASSMORPHIC ELEMENT
+   ============================================ */
+.chart-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+
 
 
 

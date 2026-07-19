@@ -1,19 +1,11 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { backend_server } from '../../main'
-import './forgot.css'
+import '../auth/auth-page.css'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
-import { 
-  BsEnvelope, 
-  BsPhone, 
-  BsLock, 
-  BsEye, 
-  BsEyeSlash, 
-  BsArrowLeft, 
-  BsCheckCircleFill, 
-  BsShieldLock 
-} from 'react-icons/bs'
+import { BsEye, BsEyeSlash, BsShieldLock } from 'react-icons/bs'
+import { FaGraduationCap, FaEnvelope, FaLock, FaBookOpen, FaPhone } from 'react-icons/fa'
 
 const ForgotPassword = () => {
   const ForgotPassword_API = `${backend_server}/api/v1/forgotpassword`
@@ -31,12 +23,14 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const loadingId = toast.loading('Validating credentials...', { position: 'top-center', duration: Infinity })
     try {
       const validateEmailPhone = await axios.post(ForgotPassword_API, {
         email,
         phone,
       })
 
+      toast.dismiss(loadingId)
       toast.success('Credentials validation Success')
       setIsEmailPhoneValid(true)
       setUserId(validateEmailPhone.data.userId)
@@ -44,13 +38,10 @@ const ForgotPassword = () => {
       setEmail('')
       setPhone('')
     } catch (error) {
+      toast.dismiss(loadingId)
       console.log(error.response)
-      toast.error(error.response.data.message)
+      toast.error(error.response?.data?.message || 'Validation failed')
     }
-  }
-
-  const handleGoBack = () => {
-    navigate(-1) // Navigate back one page
   }
 
   // Updating Password
@@ -75,6 +66,7 @@ const ForgotPassword = () => {
         )
       }
 
+      const loadingId = toast.loading('Updating password...', { position: 'top-center', duration: Infinity })
       try {
         const response = await axios.patch(ForgotPassword_API, {
           userId,
@@ -82,6 +74,7 @@ const ForgotPassword = () => {
           otpCode,
         })
 
+        toast.dismiss(loadingId)
         toast.success(response.data.message)
 
         setPassword('')
@@ -91,8 +84,9 @@ const ForgotPassword = () => {
 
         navigate('/login', { replace: true })
       } catch (error) {
+        toast.dismiss(loadingId)
         console.log(error.response)
-        toast.error(error.response.data.message)
+        toast.error(error.response?.data?.message || 'Password update failed')
       }
     } else {
       setPasswordMatch(false)
@@ -103,60 +97,75 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className='forgot-page-wrapper'>
-      <div className='forgot-maindiv'>
-        {/* Header */}
-        <div className='forgot-upperdiv'>
-          <h1>{isEmailPhoneValid ? 'Reset Password' : 'Recover Account'}</h1>
-          <p className='forgot-subtitle'>
-            {isEmailPhoneValid
-              ? 'Create a strong, secure new password for your account.'
-              : 'Enter your credentials to verify your account identity.'}
+    <div className='auth-wrapper' data-mode='login'>
+      
+      {/* ━━━ PANEL 1: Hero (Left) ━━━━━━━━━━━━━━━━━━━ */}
+      <div className='auth-panel auth-hero-panel auth-login-hero'>
+        <div className='auth-overlay'></div>
+        <div className='auth-hero-content'>
+          <div className='auth-hero-badge'>
+            <FaGraduationCap size={24} />
+            <span>Colegio de Montalban</span>
+          </div>
+          <h1 className='auth-hero-heading'>
+            Account Recovery Portal
+          </h1>
+          <p className='auth-hero-subtext'>
+            Verify your registration details to securely reset your password and regain access to the CdM Library system.
           </p>
-        </div>
-
-        {/* Stepper indicator */}
-        <div className='forgot-stepper'>
-          <div className={`step-item ${!isEmailPhoneValid ? 'active' : 'completed'}`}>
-            <span className='step-number'>
-              {isEmailPhoneValid ? <BsCheckCircleFill className='step-check-icon' /> : '1'}
-            </span>
-            <span className='step-label'>Verify</span>
-          </div>
-          <div className='step-line'></div>
-          <div className={`step-item ${isEmailPhoneValid ? 'active' : ''}`}>
-            <span className='step-number'>2</span>
-            <span className='step-label'>Reset</span>
+          <div className='auth-feature-card'>
+            <div className='feature-icon'><FaBookOpen /></div>
+            <div>
+              <h5 className='feature-title'>Safe & Secure Reset</h5>
+              <p className='feature-desc'>Your credentials are encrypted and verified using multi-factor identity checks.</p>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Body content */}
-        <div className='forgot-middlediv'>
+      {/* ━━━ PANEL 2: Form (Right) ━━━━━━━━━━━━━━━━━━ */}
+      <div className='auth-panel auth-form-panel auth-login-form'>
+        <div className='auth-grid-pattern'></div>
+        <div className='auth-ambient-glow'></div>
+        <div className='auth-form-container'>
+          <div className='mb-4'>
+            <span className='auth-kicker'>CdM Library Management System</span>
+            <h2 className='auth-title'>
+              {isEmailPhoneValid ? 'Reset Password' : 'Recover Account'}
+            </h2>
+            <p className='auth-subtitle'>
+              {isEmailPhoneValid
+                ? 'Create a strong, secure new password for your account.'
+                : 'Enter your credentials to verify your account identity.'}
+            </p>
+          </div>
+
           {!isEmailPhoneValid ? (
             <form onSubmit={handleSubmit}>
-              <div className='input-group-custom'>
-                <label htmlFor='email'>Email Address</label>
-                <div className='input-with-icon'>
-                  <span className='input-icon'><BsEnvelope /></span>
+              <div className='form-group mb-3'>
+                <label className='auth-label' htmlFor='forgot-email'>Email Address</label>
+                <div className='auth-input-group'>
+                  <span className='auth-input-icon'><FaEnvelope /></span>
                   <input
-                    id='email'
+                    id='forgot-email'
                     type='email'
-                    placeholder='name@example.com'
+                    placeholder='student@cdm.edu.ph'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    required
                     name='email'
                     autoComplete='off'
+                    required
+                    className='auth-input'
                   />
                 </div>
               </div>
 
-              <div className='input-group-custom'>
-                <label htmlFor='phone'>Phone Number</label>
-                <div className='input-with-icon'>
-                  <span className='input-icon'><BsPhone /></span>
+              <div className='form-group mb-4'>
+                <label className='auth-label' htmlFor='forgot-phone'>Phone Number</label>
+                <div className='auth-input-group'>
+                  <span className='auth-input-icon'><FaPhone /></span>
                   <input
-                    id='phone'
+                    id='forgot-phone'
                     type='text'
                     placeholder='9XXXXXXXXX'
                     value={phone}
@@ -167,21 +176,22 @@ const ForgotPassword = () => {
                     minLength='10'
                     maxLength='10'
                     autoComplete='off'
+                    className='auth-input'
                   />
                 </div>
-                <span className='input-hint'>Must start with 9 and be 10 digits</span>
+                <span className='form-text text-muted' style={{ fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
+                  Must start with 9 and be 10 digits
+                </span>
               </div>
 
-              <button type='submit' className='forgot-btn-submit'>
-                Verify Credentials
-              </button>
+              <button type='submit' className='auth-submit-btn'>Verify Credentials</button>
             </form>
           ) : (
             <form onSubmit={handlePasswordFormSubmit}>
-              <div className='input-group-custom'>
-                <label htmlFor='otpCode'>Verification OTP Code</label>
-                <div className='input-with-icon'>
-                  <span className='input-icon'><BsShieldLock /></span>
+              <div className='form-group mb-3'>
+                <label className='auth-label' htmlFor='otpCode'>Verification OTP Code</label>
+                <div className='auth-input-group'>
+                  <span className='auth-input-icon'><BsShieldLock size={18} /></span>
                   <input
                     id='otpCode'
                     type='text'
@@ -192,79 +202,88 @@ const ForgotPassword = () => {
                     maxLength='4'
                     pattern='\d{4}'
                     autoComplete='off'
+                    className='auth-input'
                   />
                 </div>
-                <span className='input-hint'>Enter the 4-digit code sent to your email</span>
+                <span className='form-text text-muted' style={{ fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
+                  Enter the 4-digit code sent to your email
+                </span>
               </div>
 
-              <div className='input-group-custom'>
-                <label htmlFor='password'>New Password</label>
-                <div className='input-with-icon'>
-                  <span className='input-icon'><BsLock /></span>
+              <div className='form-group mb-3'>
+                <label className='auth-label' htmlFor='password'>New Password</label>
+                <div className='auth-input-group auth-password-field'>
+                  <span className='auth-input-icon'><FaLock /></span>
                   <input
                     id='password'
                     type={showPassword ? 'text' : 'password'}
-                    placeholder='••••••••'
+                    placeholder='Enter new password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     autoComplete='off'
+                    className='auth-input'
                   />
-                  <span
-                    className='password-toggle-icon'
-                    onClick={() => setShowPassword(!showPassword)}
+                  <button
+                    type='button'
+                    className='auth-password-toggle'
+                    onClick={() => setShowPassword(prev => !prev)}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showPassword ? <BsEyeSlash /> : <BsEye />}
-                  </span>
+                    {showPassword ? <BsEye /> : <BsEyeSlash />}
+                  </button>
                 </div>
-                <span className='input-hint'>Alphanumeric with at least 1 special char</span>
+                <span className='form-text text-muted' style={{ fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
+                  Alphanumeric with at least 1 special char
+                </span>
               </div>
 
-              <div className='input-group-custom'>
-                <label htmlFor='confirmPassword'>Confirm Password</label>
-                <div className='input-with-icon'>
-                  <span className='input-icon'><BsShieldLock /></span>
+              <div className='form-group mb-4'>
+                <label className='auth-label' htmlFor='confirmPassword'>Confirm Password</label>
+                <div className='auth-input-group auth-password-field'>
+                  <span className='auth-input-icon'><FaLock /></span>
                   <input
                     id='confirmPassword'
                     type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder='••••••••'
+                    placeholder='Confirm new password'
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                     autoComplete='off'
+                    className='auth-input'
                   />
-                  <span
-                    className='password-toggle-icon'
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  <button
+                    type='button'
+                    className='auth-password-toggle'
+                    onClick={() => setShowConfirmPassword(prev => !prev)}
+                    aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                   >
-                    {showConfirmPassword ? <BsEyeSlash /> : <BsEye />}
-                  </span>
+                    {showConfirmPassword ? <BsEye /> : <BsEyeSlash />}
+                  </button>
                 </div>
               </div>
 
               {!passwordMatch && (
-                <div className='forgot-alert-error' role='alert'>
+                <div className='alert alert-danger py-2 px-3 mb-3' style={{ fontSize: '0.8rem' }} role='alert'>
                   Passwords do not match. Please check and try again.
                 </div>
               )}
 
-              <button type='submit' className='forgot-btn-submit'>
-                Update Password
-              </button>
+              <button type='submit' className='auth-submit-btn'>Update Password</button>
             </form>
           )}
-        </div>
 
-        {/* Footer/Go Back */}
-        <div className='forgot-lowerdiv'>
-          <button type='button' className='forgot-btn-back' onClick={handleGoBack}>
-            <BsArrowLeft className='back-icon' /> Back
-          </button>
+          <div className='auth-footer mt-4 pt-3 text-center'>
+            <p className='m-0 auth-footer-text'>
+              Remembered your password?{' '}
+              <Link to='/login' className='auth-switch-link'>Sign In</Link>
+            </p>
+          </div>
         </div>
       </div>
+      
     </div>
   )
 }
 
 export default ForgotPassword
-

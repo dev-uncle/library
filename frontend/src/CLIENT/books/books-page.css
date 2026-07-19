@@ -68,43 +68,7 @@
   margin-bottom: 2rem;
 }
 
-/* Pagination — Light Theme Override */
-.books-page-wrapper .pagination {
-  gap: 6px;
-}
 
-.books-page-wrapper .pagination .page-item .page-link {
-  background: rgba(255, 255, 255, 0.8) !important;
-  border: 1px solid rgba(30, 122, 58, 0.15) !important;
-  color: var(--text-muted) !important;
-  border-radius: 8px !important;
-  font-weight: 600;
-  font-size: 0.9rem;
-  padding: 8px 14px;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
-}
-
-.books-page-wrapper .pagination .page-item .page-link:hover {
-  background: rgba(30, 122, 58, 0.08) !important;
-  border-color: var(--accent) !important;
-  color: var(--accent) !important;
-  transform: translateY(-2px);
-}
-
-.books-page-wrapper .pagination .page-item.active .page-link {
-  background: var(--accent) !important;
-  border-color: var(--accent) !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.25);
-}
-
-.books-page-wrapper .pagination .page-item.disabled .page-link {
-  background: rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(30, 122, 58, 0.05) !important;
-  color: rgba(0, 0, 0, 0.2) !important;
-  cursor: not-allowed;
-}
 
 /* Loading / Empty State */
 .books-page-wrapper .books-loading-text {
@@ -133,10 +97,5 @@
     letter-spacing: 0.5px;
     margin-top: 3rem !important;
     margin-bottom: 2rem !important;
-  }
-
-  .books-page-wrapper .pagination .page-item .page-link {
-    padding: 6px 10px;
-    font-size: 0.8rem;
   }
 }
