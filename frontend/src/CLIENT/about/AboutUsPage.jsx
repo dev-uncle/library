@@ -14,22 +14,31 @@ const AboutUsPage = () => {
     return <FaBookOpen />
   }
 
+  // Helper to get element id for smooth scrolling
+  const getSectionId = (title) => {
+    if (title.toLowerCase().includes('story')) return 'section-story'
+    if (title.toLowerCase().includes('mission')) return 'section-mission'
+    if (title.toLowerCase().includes('team')) return 'section-team'
+    return `section-${title.toLowerCase().replace(/\s+/g, '-')}`
+  }
+
   return (
     <div className='about-page-wrapper'>
-      {/* Full-width Hero Banner */}
+      {/* Full-width Pure CSS Hero Banner */}
       <AboutUsBanner />
 
-      <Container>
+      <Container className='py-4'>
         <h2 className='about-section-heading'>
           Who We Are
         </h2>
         
-        <Row className='mt-5 g-4 justify-content-center'>
+        <Row className='mt-4 g-4 justify-content-center'>
           {about_data.map((item) => {
             const { id, title, description } = item
+            const sectionId = getSectionId(title)
             return (
               <Col lg={4} md={6} sm={12} key={id}>
-                <div className='about-glass-card'>
+                <div className='about-glass-card' id={sectionId}>
                   <div className='about-card-icon-wrapper'>
                     {getIconForTitle(title)}
                   </div>
