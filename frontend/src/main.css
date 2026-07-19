@@ -309,7 +309,7 @@ button:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(6, 14, 10, 0.55);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
@@ -328,20 +328,18 @@ button:hover {
 .client-modal-card {
   width: 100%;
   max-width: 400px;
-  background: rgba(30, 26, 20, 0.9);
-  border: 1px solid rgba(235, 130, 10, 0.35);
+  background: #ffffff;
+  border: 1px solid rgba(30, 122, 58, 0.15);
   border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(30, 122, 58, 0.05);
   overflow: hidden;
   padding: 2.2rem 1.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
   text-align: center;
   animation: modalSlideUp 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 
 @keyframes modalSlideUp {
@@ -356,16 +354,17 @@ button:hover {
 }
 
 .client-modal-title {
+  font-family: var(--font-headings);
   font-size: 1.3rem !important;
   font-weight: 700 !important;
-  color: #ffffff !important;
+  color: var(--accent) !important;
   margin: 0 !important;
   letter-spacing: -0.02em;
 }
 
 .client-modal-subtitle {
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: var(--text-muted) !important;
   margin: 0 !important;
   line-height: 1.5;
 }
@@ -384,27 +383,32 @@ button:hover {
 
 .client-modal-input {
   width: 100%;
-  height: 44px;
+  height: 46px;
   padding: 0 1rem;
   font-size: 0.95rem;
-  color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.08) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 8px !important;
+  font-family: var(--font-body);
+  color: var(--text-primary) !important;
+  background: #FAFDFB !important;
+  border: 1px solid rgba(30, 122, 58, 0.2) !important;
+  border-radius: 10px !important;
   outline: none !important;
   transition: all 0.2s ease;
   text-align: center;
 }
 
+.client-modal-input::placeholder {
+  color: var(--input-placeholder) !important;
+}
+
 .client-modal-input:focus {
-  border-color: #eb820a !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  box-shadow: 0 0 12px rgba(235, 130, 10, 0.25) !important;
+  border-color: var(--accent) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3.5px rgba(30, 122, 58, 0.12) !important;
 }
 
 .client-modal-error {
   font-size: 0.8rem;
-  color: #f87171 !important;
+  color: #dc3545 !important;
   margin: 0 !important;
   text-align: center;
   font-weight: 500;
@@ -419,39 +423,40 @@ button:hover {
 
 .client-modal-btn {
   flex: 1;
-  height: 42px;
+  height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 0.875rem;
   font-weight: 600;
-  border-radius: 8px !important;
+  font-family: var(--font-body);
+  border-radius: 10px !important;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   border: none;
 }
 
 .client-modal-btn--cancel {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: rgba(255, 255, 255, 0.9) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: #f3f4f6 !important;
+  color: var(--text-primary) !important;
+  border: 1px solid rgba(30, 122, 58, 0.12) !important;
 }
 
 .client-modal-btn--cancel:hover {
-  background: rgba(255, 255, 255, 0.15) !important;
-  color: #ffffff !important;
+  background: #e5e7eb !important;
+  color: var(--text-primary) !important;
 }
 
 .client-modal-btn--submit {
-  background: #eb820a !important;
+  background: var(--accent) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(235, 130, 10, 0.3);
+  box-shadow: 0 4px 16px rgba(30, 122, 58, 0.22);
 }
 
 .client-modal-btn--submit:hover:not(:disabled) {
-  background: #d97706 !important;
+  background: var(--accent-hover) !important;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(235, 130, 10, 0.45);
+  box-shadow: 0 6px 20px rgba(30, 122, 58, 0.35);
 }
 
 .client-modal-btn--submit:disabled {
@@ -460,3 +465,54 @@ button:hover {
   transform: none !important;
 }
 
+/* ── Dark Mode: Password Modal ─────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  .client-modal-overlay {
+    background: rgba(0, 0, 0, 0.65);
+  }
+
+  .client-modal-card {
+    background: #0b2214;
+    border-color: rgba(30, 122, 58, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(30, 122, 58, 0.1);
+  }
+
+  .client-modal-title {
+    color: #ffffff !important;
+  }
+
+  .client-modal-subtitle {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .client-modal-input {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+
+  .client-modal-input::placeholder {
+    color: rgba(255, 255, 255, 0.35) !important;
+  }
+
+  .client-modal-input:focus {
+    border-color: var(--accent) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 0 0 3.5px rgba(30, 122, 58, 0.2) !important;
+  }
+
+  .client-modal-error {
+    color: #f87171 !important;
+  }
+
+  .client-modal-btn--cancel {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .client-modal-btn--cancel:hover {
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+  }
+}
