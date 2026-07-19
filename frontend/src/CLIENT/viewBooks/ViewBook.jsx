@@ -84,7 +84,7 @@ const ViewBook = () => {
               <h5 className='synopsis-title'>Synopsis</h5>
               <p className='synopsis-text'>{bookData.description || 'No description available for this book.'}</p>
 
-              <div className='mt-4 pt-2 text-md-start text-center'>
+              <div className='mt-4 pt-2 text-md-start text-center d-flex flex-wrap gap-3 justify-content-md-start justify-content-center align-items-center'>
                 {isRequested ? (
                   <button
                     type='button'
@@ -109,6 +109,17 @@ const ViewBook = () => {
                   >
                     Out of Stock
                   </button>
+                )}
+
+                {bookData.bookFile && (
+                  <a
+                    href={`${backend_server}/${bookData.bookFile}`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='ebook-action-btn'
+                  >
+                    Read E-Book
+                  </a>
                 )}
               </div>
             </div>

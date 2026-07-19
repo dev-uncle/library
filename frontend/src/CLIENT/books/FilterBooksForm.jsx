@@ -13,6 +13,7 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive, fetchD
     category: '',
     author: '',
     language: '',
+    ebook: '',
   }
 
   const [filterFields, setFilterFields] = useState(empty_field) //Filter FORM Fields Data
@@ -32,7 +33,7 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive, fetchD
     }
     setFilterActive(true)
 
-    const { title, category, author, language } = fields
+    const { title, category, author, language, ebook } = fields
     try {
       const response = await axios.get(API_URL_FILTER, {
         params: {
@@ -40,6 +41,7 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive, fetchD
           category,
           author,
           language,
+          ebook,
         },
       })
 
@@ -86,6 +88,13 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive, fetchD
   const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value
     const newFields = { ...filterFields, language: selectedLanguage }
+    setFilterFields(newFields)
+    fetchFilteredData(newFields) // Auto-submit
+  }
+
+  const handleEbookChange = (e) => {
+    const selectedEbook = e.target.value
+    const newFields = { ...filterFields, ebook: selectedEbook }
     setFilterFields(newFields)
     fetchFilteredData(newFields) // Auto-submit
   }
@@ -253,6 +262,25 @@ const FilterBooksForm = ({ setBookData, setSearchResult, setFilterActive, fetchD
                     </option>
                   )
                 })}
+              </select>
+            </div>
+
+            {/* Ebook Filter */}
+            <div className='form-group mx-1 my-1 flex-grow-1'>
+              <select
+                className='form-control'
+                value={filterFields.ebook}
+                onChange={handleEbookChange}
+              >
+                <option value=''>
+                  All Formats
+                </option>
+                <option value='true'>
+                  E-Books Only
+                </option>
+                <option value='false'>
+                  Physical Books Only
+                </option>
               </select>
             </div>
           </div>

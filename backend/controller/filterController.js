@@ -1,7 +1,7 @@
 const BookList = require('../models/bookScheme')
 
 const getFilterData = async (req, res) => {
-  const { title, available, category, author, language, featured } = req.query
+  const { title, available, category, author, language, featured, ebook } = req.query
   const queryObject = {}
 
   if (title) {
@@ -27,6 +27,14 @@ const getFilterData = async (req, res) => {
 
   if (language) {
     queryObject.language = { $regex: language, $options: 'i' }
+  }
+
+  if (ebook) {
+    if (ebook === 'true') {
+      queryObject.bookFile = { $exists: true, $ne: "" }
+    } else if (ebook === 'false') {
+      queryObject.bookFile = ""
+    }
   }
 
   const result = await BookList.find(queryObject)

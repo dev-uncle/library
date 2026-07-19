@@ -186,3 +186,29 @@ html[data-theme="dark"] .request-action-btn.disabled {
   background: rgba(255, 255, 255, 0.05) !important;
   color: rgba(255, 255, 255, 0.3) !important;
 }
+
+/* E-Book Button */
+.ebook-action-btn {
+  background: transparent !important;
+  color: var(--accent) !important;
+  border: 2px solid var(--accent) !important;
+  border-radius: 10px;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.ebook-action-btn:hover {
+  background: var(--accent) !important;
+  color: #ffffff !important;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(30, 122, 58, 0.25);
+}
